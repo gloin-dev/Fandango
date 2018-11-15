@@ -20,4 +20,8 @@ public class MongoConfigurationProperties {
   /** thumbnail collection */
   @NotBlank public
   String thumbnailCollection;
+
+  /** file collection */
+  @NotBlank public
+  String fileCollection;
 }

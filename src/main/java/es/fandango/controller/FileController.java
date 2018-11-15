@@ -1,9 +1,9 @@
 package es.fandango.controller;
 
-import es.fandango.model.Image;
-import es.fandango.response.FandangoImageResponseApi;
-import es.fandango.response.FandangoNewImageResponseApi;
-import es.fandango.service.ImageService;
+import es.fandango.model.File;
+import es.fandango.response.FandangoFileResponseApi;
+import es.fandango.response.FandangoNewFileResponseApi;
+import es.fandango.service.FileService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
@@ -16,38 +16,39 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 @Controller("/api")
-public class ImageController {
+public class FileController {
 
-  /** The image service */
-  @Inject ImageService imageService;
+  /** The file service */
+  @Inject
+  FileService fileService;
 
   /**
-   * Get the image
+   * Get the file
    *
-   * @param imageId The image id
-   * @return The image
+   * @param fileId The file id
+   * @return The file
    */
-  @Get("/image/{imageId}")
-  public HttpResponse getImage(String imageId) {
+  @Get("/file/{fileId}")
+  public HttpResponse getFile(String fileId) {
 
-    // Request the image
-    Observable<Image> imageById = imageService.getImageById(imageId);
+    // Request the file
+    Observable<File> fileById = fileService.getFileById(fileId);
     // Build the response
-    FandangoImageResponseApi responseApi = new FandangoImageResponseApi(imageById.blockingLast());
+    FandangoFileResponseApi responseApi = new FandangoFileResponseApi(fileById.blockingLast());
     // Return the response
     return responseApi.getResponse();
   }
 
   // See https://docs.micronaut.io/latest/guide/index.html#uploads
-  @Post(uri = "/image",
+  @Post(uri = "/file",
       consumes = MediaType.MULTIPART_FORM_DATA,
       produces = MediaType.APPLICATION_JSON)
   public HttpResponse putImage(@Body("file") StreamingFileUpload file) throws IOException {
 
     // Request the new image
-    String newImageId = imageService.processImageUpload(file);
+    String newFileId = fileService.processFileUpload(file);
     // Build the response
-    FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(newImageId);
+    FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(newFileId);
     // Return the response
     return responseApi.getResponse();
   }

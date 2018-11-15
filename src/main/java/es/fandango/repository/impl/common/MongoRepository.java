@@ -4,6 +4,7 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCollection;
 import com.mongodb.reactivestreams.client.MongoDatabase;
 import es.fandango.config.MongoConfigurationProperties;
+import es.fandango.model.File;
 import es.fandango.model.Image;
 import es.fandango.model.Thumbnail;
 import javax.inject.Singleton;
@@ -51,6 +52,19 @@ public class MongoRepository {
         .getCollection(
             mongoProperties.thumbnailCollection,
             Thumbnail.class
+        );
+  }
+
+  /**
+   * Get the mongo file collection
+   *
+   * @return The file collection
+   */
+  public MongoCollection<File> fileCollection() {
+    return mongoDatabase()
+        .getCollection(
+            mongoProperties.fileCollection,
+            File.class
         );
   }
 }

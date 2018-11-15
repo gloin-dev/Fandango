@@ -7,6 +7,8 @@ mongodb:
   database: ${MONGO_DATABASE:fandango}
   imageCollection: ${MONGO_COLLECTION:images}
   thumbnailCollection: ${MONGO_COLLECTION:thumbnails}
+  fileCollection: ${MONGO_COLLECTION:files}
+
 
 image:
   thumbnail: 300

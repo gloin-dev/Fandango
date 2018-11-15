@@ -11,6 +11,7 @@ public interface ImageService {
   /**
    * Get the image for given id
    *
+   * @param imageId The image Id
    * @return The image
    */
   Observable<Image> getImageById(String imageId);
@@ -18,15 +19,17 @@ public interface ImageService {
   /**
    * Get the thumbnail for given id
    *
-   * @return The getAllImages
+   * @param thumbnailId The thumbnail id
+   * @return The thumbnail
    */
   Observable<Thumbnail> getThumbnailById(String thumbnailId);
 
   /**
-   * This method process a new image, save it and create the thumbnail
+   * Process and save an image upload
    *
-   * @param file The file
-   * @return The id of new file
+   * @param file The Image
+   * @return The image id
+   * @throws IOException A process exception
    */
-  String processFileUpload(StreamingFileUpload file) throws IOException;
+  String processImageUpload(StreamingFileUpload file) throws IOException;
 }

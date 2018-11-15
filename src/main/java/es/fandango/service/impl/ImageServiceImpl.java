@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
   }
 
   @Override
-  public String processFileUpload(
+  public String processImageUpload(
       StreamingFileUpload streamingFileUpload
   ) throws IOException {
 
