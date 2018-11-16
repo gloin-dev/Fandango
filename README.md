@@ -2,7 +2,7 @@
 
 ## Summary 
   
-Fandango is a API service that allows to store and recover images (jpeg, jpg, png) or documents like pdf, generate thumbnails, modify and retrieve images using an NoSQL database storage via http API.  
+Fandango is a [Micronaut](http://micronaut.io/)-based microservice providing a REST API that allows to store and recover images (jpeg, jpg, png) or documents like PDF, and also allowing to generate thumbnails, modify and retrieve images, using a NoSQL database storage via HTTP-based API.  
  
 ## Benefits 
   
