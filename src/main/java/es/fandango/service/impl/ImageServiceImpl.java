@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.reactivestreams.Publisher;
 
 @Log
 @Singleton
@@ -35,36 +36,37 @@ public class ImageServiceImpl implements ImageService {
 
   @Override
   public Observable<Image> getImageById(String imageId) {
-    return Observable
-        .fromPublisher(imageRepository.getImage(imageId));
+
+    // Get the Image
+    Publisher<Image> image = imageRepository.getImage(imageId);
+    // Return the Image
+    return Observable.fromPublisher(image);
   }
 
   @Override
   public Observable<Thumbnail> getThumbnailById(String thumbnailId) {
-    return Observable
-        .fromPublisher(thumbnailRepository.getThumbnail(thumbnailId));
+
+    // Get the Thumbnail
+    Publisher<Thumbnail> thumbnail = thumbnailRepository.getThumbnail(thumbnailId);
+    // Return the Thumbnail
+    return Observable.fromPublisher(thumbnail);
   }
 
   @Override
-  public String processImageUpload(
-      StreamingFileUpload streamingFileUpload
-  ) throws IOException {
+  public String processImageUpload(StreamingFileUpload streamingFileUpload)
+      throws IOException {
 
     // Build the Image from the StreamingFileUpload and return the image and the File
     Pair<Image, File> imageFilePair = imageManager.buildImageInfo(streamingFileUpload);
-
     // Get the image from Pair
     Image image = imageFilePair.getKey();
-
     // Save the image and get the id to generate the thumbnail
     String newImageId = imageRepository.saveImageAndGetId(image);
-
     // Build the thumbnail from the image
     Thumbnail thumbnail = imageManager.buildThumbnail(image, imageFilePair.getValue());
-
     //  Save the thumbnail and get the id to generate the response
     thumbnailRepository.saveThumbnail(thumbnail);
-
+    // Return the Image id
     return newImageId;
   }
 }

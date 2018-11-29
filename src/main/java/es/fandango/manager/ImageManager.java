@@ -49,7 +49,7 @@ public class ImageManager {
     // Build temp file from StreamingFileUpload
     File tempFile = File.createTempFile(
         file.getFilename(),
-        "temp"
+        "tempImage"
     );
 
     // Transfer the file
