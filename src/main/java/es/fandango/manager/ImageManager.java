@@ -26,8 +26,8 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 public class ImageManager {
 
   /** Thumbnail size */
-  @NotBlank public
-  Integer thumbnail;
+  @NotBlank
+  private Integer thumbnailSize;
 
   /**
    * Build the Image from the StreamingFileUpload
@@ -98,7 +98,7 @@ public class ImageManager {
       imageBytes = image.getData();
     }
 
-    // Build thumbnail pojo
+    // Build thumbnailSize pojo
     return new Thumbnail(
         image.getId(),
         imageBytes,
@@ -108,15 +108,15 @@ public class ImageManager {
   }
 
   /**
-   * Generate the thumbnail from the original image
+   * Generate the thumbnailSize from the original image
    *
    * @param file The original file
    * @return The resized image
    */
   private BufferedImage generateThumbnailFromOriginalImage(File file) {
 
-    Integer newHeight = thumbnail;
-    Integer newWidth = thumbnail;
+    Integer newHeight = thumbnailSize;
+    Integer newWidth = thumbnailSize;
 
     try {
       BufferedImage image = ImageIO.read(file);

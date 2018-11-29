@@ -11,7 +11,7 @@ mongodb:
 
 
 image:
-  thumbnail: 300
+  thumbnailSize: 300
 
 jackson:
   serialization:
