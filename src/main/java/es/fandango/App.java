@@ -1,7 +1,6 @@
 package es.fandango;
 
 import io.micronaut.runtime.Micronaut;
-
 /**
  * Launcher App class
  */

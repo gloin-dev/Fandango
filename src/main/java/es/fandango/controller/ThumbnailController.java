@@ -20,7 +20,7 @@ public class ThumbnailController {
   /**
    * Get the thumbnail
    *
-   * @param imageId The image id
+   * @param thumbnailId The image id
    * @return The image
    */
   @Get("/thumbnail/{thumbnailId}")
