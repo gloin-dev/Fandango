@@ -7,8 +7,6 @@ plugins {
 apply plugin: "application"
 apply plugin: "java"
 
-mainClassName = "es.fandango.App"
-
 group 'es.fandango'
 version '1.0-SNAPSHOT'
 
@@ -35,12 +33,18 @@ dependencies {
   compile "io.micronaut:micronaut-inject"
   compile "io.micronaut:micronaut-validation"
   compile "io.micronaut:micronaut-runtime"
+  compile "io.micronaut:micronaut-views"
   compile "org.projectlombok:lombok:1.18.4"
   compile "javax.annotation:javax.annotation-api"
   compile  "commons-io:commons-io:2.6"
 
+  testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
+
   annotationProcessor "org.projectlombok:lombok:1.18.4"
   annotationProcessor "io.micronaut:micronaut-inject-java"
   annotationProcessor "io.micronaut:micronaut-validation"
+  annotationProcessor "io.micronaut.configuration:micronaut-openapi"
 
 }
+
+mainClassName = "es.fandango.App"

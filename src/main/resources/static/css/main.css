@@ -1,0 +1,18 @@
+#container {
+    width: 50%;
+    height: 400px;
+    background-color: #ddd;
+    z-index: 3;
+    margin-top: 80px;
+    box-shadow: 1px 1px 1px 1px #ccc;
+
+}
+
+body {
+    margin: 0;
+}
+.list-img {
+    display: block;
+    height: 132px !important;
+    object-fit: cover;
+}
