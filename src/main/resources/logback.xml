@@ -11,4 +11,9 @@
     <appender-ref ref="STDOUT"/>
   </root>
 
+  <logger name="io.micronaut.http" level="TRACE"/>
+  <logger name="io.netty.handler.logging" level="TRACE" />
+  <logger name="io.micronaut.jackson.parser" level="TRACE"/>
+  <logger name="com.mongodb" level="NONE"/>
+
 </configuration>
