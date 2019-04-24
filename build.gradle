@@ -1,11 +1,11 @@
 plugins {
   id "io.spring.dependency-management" version "1.0.6.RELEASE"
+  id "java"
+  id "net.ltgt.apt-eclipse" version "0.21"
+  id "net.ltgt.apt-idea" version "0.21"
   id "com.github.johnrengelman.shadow" version "4.0.2"
-  id "net.ltgt.apt-idea" version "0.18"
+  id "application"
 }
-
-apply plugin: "application"
-apply plugin: "java"
 
 group 'es.fandango'
 version '1.0-SNAPSHOT'
@@ -28,23 +28,42 @@ dependencies {
 
   compile "io.micronaut:micronaut-inject-java"
   compile "io.micronaut:micronaut-http-client"
-  compile "io.micronaut.configuration:micronaut-mongo-reactive"
   compile "io.micronaut:micronaut-http-server-netty"
   compile "io.micronaut:micronaut-inject"
   compile "io.micronaut:micronaut-validation"
   compile "io.micronaut:micronaut-runtime"
-  compile "io.micronaut:micronaut-views"
+  compile "io.micronaut:micronaut-management"
+  compile "io.micronaut.configuration:micronaut-mongo-reactive"
+  
   compile "org.projectlombok:lombok:1.18.4"
   compile "javax.annotation:javax.annotation-api"
   compile  "commons-io:commons-io:2.6"
 
-  testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
+  testCompile group: 'org.spock framework', name: 'spock-core', version: '1.2-groovy-2.5'
+  testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1'
 
   annotationProcessor "org.projectlombok:lombok:1.18.4"
   annotationProcessor "io.micronaut:micronaut-inject-java"
   annotationProcessor "io.micronaut:micronaut-validation"
-  annotationProcessor "io.micronaut.configuration:micronaut-openapi"
 
 }
 
 mainClassName = "es.fandango.App"
+
+// use JUnit 5 platform
+test {
+  useJUnitPlatform()
+}
+
+shadowJar {
+  mergeServiceFiles()
+}
+
+jar {
+  manifest {
+    attributes "Main-Class": mainClassName
+  }
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
