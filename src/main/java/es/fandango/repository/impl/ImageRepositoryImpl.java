@@ -1,21 +1,21 @@
 package es.fandango.repository.impl;
 
-import com.mongodb.reactivestreams.client.Success;
 import es.fandango.model.Image;
+import es.fandango.model.ImageId;
 import es.fandango.repository.ImageRepository;
 import es.fandango.repository.impl.common.MongoRepository;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import java.util.List;
 import javax.inject.Inject;
-import javax.inject.Singleton;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import org.reactivestreams.Publisher;
 
 import static com.mongodb.client.model.Filters.eq;
 
-@Log
-@Singleton
+@Slf4j
 public class ImageRepositoryImpl implements ImageRepository {
 
   /** The mongo repository */
@@ -23,31 +23,41 @@ public class ImageRepositoryImpl implements ImageRepository {
   MongoRepository mongoRepository;
 
   @Override
-  public Publisher<Image> getImage(String imageId) {
+  public Maybe<Image> getImage(String imageId) {
 
     // Build the search filter
     Bson filter = eq(new ObjectId(imageId));
 
     // Return the image
-    return mongoRepository
-        .imageCollection()
-        .find(filter, Image.class)
-        .first();
+    return Flowable
+        .fromPublisher(
+            mongoRepository
+                .imageCollection()
+                .find(filter, Image.class)
+                .limit(1)
+        ).firstElement();
   }
 
   @Override
-  public String saveImageAndGetId(Image image) {
-
-    Success success = Observable.fromPublisher(
+  public Single<List<ImageId>> getAllImageIds() {
+    // Return all imageId object list
+    return Flowable.fromPublisher(
         mongoRepository
             .imageCollection()
-            .insertOne(image))
-        .blockingFirst();
+            .find()
+    ).map(image -> new ImageId(image.getId().toString())).toList();
+  }
 
-    log.info(success.name() + " saved Image with id : " + image.getId().toString());
+  @Override
+  public Single<Image> saveImage(Image image) {
 
-    return image
-        .getId()
-        .toString();
+    // Save and return the image
+    return Single
+        .fromPublisher(
+            mongoRepository
+                .imageCollection()
+                .insertOne(image)
+        )
+        .map(success -> image);
   }
 }

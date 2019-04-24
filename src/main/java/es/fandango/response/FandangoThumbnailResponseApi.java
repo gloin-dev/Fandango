@@ -1,6 +1,6 @@
 package es.fandango.response;
 
-import es.fandango.model.Image;
+import es.fandango.model.Thumbnail;
 import io.micronaut.http.HttpResponse;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -9,7 +9,7 @@ import org.reactivestreams.Subscriber;
 /**
  * This class build the Fandango Image response
  */
-public class FandangoImageResponseApi {
+public class FandangoThumbnailResponseApi {
 
   /** The Response Api */
   private Flowable<HttpResponse> responseApi;
@@ -17,21 +17,21 @@ public class FandangoImageResponseApi {
   /**
    * The constructor for Fandango Image Response
    *
-   * @param image The image
+   * @param thumbnail The thumbnail
    */
-  public FandangoImageResponseApi(Maybe<Image> image) {
-    this.responseApi = image
-        .flatMapPublisher(targetImage -> new Flowable<HttpResponse>() {
+  public FandangoThumbnailResponseApi(Maybe<Thumbnail> thumbnail) {
+    this.responseApi = thumbnail
+        .flatMapPublisher(targetThumbnail -> new Flowable<HttpResponse>() {
           @Override
           protected void subscribeActual(Subscriber<? super HttpResponse> s) {
-            if (targetImage != null) {
+            if (targetThumbnail != null) {
               // Build the ok response
               s.onNext(
                   HttpResponse
                       .ok()
                       .status(200)
-                      .header("Content-Type", targetImage.getContentType())
-                      .body(targetImage.getData())
+                      .header("Content-Type", targetThumbnail.getContentType())
+                      .body(targetThumbnail.getData())
               );
               s.onComplete();
             } else {

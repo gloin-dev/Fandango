@@ -1,15 +1,16 @@
 package es.fandango.response;
 
-import es.fandango.model.Image;
+import es.fandango.model.ImageId;
 import io.micronaut.http.HttpResponse;
 import io.reactivex.Flowable;
-import io.reactivex.Maybe;
+import io.reactivex.Single;
+import java.util.List;
 import org.reactivestreams.Subscriber;
 
 /**
  * This class build the Fandango Image response
  */
-public class FandangoImageResponseApi {
+public class FandangoImageIdResponseApi {
 
   /** The Response Api */
   private Flowable<HttpResponse> responseApi;
@@ -17,21 +18,21 @@ public class FandangoImageResponseApi {
   /**
    * The constructor for Fandango Image Response
    *
-   * @param image The image
+   * @param imageList The image list
    */
-  public FandangoImageResponseApi(Maybe<Image> image) {
-    this.responseApi = image
-        .flatMapPublisher(targetImage -> new Flowable<HttpResponse>() {
+  public FandangoImageIdResponseApi(Single<List<ImageId>> imageList) {
+    this.responseApi = imageList
+        .flatMapPublisher(targetImageList -> new Flowable<HttpResponse>() {
           @Override
           protected void subscribeActual(Subscriber<? super HttpResponse> s) {
-            if (targetImage != null) {
+            if (targetImageList != null) {
               // Build the ok response
               s.onNext(
                   HttpResponse
                       .ok()
                       .status(200)
-                      .header("Content-Type", targetImage.getContentType())
-                      .body(targetImage.getData())
+                      .header("Content-Type", "application/json")
+                      .body(targetImageList)
               );
               s.onComplete();
             } else {

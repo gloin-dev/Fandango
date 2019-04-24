@@ -1,23 +1,26 @@
 package es.fandango.service.impl;
 
+import com.mongodb.reactivestreams.client.Success;
 import es.fandango.manager.ImageManager;
 import es.fandango.model.Image;
+import es.fandango.model.ImageId;
 import es.fandango.model.Thumbnail;
 import es.fandango.repository.ImageRepository;
 import es.fandango.repository.ThumbnailRepository;
 import es.fandango.service.ImageService;
 import io.micronaut.http.multipart.StreamingFileUpload;
-import io.reactivex.Observable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javafx.util.Pair;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
-import org.reactivestreams.Publisher;
+import lombok.extern.slf4j.Slf4j;
 
-@Log
+@Slf4j
 @Singleton
 @AllArgsConstructor
 public class ImageServiceImpl implements ImageService {
@@ -35,38 +38,41 @@ public class ImageServiceImpl implements ImageService {
   ImageManager imageManager;
 
   @Override
-  public Observable<Image> getImageById(String imageId) {
-
+  public Maybe<Image> getImageById(String imageId) {
     // Get the Image
-    Publisher<Image> image = imageRepository.getImage(imageId);
-    // Return the Image
-    return Observable.fromPublisher(image);
+    return imageRepository.getImage(imageId);
   }
 
   @Override
-  public Observable<Thumbnail> getThumbnailById(String thumbnailId) {
+  public Single<List<ImageId>> getAllImageIds() {
+    // Get the Image
+    return imageRepository.getAllImageIds();
+  }
 
+  @Override
+  public Maybe<Thumbnail> getThumbnailById(String thumbnailId) {
     // Get the Thumbnail
-    Publisher<Thumbnail> thumbnail = thumbnailRepository.getThumbnail(thumbnailId);
-    // Return the Thumbnail
-    return Observable.fromPublisher(thumbnail);
+    return thumbnailRepository.getThumbnail(thumbnailId);
   }
 
   @Override
-  public String processImageUpload(StreamingFileUpload streamingFileUpload)
-      throws IOException {
+  public Single<Image> processImageUpload(
+      StreamingFileUpload streamingFileUpload
+  ) throws IOException {
 
     // Build the Image from the StreamingFileUpload and return the image and the File
     Pair<Image, File> imageFilePair = imageManager.buildImageInfo(streamingFileUpload);
     // Get the image from Pair
     Image image = imageFilePair.getKey();
+    // Get the file from Pair
+    File file = imageFilePair.getValue();
     // Save the image and get the id to generate the thumbnail
-    String newImageId = imageRepository.saveImageAndGetId(image);
+    Single<Image> imageSingle = imageRepository.saveImage(image);
     // Build the thumbnail from the image
-    Thumbnail thumbnail = imageManager.buildThumbnail(image, imageFilePair.getValue());
-    //  Save the thumbnail and get the id to generate the response
-    thumbnailRepository.saveThumbnail(thumbnail);
+    Thumbnail thumbnail = imageManager.buildThumbnail(image, file);
+    // Save the thumbnail and get the id to generate the response
+    Success success = thumbnailRepository.saveThumbnail(thumbnail);
     // Return the Image id
-    return newImageId;
+    return imageSingle;
   }
 }

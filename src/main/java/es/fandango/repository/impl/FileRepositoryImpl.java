@@ -6,16 +6,14 @@ import es.fandango.repository.FileRepository;
 import es.fandango.repository.impl.common.MongoRepository;
 import io.reactivex.Observable;
 import javax.inject.Inject;
-import javax.inject.Singleton;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.reactivestreams.Publisher;
 
 import static com.mongodb.client.model.Filters.eq;
 
-@Log
-@Singleton
+@Slf4j
 public class FileRepositoryImpl implements FileRepository {
 
   /** The mongo repository */
@@ -48,5 +46,4 @@ public class FileRepositoryImpl implements FileRepository {
         .getId()
         .toString();
   }
-
 }

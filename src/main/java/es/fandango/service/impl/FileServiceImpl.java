@@ -32,8 +32,7 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public String processFileUpload(StreamingFileUpload streamingFileUpload)
-      throws IOException {
+  public String processFileUpload(StreamingFileUpload streamingFileUpload) throws IOException {
 
     // Build the file from stream
     File file = buildFile(streamingFileUpload);

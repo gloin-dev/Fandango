@@ -1,8 +1,13 @@
 package es.fandango.repository;
 
 import es.fandango.model.Image;
-import org.reactivestreams.Publisher;
+import es.fandango.model.ImageId;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+import java.util.List;
+import javax.inject.Singleton;
 
+@Singleton
 public interface ImageRepository {
 
   /**
@@ -11,7 +16,14 @@ public interface ImageRepository {
    * @param imageId The imageId
    * @return The Image
    */
-  Publisher<Image> getImage(String imageId);
+  Maybe<Image> getImage(String imageId);
+
+  /**
+   * Get all images from MongoDB
+   *
+   * @return The list with all images
+   */
+  Single<List<ImageId>> getAllImageIds();
 
   /**
    * Save the image in MongoDB and return the id
@@ -19,5 +31,5 @@ public interface ImageRepository {
    * @param image The image
    * @return The id
    */
-  String saveImageAndGetId(Image image);
+  Single<Image> saveImage(Image image);
 }

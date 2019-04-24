@@ -1,8 +1,11 @@
 package es.fandango.repository;
 
+import com.mongodb.reactivestreams.client.Success;
 import es.fandango.model.Thumbnail;
-import org.reactivestreams.Publisher;
+import io.reactivex.Maybe;
+import javax.inject.Singleton;
 
+@Singleton
 public interface ThumbnailRepository {
 
   /**
@@ -11,12 +14,13 @@ public interface ThumbnailRepository {
    * @param thumbnailId The thumbnailId
    * @return The Thumbnail
    */
-  Publisher<Thumbnail> getThumbnail(String thumbnailId);
+  Maybe<Thumbnail> getThumbnail(String thumbnailId);
 
   /**
    * Save the given thumbnail
    *
    * @param thumbnail The thumbnail
+   * @return The operation result
    */
-  void saveThumbnail(Thumbnail thumbnail);
+  Success saveThumbnail(Thumbnail thumbnail);
 }

@@ -26,8 +26,8 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 public class ImageManager {
 
   /** Thumbnail size */
-  @NotBlank
-  private Integer thumbnailSize;
+  @NotBlank public
+  Integer thumbnailSize;
 
   /**
    * Build the Image from the StreamingFileUpload
@@ -166,7 +166,6 @@ public class ImageManager {
    * @param image The image
    * @param type The type
    * @return The byte result image
-   * @throws IOException The exception
    */
   private byte[] toByteArrayAutoClosable(BufferedImage image, String type) {
     try {
