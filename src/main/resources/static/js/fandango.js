@@ -5,7 +5,7 @@ function retrieveDataFromServer() {
 
     $.ajax({
         // la URL para la petición
-        url: 'http://' + location.host + '/api/downloadAll',
+        url: 'http://' + location.host + '/api/images',
 
         // especifica si será una petición POST o GET
         type: 'GET',
@@ -21,7 +21,7 @@ function retrieveDataFromServer() {
         },
         // código a ejecutar si la petición falla;
         error: function (xhr, status) {
-            alert('Ops, existió un problema : ' + status);
+           // alert('Ops, existió un problema : ' + status);
         },
 
         // código a ejecutar sin importar si la petición falló o no
@@ -42,8 +42,8 @@ function appendImageToHtml(imageId) {
     imagePlaceHolder.innerHTML =
 
         '<div class="col-lg-2 col-md-2 col-xs-2 img-fluid" style="height: 150px;">' +
-        '<a class="thumbnail" href="http://' + location.host + '/api/download?id=' + imageId + '" rel="lightbox" ' + 'title="http://' + location.host + '/api/download?id=' + imageId + '">' +
-        '<img class="list-img" src="http://' + location.host + '/api/thumbnail?id=' + imageId + '" />' +
+        '<a class="thumbnail" href="http://' + location.host + '/api/image/' + imageId + '" rel="lightbox" ' + 'title="http://' + location.host + '/api/download?id=' + imageId + '">' +
+        '<img class="list-img" src="http://' + location.host + '/api/thumbnail/' + imageId + '" />' +
         '</a>' +
         '</div>';
 
@@ -67,7 +67,7 @@ function clearImages() {
 $('#uploadImageForm').submit(function () {
 
     $.ajax({
-        url: 'http://' + location.host + '/api/upload',
+        url: 'http://' + location.host + '/api/image',
         type: "POST",             // Type of request to be send, called as method
         data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
         contentType: false,       // The content type used when sending data to the server.
@@ -99,7 +99,7 @@ $('#uploadImageForm').submit(function () {
 $('#uploadFileForm').submit(function () {
 
     $.ajax({
-        url: 'http://' + location.host + '/api/uploadfile',
+        url: 'http://' + location.host + '/api/file',
         type: "POST",             // Type of request to be send, called as method
         data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
         contentType: false,       // The content type used when sending data to the server.
