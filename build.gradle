@@ -7,6 +7,9 @@ plugins {
   id "application"
 }
 
+apply plugin: 'java'
+apply plugin: 'idea'
+
 group 'es.fandango'
 version '1.0-SNAPSHOT'
 
@@ -14,11 +17,12 @@ repositories {
   mavenLocal()
   mavenCentral()
   maven { url "https://jcenter.bintray.com" }
+  maven { url  "https://dl.bintray.com/micronaut/core-releases-local" }
 }
 
 dependencyManagement {
   imports {
-    mavenBom 'io.micronaut:micronaut-bom:1.0.0'
+    mavenBom 'io.micronaut:micronaut-bom:1.1.0'
   }
 }
 
@@ -26,29 +30,47 @@ dependencies {
 
   runtime "ch.qos.logback:logback-classic:1.2.3"
 
-  compile "io.micronaut:micronaut-inject-java"
-  compile "io.micronaut:micronaut-http-client"
-  compile "io.micronaut:micronaut-http-server-netty"
-  compile "io.micronaut:micronaut-inject"
-  compile "io.micronaut:micronaut-validation"
-  compile "io.micronaut:micronaut-runtime"
-  compile "io.micronaut:micronaut-management"
-  compile "io.micronaut.configuration:micronaut-mongo-reactive"
-  
-  compile "org.projectlombok:lombok:1.18.4"
+  compile "io.micronaut:micronaut-inject-java:1.1.0"
+  compile "io.micronaut:micronaut-inject:1.1.0"
+  compile "io.micronaut:micronaut-http-server-netty:1.1.0"
+  compile "io.micronaut:micronaut-validation:1.1.0"
+  compile "io.micronaut:micronaut-runtime:1.1.0"
+  compile "io.micronaut:micronaut-management:1.1.0"
+  compile "io.micronaut.configuration:micronaut-mongo-reactive:1.1.0"
+  compile group: 'io.micronaut.test', name: 'micronaut-test-junit5', version: '1.0.2'
+
+  compile "org.projectlombok:lombok:1.16.20"
   compile "javax.annotation:javax.annotation-api"
-  compile  "commons-io:commons-io:2.6"
+  compile "commons-io:commons-io:2.6"
+  compile "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+  compile "org.junit.jupiter:junit-jupiter-api:5.4.2"
 
-  testCompile group: 'org.spock framework', name: 'spock-core', version: '1.2-groovy-2.5'
-  testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1'
+  testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0'
+  testCompile "org.projectlombok:lombok:1.16.20"
+  testCompile "io.micronaut:micronaut-inject-java:1.1.0"
+  testCompile "io.micronaut:micronaut-inject:1.1.0"
 
-  annotationProcessor "org.projectlombok:lombok:1.18.4"
-  annotationProcessor "io.micronaut:micronaut-inject-java"
-  annotationProcessor "io.micronaut:micronaut-validation"
 
+  annotationProcessor "org.projectlombok:lombok:1.16.20"
+  annotationProcessor "io.micronaut:micronaut-inject-java:1.1.0"
+  annotationProcessor "io.micronaut:micronaut-validation:1.1.0"
+  annotationProcessor "org.projectlombok:lombok:1.16.20"
+
+  testAnnotationProcessor "io.micronaut:micronaut-inject-java:1.1.0"
+  testAnnotationProcessor "io.micronaut:micronaut-validation:1.1.0"
+  testAnnotationProcessor "org.projectlombok:lombok:1.16.20"
 }
 
 mainClassName = "es.fandango.App"
+
+sourceSets {
+  main {
+    resources.srcDirs += ['src/test/resources']
+  }
+}
+
+// Add resources to classpath to use files in test
+sourceSets.test.runtimeClasspath += files(sourceSets.test.resources) // OR: files("src/main/java")
 
 // use JUnit 5 platform
 test {
@@ -57,13 +79,4 @@ test {
 
 shadowJar {
   mergeServiceFiles()
-}
-
-jar {
-  manifest {
-    attributes "Main-Class": mainClassName
-  }
-  from {
-    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-  }
 }
