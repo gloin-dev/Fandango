@@ -3,9 +3,7 @@ package es.fandango.repository;
 import com.mongodb.reactivestreams.client.Success;
 import es.fandango.model.Thumbnail;
 import io.reactivex.Maybe;
-import javax.inject.Singleton;
 
-@Singleton
 public interface ThumbnailRepository {
 
   /**

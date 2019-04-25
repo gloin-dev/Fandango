@@ -1,10 +1,8 @@
 package es.fandango.repository;
 
 import es.fandango.model.File;
-import javax.inject.Singleton;
 import org.reactivestreams.Publisher;
 
-@Singleton
 public interface FileRepository {
 
   /**

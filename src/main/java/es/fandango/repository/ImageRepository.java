@@ -5,9 +5,7 @@ import es.fandango.model.ImageId;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.List;
-import javax.inject.Singleton;
 
-@Singleton
 public interface ImageRepository {
 
   /**

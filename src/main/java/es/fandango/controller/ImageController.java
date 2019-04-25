@@ -12,6 +12,7 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.multipart.StreamingFileUpload;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -62,7 +63,7 @@ public class ImageController {
       consumes = MediaType.MULTIPART_FORM_DATA,
       produces = MediaType.APPLICATION_JSON)
   public Flowable<HttpResponse> putImage(
-      @Body("file") StreamingFileUpload file
+      @Body("file") CompletedFileUpload file
   ) throws IOException {
 
     // Request the new image

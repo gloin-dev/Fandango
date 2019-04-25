@@ -4,19 +4,15 @@ import es.fandango.model.Image;
 import es.fandango.model.Thumbnail;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.multipart.StreamingFileUpload;
-import io.reactivex.Observable;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import javafx.util.Pair;
 import javax.imageio.ImageIO;
 import javax.inject.Singleton;
 import javax.validation.constraints.NotBlank;
-import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
@@ -36,8 +32,8 @@ public class ImageManager {
    * @return The image
    * @throws IOException The exception
    */
-  public Pair<Image, File> buildImageInfo(
-      StreamingFileUpload file
+  public Image buildImageInfo(
+      CompletedFileUpload file
   ) throws IOException {
 
     // Get Content Type
@@ -45,29 +41,14 @@ public class ImageManager {
         .getContentType()
         .orElse(new MediaType("*/*")
         );
-
-    // Build temp file from StreamingFileUpload
-    File tempFile = File.createTempFile(
-        file.getFilename(),
-        "tempImage"
-    );
-
     // Transfer the file
-    Boolean result = Observable.fromPublisher(
-        file.transferTo(tempFile))
-        .blockingFirst();
 
     // Build the image
-    Image image = new Image(
+    return new Image(
         new ObjectId(),
-        IOUtils.toByteArray(tempFile.toURI()),
+        file.getBytes(),
         file.getFilename(),
-        contentType.getName());
-
-    // Return both objects
-    return new Pair<>(
-        image,
-        tempFile
+        contentType.getName()
     );
   }
 
@@ -80,7 +61,7 @@ public class ImageManager {
    */
   public Thumbnail buildThumbnail(
       Image image,
-      File file) {
+      CompletedFileUpload file) {
 
     // The ImageBytes
     byte[] imageBytes;
@@ -113,13 +94,13 @@ public class ImageManager {
    * @param file The original file
    * @return The resized image
    */
-  private BufferedImage generateThumbnailFromOriginalImage(File file) {
+  private BufferedImage generateThumbnailFromOriginalImage(CompletedFileUpload file) {
 
     Integer newHeight = thumbnailSize;
     Integer newWidth = thumbnailSize;
 
     try {
-      BufferedImage image = ImageIO.read(file);
+      BufferedImage image = ImageIO.read(file.getInputStream());
 
       // Make sure the aspect ratio is maintained, so the image is not distorted
       double thumbRatio = (double) newWidth / (double) newHeight;

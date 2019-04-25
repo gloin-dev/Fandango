@@ -8,6 +8,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -15,6 +16,7 @@ import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Filters.eq;
 
 @Slf4j
+@Singleton
 public class ThumbnailRepositoryImpl implements ThumbnailRepository {
 
   /** The mongo repository */

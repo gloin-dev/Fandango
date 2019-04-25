@@ -3,7 +3,7 @@ package es.fandango.service;
 import es.fandango.model.Image;
 import es.fandango.model.ImageId;
 import es.fandango.model.Thumbnail;
-import io.micronaut.http.multipart.StreamingFileUpload;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.io.IOException;
@@ -41,5 +41,5 @@ public interface ImageService {
    * @return The image id
    * @throws IOException A process exception
    */
-  Single<Image> processImageUpload(StreamingFileUpload file) throws IOException;
+  Single<Image> processImageUpload(CompletedFileUpload file) throws IOException;
 }

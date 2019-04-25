@@ -9,6 +9,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -16,6 +17,7 @@ import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Filters.eq;
 
 @Slf4j
+@Singleton
 public class ImageRepositoryImpl implements ImageRepository {
 
   /** The mongo repository */

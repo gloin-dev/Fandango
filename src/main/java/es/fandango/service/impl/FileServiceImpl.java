@@ -9,13 +9,11 @@ import io.reactivex.Observable;
 import java.io.IOException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
 import org.reactivestreams.Publisher;
 
 @Singleton
-@AllArgsConstructor
 public class FileServiceImpl implements FileService {
 
   /** The File repository */

@@ -7,6 +7,7 @@ import es.fandango.config.MongoConfigurationProperties;
 import es.fandango.model.File;
 import es.fandango.model.Image;
 import es.fandango.model.Thumbnail;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.AllArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 public class MongoRepository {
 
   /** The MongoDB client */
+  @Inject
   private final MongoClient mongoClient;
 
   /** The MongoDB Configuration Properties */
