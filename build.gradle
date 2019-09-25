@@ -69,6 +69,17 @@ sourceSets {
 // Add resources to classpath to use files in test
 sourceSets.test.runtimeClasspath += files(sourceSets.test.resources) // OR: files("src/main/java")
 
+shadowJar {
+  mergeServiceFiles()
+}
+
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
+
+tasks.withType(JavaCompile) {
+  options.encoding = "UTF-8"
+  options.compilerArgs.add('-parameters')
+}
+
 // use JUnit 5 platform
 test {
   useJUnitPlatform()
