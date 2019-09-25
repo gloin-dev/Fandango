@@ -5,6 +5,7 @@ plugins {
   id "net.ltgt.apt-idea" version "0.21"
   id "com.github.johnrengelman.shadow" version "5.1.0"
   id "io.spring.dependency-management" version "1.0.6.RELEASE"
+  id 'org.hidetake.swagger.generator' version '2.18.1'
 }
 
 apply plugin: 'java'
@@ -12,6 +13,8 @@ apply plugin: 'idea'
 
 group 'es.fandango'
 version '1.0-SNAPSHOT'
+
+mainClassName = "es.fandango.MicronautApp"
 
 repositories {
   mavenLocal()
@@ -26,6 +29,8 @@ dependencyManagement {
 }
 
 dependencies {
+
+  swaggerUI 'org.webjars:swagger-ui:3.10.0'
 
   runtime "ch.qos.logback:logback-classic:$logbackClassicVersion"
 
@@ -43,10 +48,13 @@ dependencies {
   compile "commons-io:commons-io:$commonsioVersion"
   compile "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
   compile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+  compile "io.swagger.core.v3:swagger-annotations"
+
 
   annotationProcessor "org.projectlombok:lombok:$lombokVersion"
   annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
   annotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
+  annotationProcessor "io.micronaut.configuration:micronaut-openapi"
 
   testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedmongoVersion"
   testCompile "org.projectlombok:lombok:$lombokVersion"
@@ -58,26 +66,34 @@ dependencies {
   testAnnotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
 }
 
-mainClassName = "es.fandango.App"
 
-sourceSets {
-  main {
-    resources.srcDirs += ['src/test/resources']
+swaggerSources {
+  app {
+    inputFile = file("$buildDir/classes/java/main/META-INF/swagger/fandango-latest.yml")
+    ui {
+      outputDir = file("$buildDir/classes/java/main/META-INF/swagger-ui")
+    }
+    reDoc {
+      outputDir = file("$buildDir/classes/java/main/META-INF/redoc")
+      scriptSrc = "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
+    }
+    code {
+      language = 'html'  // html or html2
+    }
   }
 }
 
-// Add resources to classpath to use files in test
-sourceSets.test.runtimeClasspath += files(sourceSets.test.resources) // OR: files("src/main/java")
-
-shadowJar {
-  mergeServiceFiles()
-}
+jar.finalizedBy(generateSwaggerUI)
 
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
 tasks.withType(JavaCompile) {
   options.encoding = "UTF-8"
   options.compilerArgs.add('-parameters')
+}
+
+shadowJar {
+  mergeServiceFiles()
 }
 
 // use JUnit 5 platform
