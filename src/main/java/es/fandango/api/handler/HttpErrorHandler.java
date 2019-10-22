@@ -15,7 +15,8 @@ import javax.inject.Singleton;
 @Requires(classes = {Exception.class, ExceptionHandler.class})
 public class HttpErrorHandler implements ExceptionHandler<Exception, HttpResponse> {
 
-  @Override public HttpResponse handle(HttpRequest request, Exception exception) {
+  @Override
+  public HttpResponse handle(HttpRequest request, Exception exception) {
     return HttpResponse.notFound();
   }
 }

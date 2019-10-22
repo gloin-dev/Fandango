@@ -16,7 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ThumbnailController {
 
   /** The image service */
-  @Inject ImageService imageService;
+  @Inject
+  private ImageService imageService;
 
   /**
    * Get the thumbnail
