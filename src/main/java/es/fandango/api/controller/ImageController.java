@@ -1,6 +1,5 @@
 package es.fandango.api.controller;
 
-import es.fandango.api.response.FandangoImageIdResponseApi;
 import es.fandango.api.response.FandangoImageResponseApi;
 import es.fandango.api.response.FandangoNewImageResponseApi;
 import es.fandango.core.service.ImageService;
@@ -36,13 +35,9 @@ public class ImageController {
      * @return The images ids
      */
     @Get("/images")
-    public Flowable<HttpResponse> getImages() {
+    public Single<List<ImageId>> getImages() {
         // Request the image
-        Single<List<ImageId>> allImageIds = imageService.getAllImageIds();
-        // Build the response
-        FandangoImageIdResponseApi responseApi = new FandangoImageIdResponseApi(allImageIds);
-        // Return the response
-        return responseApi.getResponseApi();
+        return imageService.getAllImageIds();
     }
 
     /**
@@ -52,7 +47,7 @@ public class ImageController {
      * @return The image
      */
     @Get("/image/{imageId}")
-    public Flowable<HttpResponse> getImage(String imageId) {
+    public Maybe<HttpResponse<Object>> getImage(String imageId) {
         // Request the image
         Maybe<Image> imageById = imageService.getImageById(imageId);
         // Build the response

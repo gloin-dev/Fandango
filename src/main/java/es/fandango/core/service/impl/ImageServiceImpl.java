@@ -42,19 +42,16 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Maybe<Image> getImageById(String imageId) {
-        // Get the Image
         return imageRepository.getImage(imageId);
     }
 
     @Override
     public Single<List<ImageId>> getAllImageIds() {
-        // Get the Image
         return imageRepository.getAllImageIds();
     }
 
     @Override
     public Maybe<Thumbnail> getThumbnailById(String thumbnailId) {
-        // Get the Thumbnail
         return thumbnailRepository.getThumbnail(thumbnailId);
     }
 
