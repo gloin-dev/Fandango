@@ -20,16 +20,15 @@ public class FandangoImageResponseApi {
      * @param image The image
      */
     public FandangoImageResponseApi(Maybe<Image> image) {
-        this.responseApi = image
-                .map(targetImage ->
-                        targetImage != null
-                                ? HttpResponse
-                                .ok()
-                                .status(200)
-                                .header("Content-Type", targetImage.getContentType())
-                                .body(targetImage.getData())
-                                : HttpResponse
-                                .notFound());
+        this.responseApi = image.map(targetImage ->
+                targetImage != null
+                        ? HttpResponse
+                        .ok()
+                        .status(200)
+                        .header("Content-Type", targetImage.getContentType())
+                        .body(targetImage.getData())
+                        : HttpResponse
+                        .notFound());
     }
 
     /**

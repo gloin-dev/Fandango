@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-  <!-- Stop output INFO at start -->
-  <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <!-- Stop output INFO at start -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-  <contextName>fandango</contextName>
+    <contextName>fandango</contextName>
 
-  <conversionRule conversionWord="highlightext" converterClass="es.fandango.core.config.HighlightConverterText" />
+    <conversionRule conversionWord="highlightext" converterClass="es.fandango.core.config.HighlightConverterText"/>
 
-  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-    <withJansi>true</withJansi>
-    <encoder>
-      <pattern>%green(%d{yyyy-MM-dd}) | %yellow(%d{HH:mm:ss.SSS}) | %highlight(%5p) | %cyan(%-17.17logger{0}) | %highlightext(%msg%n)</pattern>
-      <charset>utf8</charset>
-    </encoder>
-  </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <pattern>%green(%d{yyyy-MM-dd}) | %yellow(%d{HH:mm:ss.SSS}) | %highlight(%5p) | %cyan(%-21.21logger{0}) | %highlightext(%msg%n)
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
 
-  <root level="info">
-    <appender-ref ref="CONSOLE"/>
-  </root>
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 
-  <logger name="io.micronaut.http.*" level="INFO"/>
-  <logger name="io.netty.handler.logging" level="ERROR"/>
-  <logger name="io.micronaut.jackson.parser" level="ERROR"/>
-  <logger name="java.net.SocketException" level="NONE"/>
-  <logger name="com.mongodb.*" level="NONE"/>
+    <logger name="io.micronaut.http.server.netty.NettyHttpServer" level="DEBUG"/>
+    <logger name="io.micronaut.http.server.netty.RoutingInBoundHandler" level="OFF"/>
+    <logger name="io.micronaut.context" level="INFO"/>
+    <logger name="io.netty.handler.logging" level="ERROR"/>
+    <logger name="io.micronaut.jackson.parser" level="ERROR"/>
+    <logger name="java.net.SocketException" level="OFF"/>
+    <logger name="org.mongodb" level="OFF"/>
 
 </configuration>

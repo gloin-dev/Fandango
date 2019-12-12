@@ -41,5 +41,5 @@ public interface ImageService {
    * @return The image id
    * @throws IOException A process exception
    */
-  Single<Image> processImageUpload(CompletedFileUpload file) throws IOException;
+  Single<String> processImageUpload(CompletedFileUpload file) throws IOException;
 }

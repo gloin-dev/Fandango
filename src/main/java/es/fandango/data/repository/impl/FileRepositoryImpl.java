@@ -1,51 +1,63 @@
 package es.fandango.data.repository.impl;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import com.mongodb.reactivestreams.client.Success;
+import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.File;
 import es.fandango.data.repository.FileRepository;
-import es.fandango.data.config.MongoRepository;
 import io.reactivex.Observable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.reactivestreams.Publisher;
 
-import static com.mongodb.client.model.Filters.eq;
+import javax.inject.Singleton;
 
 @Slf4j
 @Singleton
 public class FileRepositoryImpl implements FileRepository {
 
-  /** The mongo repository */
-  @Inject
-  MongoRepository mongoRepository;
+    /**
+     * The mongo repository
+     */
+    private final MongoRepository mongoRepository;
 
-  @Override public Publisher<File> getFile(String fileId) {
+    /**
+     * Constructor for Mongo Repository
+     *
+     * @param mongoRepository The Mongo Repository
+     */
+    public FileRepositoryImpl(MongoRepository mongoRepository) {
+        this.mongoRepository = mongoRepository;
+    }
 
-    // Build the search filter
-    Bson filter = eq(new ObjectId(fileId));
+    @Override
+    public Publisher<File> getFile(String fileId) {
 
-    // Return the file
-    return mongoRepository
-        .fileCollection()
-        .find(filter, File.class)
-        .first();
-  }
+        // Build the search filter
+        Bson filter = eq(new ObjectId(fileId));
 
-  @Override public String saveFileAndGetId(File file) {
+        // Return the file
+        return mongoRepository
+                .fileCollection()
+                .find(filter, File.class)
+                .first();
+    }
 
-    Success success = Observable.fromPublisher(
-        mongoRepository
-            .fileCollection()
-            .insertOne(file))
-        .blockingFirst();
+    @Override
+    public String saveFileAndGetId(File file) {
 
-    log.info(success.name() + " saved File with id : " + file.getId().toString());
+        Success success = Observable.fromPublisher(
+                mongoRepository
+                        .fileCollection()
+                        .insertOne(file))
+                .blockingFirst();
 
-    return file
-        .getId()
-        .toString();
-  }
+        log.info(success.name() + " saved File with id : " + file.getId().toString());
+
+        return file
+                .getId()
+                .toString();
+    }
 }

@@ -27,7 +27,7 @@ public interface ImageRepository {
    * Save the image in MongoDB and return the id
    *
    * @param image The image
-   * @return The id
+   * @return The image
    */
   Single<Image> saveImage(Image image);
 }

@@ -6,9 +6,7 @@ import es.fandango.core.service.ImageService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,17 +14,24 @@ import lombok.extern.slf4j.Slf4j;
 public class ThumbnailController {
 
   /** The image service */
-  @Inject
-  private ImageService imageService;
+  private final ImageService imageService;
+
+  /**
+   * Thumbnail Controller constructor
+   * @param imageService  The image service
+   */
+  public ThumbnailController(ImageService imageService) {
+    this.imageService = imageService;
+  }
 
   /**
    * Get the thumbnail
    *
-   * @param thumbnailId The image id
-   * @return The image
+   * @param thumbnailId The thumbnail id
+   * @return The thumbnail
    */
   @Get("/thumbnail/{thumbnailId}")
-  public Flowable<HttpResponse> getThumbnail(String thumbnailId) {
+  public Maybe<HttpResponse<Object>> getThumbnail(String thumbnailId) {
 
     // Request the image
     Maybe<Thumbnail> thumbnailById = imageService.getThumbnailById(thumbnailId);

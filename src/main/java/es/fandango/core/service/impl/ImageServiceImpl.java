@@ -1,6 +1,5 @@
 package es.fandango.core.service.impl;
 
-import com.mongodb.reactivestreams.client.Success;
 import es.fandango.core.manager.impl.ImageManagerImpl;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
@@ -10,10 +9,10 @@ import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ThumbnailRepository;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -25,20 +24,34 @@ public class ImageServiceImpl implements ImageService {
     /**
      * The Image repository
      */
-    @Inject
     ImageRepository imageRepository;
 
     /**
      * The Thumbnail repository
      */
-    @Inject
     ThumbnailRepository thumbnailRepository;
 
     /**
      * The module to handle image operations
      */
-    @Inject
     ImageManagerImpl imageManager;
+
+    /**
+     * Full constructor for Image Service
+     *
+     * @param imageRepository     The image repository
+     * @param thumbnailRepository The thumbnail repository
+     * @param imageManager        The image manager
+     */
+    public ImageServiceImpl(
+            ImageRepository imageRepository,
+            ThumbnailRepository thumbnailRepository,
+            ImageManagerImpl imageManager
+    ) {
+        this.imageRepository = imageRepository;
+        this.thumbnailRepository = thumbnailRepository;
+        this.imageManager = imageManager;
+    }
 
     @Override
     public Maybe<Image> getImageById(String imageId) {
@@ -56,19 +69,23 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Single<Image> processImageUpload(
-            CompletedFileUpload completedFileUpload
-    ) throws IOException {
+    public Single<String> processImageUpload(CompletedFileUpload completedFileUpload) throws IOException {
 
         // Build the Image from the StreamingFileUpload and return the image and the File
         Image image = imageManager.buildImageInfo(completedFileUpload);
-        // Save the image and get the id to generate the thumbnail
-        Single<Image> imageSingle = imageRepository.saveImage(image);
         // Build the thumbnail from the image
         Thumbnail thumbnail = imageManager.buildThumbnail(image, completedFileUpload);
+        // Save the image and get the id to generate the thumbnail
+        Single<Image> savedImage = imageRepository.saveImage(image);
         // Save the thumbnail and get the id to generate the response
-        Success success = thumbnailRepository.saveThumbnail(thumbnail);
-        // Return the Image id
-        return imageSingle;
+        Single<Thumbnail> savedThumbnail = thumbnailRepository.saveThumbnail(thumbnail);
+        // Combine both Operations
+        return Single.fromObservable(
+                Observable.zip(
+                        savedImage.toObservable(),
+                        savedThumbnail.toObservable(),
+                        (image1, thumbnail1) -> image.getId().toString()
+
+                ));
     }
 }

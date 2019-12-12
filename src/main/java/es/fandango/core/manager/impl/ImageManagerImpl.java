@@ -27,16 +27,13 @@ public class ImageManagerImpl implements ImageManager {
   Integer thumbnailSize;
 
   @Override
-  public Image buildImageInfo(
-          CompletedFileUpload file
-  ) throws IOException {
+  public Image buildImageInfo(CompletedFileUpload file) throws IOException {
 
     // Get Content Type
     MediaType contentType = file
         .getContentType()
         .orElse(new MediaType("*/*")
         );
-    // Transfer the file
 
     // Build the image
     return new Image(
@@ -50,7 +47,8 @@ public class ImageManagerImpl implements ImageManager {
   @Override
   public Thumbnail buildThumbnail(
           Image image,
-          CompletedFileUpload file) {
+          CompletedFileUpload file
+  ) {
 
     // The ImageBytes
     byte[] imageBytes;
@@ -137,7 +135,10 @@ public class ImageManagerImpl implements ImageManager {
    * @param type The type
    * @return The byte result image
    */
-  private byte[] toByteArrayAutoClosable(BufferedImage image, String type) {
+  private byte[] toByteArrayAutoClosable(
+          BufferedImage image,
+          String type
+  ) {
     try {
       try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
         ImageIO.write(image, type, out);

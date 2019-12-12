@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MongoRepository {
 
+
   /** The MongoDB client */
   @Inject
   private final MongoClient mongoClient;

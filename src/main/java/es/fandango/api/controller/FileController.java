@@ -56,7 +56,7 @@ public class FileController {
             produces = MediaType.APPLICATION_JSON)
     public HttpResponse uploadFile(@Body("file") StreamingFileUpload file) throws IOException {
 
-        // Request the new image
+        // Request the new file
         String newFileId = fileService.processFileUpload(file);
         // Build the response
         FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(newFileId);

@@ -1,51 +1,60 @@
 package es.fandango.data.repository.impl;
 
-import com.mongodb.reactivestreams.client.Success;
+import static com.mongodb.client.model.Filters.eq;
+
+import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.Thumbnail;
 import es.fandango.data.repository.ThumbnailRepository;
-import es.fandango.data.config.MongoRepository;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import static com.mongodb.client.model.Filters.eq;
+import javax.inject.Singleton;
 
 @Slf4j
 @Singleton
 public class ThumbnailRepositoryImpl implements ThumbnailRepository {
 
-  /** The mongo repository */
-  @Inject
-  MongoRepository mongoRepository;
+    /**
+     * The mongo repository
+     */
+    private final MongoRepository mongoRepository;
 
-  @Override
-  public Maybe<Thumbnail> getThumbnail(String thumbnailId) {
+    /**
+     * Constructor for Mongo Repository
+     *
+     * @param mongoRepository The Mongo Repository
+     */
+    public ThumbnailRepositoryImpl(MongoRepository mongoRepository) {
+        this.mongoRepository = mongoRepository;
+    }
 
-    // Build the search filter
-    Bson filter = eq(new ObjectId(thumbnailId));
+    @Override
+    public Maybe<Thumbnail> getThumbnail(String thumbnailId) {
 
-    // Return the thumbnail
-    return Flowable
-        .fromPublisher(
-            mongoRepository
-                .thumbnailCollection()
-                .find(filter, Thumbnail.class)
-                .limit(1)
-        ).firstElement();
-  }
+        // Build the search filter
+        Bson filter = eq(new ObjectId(thumbnailId));
 
-  @Override
-  public Success saveThumbnail(Thumbnail thumbnail) {
+        // Return the thumbnail
+        return Flowable
+                .fromPublisher(
+                        mongoRepository
+                                .thumbnailCollection()
+                                .find(filter, Thumbnail.class)
+                                .limit(1)
+                ).firstElement();
+    }
 
-    return Observable.fromPublisher(
-        mongoRepository
-            .thumbnailCollection()
-            .insertOne(thumbnail)
-    ).blockingFirst();
-  }
+    @Override
+    public Single<Thumbnail> saveThumbnail(Thumbnail thumbnail) {
+
+        return Single.fromPublisher(
+                mongoRepository
+                        .thumbnailCollection()
+                        .insertOne(thumbnail)
+        ).map(success -> thumbnail);
+    }
 }

@@ -12,22 +12,24 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.CompletedFileUpload;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-
-import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 
 @Controller("/api")
 public class ImageController {
 
+    /** The image service */
+    private final ImageService imageService;
+
     /**
-     * The image service
+     * Image Controller constructor
+     * @param imageService The image service
      */
-    @Inject
-    private ImageService imageService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     /**
      * Get the images ids
@@ -36,7 +38,7 @@ public class ImageController {
      */
     @Get("/images")
     public Single<List<ImageId>> getImages() {
-        // Request the image
+        // Request all the images ids
         return imageService.getAllImageIds();
     }
 
@@ -65,15 +67,16 @@ public class ImageController {
      */
     @Post(uri = "/image",
             consumes = MediaType.MULTIPART_FORM_DATA,
-            produces = MediaType.APPLICATION_JSON)
-    public Flowable<HttpResponse> uploadImage(
+            produces = MediaType.APPLICATION_JSON
+    )
+    public Maybe<HttpResponse<Object>> uploadImage(
             @Body("file") CompletedFileUpload file
     ) throws IOException {
 
         // Request the new image
-        Single<Image> imageSingle = imageService.processImageUpload(file);
+        Single<String> imageId = imageService.processImageUpload(file);
         // Build the response
-        FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(imageSingle);
+        FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(Maybe.fromSingle(imageId));
         // Return the response
         return responseApi.getResponseApi();
     }

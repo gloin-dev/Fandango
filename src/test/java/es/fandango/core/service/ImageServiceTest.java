@@ -1,6 +1,8 @@
 package es.fandango.core.service;
 
 import es.fandango.data.model.Image;
+import es.fandango.data.model.ImageId;
+import es.fandango.data.model.Thumbnail;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.List;
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,9 +60,11 @@ public class ImageServiceTest {
   @Order(1)
   void test_processImageUpload() throws IOException {
 
-    Single<Image> imageSingle = imageService.processImageUpload(fileUpload);
+    Single<String> imageSingle = imageService.processImageUpload(fileUpload);
 
-    searchId = imageSingle.blockingGet().getId().toString();
+    searchId = imageSingle.blockingGet();
+
+    Assertions.assertNotNull(searchId);
   }
 
   @Test
@@ -71,5 +76,27 @@ public class ImageServiceTest {
         .blockingGet();
 
     Assertions.assertNotNull(image);
+  }
+
+  @Test
+  @Order(3)
+  void test_getThumbnailById() {
+
+    Thumbnail thumbnail = imageService
+            .getThumbnailById(searchId)
+            .blockingGet();
+
+    Assertions.assertNotNull(thumbnail);
+  }
+
+  @Test
+  @Order(4)
+  void test_getAllImageIds() {
+
+    List<ImageId> imageIds = imageService
+            .getAllImageIds()
+            .blockingGet();
+
+    Assertions.assertEquals(1, imageIds.size());
   }
 }

@@ -15,17 +15,16 @@ public class HighlightConverterText extends ForegroundCompositeConverterBase<ILo
                 return ANSIConstants.BOLD + ANSIConstants.RED_FG; // same as default color scheme
             case Level.WARN_INT:
                 return ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
-            case Level.INFO_INT:
+            case Level.DEBUG_INT:
                 switch (event.getLoggerName()) {
                     // Customize colors for INFO
-                    case "HttpLogger":
+                    case "io.micronaut.http.server.netty.NettyHttpServer":
                         return ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
-                    // Customize colors for INFO
-                    case "OAuth2Listener":
-                        return ANSIConstants.BOLD + ANSIConstants.BLUE_FG;
                     default:
                         return ANSIConstants.DEFAULT_FG;
                 }
+            case Level.INFO_INT:
+                return ANSIConstants.DEFAULT_FG;
             default:
                 return ANSIConstants.DEFAULT_FG;
         }

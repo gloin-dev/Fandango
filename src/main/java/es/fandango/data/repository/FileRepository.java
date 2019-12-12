@@ -3,6 +3,7 @@ package es.fandango.data.repository;
 import es.fandango.data.model.File;
 import org.reactivestreams.Publisher;
 
+/** TODO : Refactor in the same way as Image and Thumbnail Repository */
 public interface FileRepository {
 
   /**

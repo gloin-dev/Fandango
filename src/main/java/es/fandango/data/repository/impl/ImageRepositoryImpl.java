@@ -20,9 +20,19 @@ import static com.mongodb.client.model.Filters.eq;
 @Singleton
 public class ImageRepositoryImpl implements ImageRepository {
 
-  /** The mongo repository */
-  @Inject
-  MongoRepository mongoRepository;
+  /**
+   * The mongo repository
+   */
+  private final MongoRepository mongoRepository;
+
+  /**
+   * Constructor for Mongo Repository
+   *
+   * @param mongoRepository The Mongo Repository
+   */
+  public ImageRepositoryImpl(MongoRepository mongoRepository) {
+    this.mongoRepository = mongoRepository;
+  }
 
   @Override
   public Maybe<Image> getImage(String imageId) {
