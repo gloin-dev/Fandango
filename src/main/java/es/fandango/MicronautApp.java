@@ -20,7 +20,8 @@ import io.swagger.v3.oas.annotations.info.License;
 )
 public class MicronautApp {
 
-  public static void main(String[] args) {
-    Micronaut.run(MicronautApp.class);
-  }
+    public static void main(String[] args) {
+        Micronaut.run(MicronautApp.class);
+    }
+
 }

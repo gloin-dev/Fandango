@@ -42,7 +42,7 @@ function appendImageToHtml(imageId) {
     imagePlaceHolder.innerHTML =
 
         '<div class="col-lg-2 col-md-2 col-xs-2 img-fluid" style="height: 150px;">' +
-        '<a class="thumbnail" href="http://' + location.host + '/api/image/' + imageId + '" rel="lightbox" ' + 'title="http://' + location.host + '/api/download?id=' + imageId + '">' +
+        '<a class="thumbnail" href="http://' + location.host + '/api/image/' + imageId + '" rel="lightbox" ' + 'title="http://' + location.host + '/api/image/' + imageId + '">' +
         '<img class="list-img" src="http://' + location.host + '/api/thumbnail/' + imageId + '" />' +
         '</a>' +
         '</div>';
