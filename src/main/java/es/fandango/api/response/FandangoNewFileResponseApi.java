@@ -1,29 +1,28 @@
 package es.fandango.api.response;
 
+import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.api.response.common.ElementId;
-import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpResponse;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
-public class FandangoNewFileResponseApi {
+public class FandangoNewFileResponseApi extends CommonFandangoResponseApi {
 
-    // The HttpResponse
-    private HttpResponse response;
+    /**
+     * The constructor for Fandango New File Response
+     *
+     * @param fileId The file Id
+     */
+    public FandangoNewFileResponseApi(Single<String> fileId) {
+        this.responseApi = Maybe
+                .fromSingle(fileId)
+                .map(id ->
 
-    public FandangoNewFileResponseApi(String id) {
-        if (!StringUtils.isEmpty(id)) {
-            // Build the ok response
-            this.response = HttpResponse
-                    .ok()
-                    .status(200)
-                    .header("Content-Type", "application/json")
-                    .body(ElementId.buildWithId(id));
-        } else {
-            // Bad request
-            this.response = HttpResponse.badRequest();
-        }
-    }
-
-    public HttpResponse getResponse() {
-        return response;
+                        HttpResponse
+                                .ok()
+                                .status(200)
+                                .header("Content-Type", "application/json")
+                                .body(ElementId.buildWithId(id))
+                );
     }
 }

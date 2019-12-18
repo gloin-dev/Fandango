@@ -3,25 +3,19 @@ package es.fandango.data.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 
 /**
- * Pojo for Image
+ * Common Object to get info about collection
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class File {
+public class Info {
 
     /**
-     * The file _id
+     * The target id
      */
-    private ObjectId id;
-
-    /**
-     * The data
-     */
-    private byte[] data;
+    private String id;
 
     /**
      * The name

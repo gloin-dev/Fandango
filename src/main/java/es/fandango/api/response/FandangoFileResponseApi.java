@@ -1,33 +1,28 @@
 package es.fandango.api.response;
 
+import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.data.model.File;
 import io.micronaut.http.HttpResponse;
+import io.reactivex.Maybe;
 
-public class FandangoFileResponseApi {
+public class FandangoFileResponseApi extends CommonFandangoResponseApi {
 
-  // The HttpResponse
-  private HttpResponse response;
+    /**
+     * The constructor for Fandango File Response
+     *
+     * @param file The file
+     */
+    public FandangoFileResponseApi(Maybe<File> file) {
 
-  /**
-   * The constructor for Fandango Image Response
-   *
-   * @param file The file
-   */
-  public FandangoFileResponseApi(File file) {
-    if (file != null) {
-      // Build the ok response
-      this.response = HttpResponse
-          .ok()
-          .status(200)
-          .header("Content-Type", file.getContentType())
-          .body(file.getData());
-    } else {
-      // Not found file
-      this.response = HttpResponse.notFound();
+        this.responseApi = file.map(targetFile ->
+                targetFile != null
+                        ? HttpResponse
+                        .ok()
+                        .status(200)
+                        .header("Content-Type", targetFile.getContentType())
+                        .body(targetFile.getData())
+                        : HttpResponse
+                        .notFound());
+
     }
-  }
-
-  public HttpResponse getResponse() {
-    return response;
-  }
 }

@@ -12,7 +12,7 @@ public class ElementId {
 
     private String id;
 
-    public static ElementId buildWithId(String id){
+    public static ElementId buildWithId(String id) {
         return new ElementId(id);
     }
 }

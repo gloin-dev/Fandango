@@ -1,5 +1,6 @@
 package es.fandango.api.response;
 
+import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.HttpResponse;
 import io.reactivex.Maybe;
@@ -7,12 +8,7 @@ import io.reactivex.Maybe;
 /**
  * This class build the Fandango Image response
  */
-public class FandangoThumbnailResponseApi {
-
-    /**
-     * The Response Api
-     */
-    Maybe<HttpResponse<Object>> responseApi;
+public class FandangoThumbnailResponseApi extends CommonFandangoResponseApi {
 
     /**
      * The constructor for Fandango Thumbnail Response
@@ -29,14 +25,5 @@ public class FandangoThumbnailResponseApi {
                         .body(targetThumbnail.getData())
                         : HttpResponse
                         .notFound());
-    }
-
-    /**
-     * Get the Http Response
-     *
-     * @return The HttpResponse
-     */
-    public Maybe<HttpResponse<Object>> getResponseApi() {
-        return responseApi;
     }
 }

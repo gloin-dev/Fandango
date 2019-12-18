@@ -1,74 +1,63 @@
 package es.fandango.core.service.impl;
 
-import es.fandango.data.model.File;
-import es.fandango.data.repository.FileRepository;
+import es.fandango.core.manager.FileManager;
 import es.fandango.core.service.FileService;
-import io.micronaut.http.MediaType;
-import io.micronaut.http.multipart.StreamingFileUpload;
-import io.reactivex.Observable;
-import java.io.IOException;
-import javax.inject.Inject;
+import es.fandango.data.model.File;
+import es.fandango.data.model.Info;
+import es.fandango.data.repository.FileRepository;
+import io.micronaut.http.multipart.CompletedFileUpload;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+
 import javax.inject.Singleton;
-import org.apache.commons.io.IOUtils;
-import org.bson.types.ObjectId;
-import org.reactivestreams.Publisher;
+import java.io.IOException;
+import java.util.List;
 
 @Singleton
 public class FileServiceImpl implements FileService {
 
-  /** The File repository */
-  @Inject
-  FileRepository fileRepository;
+    /**
+     * The File repository
+     */
+    private final FileRepository fileRepository;
 
-  @Override
-  public Observable<File> getFileById(String fileId) {
+    /**
+     * The File service
+     */
+    private final FileManager fileManager;
 
-    // Get the File
-    Publisher<File> file = fileRepository.getFile(fileId);
-    // Return the File
-    return Observable.fromPublisher(file);
-  }
+    /**
+     * The File service
+     *
+     * @param fileRepository The file service repository
+     */
+    public FileServiceImpl(
+            FileRepository fileRepository,
+            FileManager fileManager
+    ) {
+        this.fileRepository = fileRepository;
+        this.fileManager = fileManager;
+    }
 
-  @Override
-  public String processFileUpload(StreamingFileUpload streamingFileUpload) throws IOException {
+    @Override
+    public Single<List<Info>> getAllFilesInfo() {
+        return fileRepository.getAllImagesInfo();
+    }
 
-    // Build the file from stream
-    File file = buildFile(streamingFileUpload);
-    // Save and return the file id
-    return fileRepository.saveFileAndGetId(file);
-  }
+    @Override
+    public Maybe<File> getFileById(String fileId) {
+        return fileRepository.getFile(fileId);
+    }
 
-  /**
-   * Convert the input stream to file
-   *
-   * @param streamingFileUpload The uploaded file
-   * @return The File object
-   * @throws IOException The Exception
-   */
-  private File buildFile(StreamingFileUpload streamingFileUpload) throws IOException {
+    @Override
+    public Single<String> processFileUpload(CompletedFileUpload fileUpload) throws IOException {
 
-    // Build temp file from StreamingFileUpload
-    java.io.File tempFile = java.io.File.createTempFile(
-        streamingFileUpload.getFilename(),
-        "tempFile"
-    );
+        // Build the file from stream
+        File file = fileManager.buildFile(fileUpload);
+        // Save and return the file id
+        Single<File> fileSingle = fileRepository.saveFile(file);
+        // Return the id from the saved file
+        return fileSingle.map(output -> output.getId().toString());
+    }
 
-    // Get Content Type
-    MediaType contentType = streamingFileUpload
-        .getContentType()
-        .orElse(new MediaType("*/*")
-        );
-
-    // Transfer the file
-    Boolean result = Observable.fromPublisher(
-        streamingFileUpload.transferTo(tempFile))
-        .blockingFirst();
-
-    // Build the file
-    return new File(
-        new ObjectId(),
-        IOUtils.toByteArray(tempFile.toURI()),
-        streamingFileUpload.getFilename(),
-        contentType.getName());
-  }
 }

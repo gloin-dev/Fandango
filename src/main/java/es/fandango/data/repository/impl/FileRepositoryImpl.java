@@ -2,17 +2,19 @@ package es.fandango.data.repository.impl;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import com.mongodb.reactivestreams.client.Success;
 import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.File;
+import es.fandango.data.model.Info;
 import es.fandango.data.repository.FileRepository;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
+import java.util.List;
 
 @Slf4j
 @Singleton
@@ -33,31 +35,46 @@ public class FileRepositoryImpl implements FileRepository {
     }
 
     @Override
-    public Publisher<File> getFile(String fileId) {
-
-        // Build the search filter
-        Bson filter = eq(new ObjectId(fileId));
-
-        // Return the file
-        return mongoRepository
-                .fileCollection()
-                .find(filter, File.class)
-                .first();
+    public Single<List<Info>> getAllImagesInfo() {
+        // Return all imageId object list
+        return Flowable.fromPublisher(
+                mongoRepository
+                        .fileCollection()
+                        .find()
+        )
+                .map(image -> new Info(
+                        image.getId().toString(),
+                        image.getName(),
+                        image.getContentType())
+                )
+                .toList();
     }
 
     @Override
-    public String saveFileAndGetId(File file) {
+    public Maybe<File> getFile(String fileId) {
 
-        Success success = Observable.fromPublisher(
-                mongoRepository
-                        .fileCollection()
-                        .insertOne(file))
-                .blockingFirst();
+        Bson filter = eq(new ObjectId(fileId));
 
-        log.info(success.name() + " saved File with id : " + file.getId().toString());
+        // Return the image
+        return Flowable
+                .fromPublisher(
+                        mongoRepository
+                                .fileCollection()
+                                .find(filter, File.class)
+                                .limit(1)
+                ).firstElement();
+    }
 
-        return file
-                .getId()
-                .toString();
+    @Override
+    public Single<File> saveFile(File file) {
+
+        // Save and return the image
+        return Single
+                .fromPublisher(
+                        mongoRepository
+                                .fileCollection()
+                                .insertOne(file)
+                )
+                .map(success -> file);
     }
 }

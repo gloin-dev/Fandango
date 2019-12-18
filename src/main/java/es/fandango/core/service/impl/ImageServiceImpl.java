@@ -3,7 +3,7 @@ package es.fandango.core.service.impl;
 import es.fandango.core.manager.impl.ImageManagerImpl;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
-import es.fandango.data.model.ImageId;
+import es.fandango.data.model.Info;
 import es.fandango.data.model.Thumbnail;
 import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ThumbnailRepository;
@@ -59,7 +59,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Single<List<ImageId>> getAllImageIds() {
+    public Single<List<Info>> getAllImagesInfo() {
         return imageRepository.getAllImageIds();
     }
 

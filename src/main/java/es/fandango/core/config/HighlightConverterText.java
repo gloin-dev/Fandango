@@ -23,8 +23,6 @@ public class HighlightConverterText extends ForegroundCompositeConverterBase<ILo
                     default:
                         return ANSIConstants.DEFAULT_FG;
                 }
-            case Level.INFO_INT:
-                return ANSIConstants.DEFAULT_FG;
             default:
                 return ANSIConstants.DEFAULT_FG;
         }

@@ -21,7 +21,7 @@ public interface ImageManager {
      * Create the Thumbnail from the file
      *
      * @param image The original image
-     * @param file The original file
+     * @param file  The original file
      * @return The Thumbnail
      */
     Thumbnail buildThumbnail(Image image, CompletedFileUpload file);

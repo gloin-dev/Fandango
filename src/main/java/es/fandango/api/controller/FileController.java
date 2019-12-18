@@ -4,17 +4,19 @@ import es.fandango.api.response.FandangoFileResponseApi;
 import es.fandango.api.response.FandangoNewFileResponseApi;
 import es.fandango.core.service.FileService;
 import es.fandango.data.model.File;
+import es.fandango.data.model.Info;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import io.micronaut.http.multipart.StreamingFileUpload;
-import io.reactivex.Observable;
+import io.micronaut.http.multipart.CompletedFileUpload;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
-import javax.inject.Inject;
 import java.io.IOException;
+import java.util.List;
 
 @Controller("/api")
 public class FileController {
@@ -22,8 +24,27 @@ public class FileController {
     /**
      * The file service
      */
-    @Inject
-    private FileService fileService;
+    private final FileService fileService;
+
+    /**
+     * Constructor for File Controller
+     *
+     * @param fileService The file service
+     */
+    public FileController(FileService fileService) {
+        this.fileService = fileService;
+    }
+
+    /**
+     * Get the images ids
+     *
+     * @return The info ids
+     */
+    @Get("/files")
+    public Single<List<Info>> getFilesInfo() {
+        // Request all the images ids
+        return fileService.getAllFilesInfo();
+    }
 
     /**
      * Download the file by given id
@@ -31,17 +52,17 @@ public class FileController {
      * @param fileId The file id
      * @return The file
      */
-    @Get(value = "/file/{fileId}",
+    @Get(value = "/files/{fileId}",
             produces = MediaType.APPLICATION_OCTET_STREAM
     )
-    public HttpResponse getFile(String fileId) {
+    public Maybe<HttpResponse<Object>> getFile(String fileId) {
 
         // Request the file
-        Observable<File> fileById = fileService.getFileById(fileId);
+        Maybe<File> file = fileService.getFileById(fileId);
         // Build the response
-        FandangoFileResponseApi responseApi = new FandangoFileResponseApi(fileById.blockingLast());
+        FandangoFileResponseApi responseApi = new FandangoFileResponseApi(file);
         // Return the response
-        return responseApi.getResponse();
+        return responseApi.getResponseApi();
     }
 
     /**
@@ -51,16 +72,18 @@ public class FileController {
      * @return The file id
      * @throws IOException The file Exception
      */
-    @Post(uri = "/file",
+    @Post(uri = "/files",
             consumes = MediaType.MULTIPART_FORM_DATA,
             produces = MediaType.APPLICATION_JSON)
-    public HttpResponse uploadFile(@Body("file") StreamingFileUpload file) throws IOException {
+    public Maybe<HttpResponse<Object>> uploadFile(
+            @Body("file") CompletedFileUpload file
+    ) throws IOException {
 
         // Request the new file
-        String newFileId = fileService.processFileUpload(file);
+        Single<String> fileId = fileService.processFileUpload(file);
         // Build the response
-        FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(newFileId);
+        FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(fileId);
         // Return the response
-        return responseApi.getResponse();
+        return responseApi.getResponseApi();
     }
 }

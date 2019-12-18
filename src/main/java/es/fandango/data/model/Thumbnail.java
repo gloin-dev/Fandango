@@ -13,15 +13,23 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 public class Thumbnail {
 
-  /** The image _id */
-  private ObjectId id;
+    /**
+     * The image _id
+     */
+    private ObjectId id;
 
-  /** The data */
-  private byte[] data;
+    /**
+     * The data
+     */
+    private byte[] data;
 
-  /** The name */
-  private String name;
+    /**
+     * The name
+     */
+    private String name;
 
-  /** The content Type */
-  private String contentType;
+    /**
+     * The content Type
+     */
+    private String contentType;
 }
