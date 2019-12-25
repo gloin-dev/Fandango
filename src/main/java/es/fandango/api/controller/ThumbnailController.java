@@ -1,7 +1,7 @@
 package es.fandango.api.controller;
 
 import es.fandango.api.response.FandangoThumbnailResponseApi;
-import es.fandango.core.service.ImageService;
+import es.fandango.core.service.ThumbnailService;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
@@ -9,22 +9,21 @@ import io.micronaut.http.annotation.Get;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller("/api")
 public class ThumbnailController {
 
     /**
      * The image service
      */
-    private final ImageService imageService;
+    private final ThumbnailService thumbnailService;
 
     /**
      * Thumbnail Controller constructor
      *
-     * @param imageService The image service
+     * @param thumbnailService The image service
      */
-    public ThumbnailController(ImageService imageService) {
-        this.imageService = imageService;
+    public ThumbnailController(ThumbnailService thumbnailService) {
+        this.thumbnailService = thumbnailService;
     }
 
     /**
@@ -37,7 +36,7 @@ public class ThumbnailController {
     public Maybe<HttpResponse<Object>> getThumbnail(String thumbnailId) {
 
         // Request the image
-        Maybe<Thumbnail> thumbnailById = imageService.getThumbnailById(thumbnailId);
+        Maybe<Thumbnail> thumbnailById = thumbnailService.getThumbnailById(thumbnailId);
         // Build the response
         FandangoThumbnailResponseApi responseApi = new FandangoThumbnailResponseApi(thumbnailById);
         // Return the response

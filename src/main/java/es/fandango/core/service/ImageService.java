@@ -1,6 +1,7 @@
 package es.fandango.core.service;
 
 import es.fandango.data.model.Image;
+import es.fandango.data.model.ImageResized;
 import es.fandango.data.model.Info;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -28,14 +29,6 @@ public interface ImageService {
     Single<List<Info>> getAllImagesInfo();
 
     /**
-     * Get the thumbnail for given id
-     *
-     * @param thumbnailId The thumbnail id
-     * @return The thumbnail
-     */
-    Maybe<Thumbnail> getThumbnailById(String thumbnailId);
-
-    /**
      * Process and save an image upload
      *
      * @param file The Image
@@ -43,4 +36,5 @@ public interface ImageService {
      * @throws IOException A process exception
      */
     Single<String> processImageUpload(CompletedFileUpload file) throws IOException;
+
 }

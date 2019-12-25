@@ -1,6 +1,6 @@
 package es.fandango.core.service.impl;
 
-import es.fandango.core.manager.impl.ImageManagerImpl;
+import es.fandango.core.manager.ImageManager;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.Info;
@@ -24,17 +24,17 @@ public class ImageServiceImpl implements ImageService {
     /**
      * The Image repository
      */
-    ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
 
     /**
      * The Thumbnail repository
      */
-    ThumbnailRepository thumbnailRepository;
+    private final ThumbnailRepository thumbnailRepository;
 
     /**
      * The module to handle image operations
      */
-    ImageManagerImpl imageManager;
+    private final ImageManager imageManager;
 
     /**
      * Full constructor for Image Service
@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
     public ImageServiceImpl(
             ImageRepository imageRepository,
             ThumbnailRepository thumbnailRepository,
-            ImageManagerImpl imageManager
+            ImageManager imageManager
     ) {
         this.imageRepository = imageRepository;
         this.thumbnailRepository = thumbnailRepository;
@@ -61,11 +61,6 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Single<List<Info>> getAllImagesInfo() {
         return imageRepository.getAllImageIds();
-    }
-
-    @Override
-    public Maybe<Thumbnail> getThumbnailById(String thumbnailId) {
-        return thumbnailRepository.getThumbnail(thumbnailId);
     }
 
     @Override
@@ -85,7 +80,6 @@ public class ImageServiceImpl implements ImageService {
                         savedImage.toObservable(),
                         savedThumbnail.toObservable(),
                         (image1, thumbnail1) -> image.getId().toString()
-
                 ));
     }
 }

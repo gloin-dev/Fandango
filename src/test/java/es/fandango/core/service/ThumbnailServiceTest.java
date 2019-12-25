@@ -1,7 +1,5 @@
 package es.fandango.core.service;
 
-import es.fandango.data.model.Image;
-import es.fandango.data.model.Info;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -23,14 +21,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @MicronautTest
-public class ImageServiceTest {
+public class ThumbnailServiceTest {
 
     private String searchId;
+
+    @Inject
+    ThumbnailService thumbnailService;
 
     @Inject
     ImageService imageService;
@@ -72,23 +72,12 @@ public class ImageServiceTest {
 
     @Test
     @Order(2)
-    void test_getImageById() {
+    void test_getThumbnailById() {
 
-        Image image = imageService
-                .getImageById(searchId)
+        Thumbnail thumbnail = thumbnailService
+                .getThumbnailById(searchId)
                 .blockingGet();
 
-        Assertions.assertNotNull(image);
-    }
-
-    @Test
-    @Order(3)
-    void test_getAllImageIds() {
-
-        List<Info> imageIds = imageService
-                .getAllImagesInfo()
-                .blockingGet();
-
-        Assertions.assertEquals(1, imageIds.size());
+        Assertions.assertNotNull(thumbnail);
     }
 }

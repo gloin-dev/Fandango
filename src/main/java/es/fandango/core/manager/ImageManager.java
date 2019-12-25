@@ -1,6 +1,7 @@
 package es.fandango.core.manager;
 
 import es.fandango.data.model.Image;
+import es.fandango.data.model.ImageResized;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.multipart.CompletedFileUpload;
 
@@ -25,4 +26,14 @@ public interface ImageManager {
      * @return The Thumbnail
      */
     Thumbnail buildThumbnail(Image image, CompletedFileUpload file);
+
+    /**
+     * Resize the image from the original image
+     *
+     * @param image  The target image
+     * @param width  The width
+     * @param height The target height
+     * @return The Image Resized
+     */
+    ImageResized resizeImage(Image image, Integer width, Integer height);
 }

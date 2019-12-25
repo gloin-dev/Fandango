@@ -17,6 +17,10 @@ public class MongoConfigurationProperties {
   @NotBlank public
   String imageCollection;
 
+  /** image collection */
+  @NotBlank public
+  String imageResizedCollection;
+
   /** thumbnail collection */
   @NotBlank public
   String thumbnailCollection;
