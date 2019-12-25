@@ -1,0 +1,24 @@
+micronaut:
+
+  application:
+    name: fandango
+
+  server:
+    port: 8686
+    max-request-size: '20MB'
+    multipart:
+      max-file-size: '20MB'
+
+image:
+  thumbnailSize: 300
+
+jackson:
+
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+
+  serializationInclusion: always
+  deserialization:
+
+failOnUnknownProperties: false
