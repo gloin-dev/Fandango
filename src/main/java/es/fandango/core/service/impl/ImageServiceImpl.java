@@ -66,20 +66,20 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Single<String> processImageUpload(CompletedFileUpload completedFileUpload) throws IOException {
 
-        // Build the Image from the StreamingFileUpload and return the image and the File
-        Image image = imageManager.buildImageInfo(completedFileUpload);
+        // Build the Image from the StreamingFileUpload and return the image
+        Image image = imageManager.buildImage(completedFileUpload);
         // Build the thumbnail from the image
-        Thumbnail thumbnail = imageManager.buildThumbnail(image, completedFileUpload);
-        // Save the image and get the id to generate the thumbnail
+        Thumbnail thumbnail = imageManager.buildThumbnail(image);
+        // Save the image
         Single<Image> savedImage = imageRepository.saveImage(image);
-        // Save the thumbnail and get the id to generate the response
+        // Save the thumbnail
         Single<Thumbnail> savedThumbnail = thumbnailRepository.saveThumbnail(thumbnail);
         // Combine both Operations
         return Single.fromObservable(
                 Observable.zip(
                         savedImage.toObservable(),
                         savedThumbnail.toObservable(),
-                        (image1, thumbnail1) -> image.getId().toString()
+                        (outputImage, outputThumbnail) -> image.getId().toString()
                 ));
     }
 }

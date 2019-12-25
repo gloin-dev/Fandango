@@ -9,6 +9,8 @@ import es.fandango.data.model.Thumbnail;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 import javax.imageio.ImageIO;
@@ -20,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+@Slf4j(topic = "ImageManager")
 @Singleton
 @ConfigurationProperties("image")
 public class ImageManagerImpl implements ImageManager {
@@ -31,8 +34,9 @@ public class ImageManagerImpl implements ImageManager {
     public
     Integer thumbnailSize;
 
+    @SneakyThrows
     @Override
-    public Image buildImageInfo(CompletedFileUpload file) throws IOException {
+    public Image buildImage(CompletedFileUpload file) {
 
         // Get Content Type
         MediaType contentType = file
@@ -49,17 +53,21 @@ public class ImageManagerImpl implements ImageManager {
         );
     }
 
+    @SneakyThrows
     @Override
     public Thumbnail buildThumbnail(
-            Image image,
-            CompletedFileUpload file
+            Image image
     ) {
 
         // The ImageBytes
         byte[] imageBytes;
 
         // Get the resizedImage
-        BufferedImage resizedImage = generateThumbnailFromOriginalImage(file);
+        BufferedImage resizedImage = scaleImage(
+                ImageIO.read(new ByteArrayInputStream(image.getData())),
+                thumbnailSize,
+                thumbnailSize
+        );
 
         if (resizedImage != null) {
             imageBytes = toByteArrayAutoClosable(
@@ -80,8 +88,9 @@ public class ImageManagerImpl implements ImageManager {
         );
     }
 
+    @SneakyThrows
     @Override
-    public ImageResized resizeImage(
+    public ImageResized buildResizedImage(
             Image image,
             Integer width,
             Integer height
@@ -90,7 +99,11 @@ public class ImageManagerImpl implements ImageManager {
         byte[] imageBytes;
 
         // Get the resizedImage
-        BufferedImage resizedImage = scaleImage(image.getData(), width, height);
+        BufferedImage resizedImage = scaleImage(
+                ImageIO.read(new ByteArrayInputStream(image.getData())),
+                width,
+                height
+        );
 
         if (resizedImage != null) {
             imageBytes = toByteArrayAutoClosable(
@@ -117,16 +130,12 @@ public class ImageManagerImpl implements ImageManager {
     /**
      * Generate the thumbnailSize from the original image
      *
-     * @param file The original file
+     * @param image The original file
      * @return The resized image
      */
-    private BufferedImage generateThumbnailFromOriginalImage(CompletedFileUpload file) {
-
-        Integer newHeight = thumbnailSize;
-        Integer newWidth = thumbnailSize;
+    private BufferedImage scaleImage(BufferedImage image, Integer newWidth, Integer newHeight) {
 
         try {
-            BufferedImage image = ImageIO.read(file.getInputStream());
 
             // Make sure the aspect ratio is maintained, so the image is not distorted
             double thumbRatio = (double) newWidth / (double) newHeight;
@@ -162,57 +171,8 @@ public class ImageManagerImpl implements ImageManager {
             );
 
             return newImage;
-        } catch (Exception ignored) {
-            return null;
-        }
-    }
-
-    /**
-     * Generate the thumbnailSize from the original image
-     *
-     * @param file The original file
-     * @return The resized image
-     */
-    private BufferedImage scaleImage(byte[] file, Integer newWidth, Integer newHeight) {
-
-        try {
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(file));
-
-            // Make sure the aspect ratio is maintained, so the image is not distorted
-            double thumbRatio = (double) newWidth / (double) newHeight;
-            int imageWidth = image.getWidth(null);
-            int imageHeight = image.getHeight(null);
-            double aspectRatio = (double) imageWidth / (double) imageHeight;
-
-            if (thumbRatio < aspectRatio) {
-                newHeight = (int) (newWidth / aspectRatio);
-            } else {
-                newWidth = (int) (newHeight * aspectRatio);
-            }
-
-            // Draw the scaled image
-            BufferedImage newImage = new BufferedImage(
-                    newWidth,
-                    newHeight,
-                    TYPE_INT_RGB);
-
-            Graphics2D graphics2D = newImage.createGraphics();
-
-            graphics2D.setRenderingHint(
-                    RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-
-            graphics2D.drawImage(
-                    image,
-                    0,
-                    0,
-                    newWidth,
-                    newHeight,
-                    null
-            );
-
-            return newImage;
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+            log.error("Error -> {}", exception);
             return null;
         }
     }

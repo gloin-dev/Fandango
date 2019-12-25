@@ -16,16 +16,15 @@ public interface ImageManager {
      * @return The image
      * @throws IOException The exception
      */
-    Image buildImageInfo(CompletedFileUpload file) throws IOException;
+    Image buildImage(CompletedFileUpload file) throws IOException;
 
     /**
      * Create the Thumbnail from the file
      *
      * @param image The original image
-     * @param file  The original file
      * @return The Thumbnail
      */
-    Thumbnail buildThumbnail(Image image, CompletedFileUpload file);
+    Thumbnail buildThumbnail(Image image);
 
     /**
      * Resize the image from the original image
@@ -35,5 +34,9 @@ public interface ImageManager {
      * @param height The target height
      * @return The Image Resized
      */
-    ImageResized resizeImage(Image image, Integer width, Integer height);
+    ImageResized buildResizedImage(
+            Image image,
+            Integer width,
+            Integer height
+    );
 }

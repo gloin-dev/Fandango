@@ -76,7 +76,7 @@ public class ImageResizedServiceImpl implements ImageResizedService {
     ) {
         Maybe<Image> imageMaybe = imageRepository.getImage(imageId);
         Image image = imageMaybe.blockingGet();
-        ImageResized imageResized = imageManager.resizeImage(
+        ImageResized imageResized = imageManager.buildResizedImage(
                 image,
                 width,
                 height

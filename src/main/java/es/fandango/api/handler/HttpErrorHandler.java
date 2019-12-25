@@ -20,7 +20,7 @@ public class HttpErrorHandler implements ExceptionHandler<Exception, HttpRespons
 
     @Override
     public HttpResponse<Object> handle(HttpRequest request, Exception exception) {
-        log.error("Error -> {}", exception.getLocalizedMessage());
+        log.error("Error -> {}", exception);
         return HttpResponse.notFound();
     }
 }
