@@ -20,6 +20,8 @@ public class FandangoFileResponseApi extends CommonFandangoResponseApi {
                         .ok()
                         .status(200)
                         .header("Content-Type", targetFile.getContentType())
+                        .header("Content-Disposition", "inline; filename=" + targetFile.getName())
+                        .header("Content-Length", String.valueOf(targetFile.getData().length))
                         .body(targetFile.getData())
                         : HttpResponse
                         .notFound());

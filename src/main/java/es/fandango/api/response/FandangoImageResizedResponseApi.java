@@ -18,6 +18,8 @@ public class FandangoImageResizedResponseApi extends CommonFandangoResponseApi {
                         .ok()
                         .status(200)
                         .header("Content-Type", targetImage.getContentType())
+                        .header("Content-Disposition", "inline; filename=" + targetImage.getName())
+                        .header("Content-Length", String.valueOf(targetImage.getData().length))
                         .body(targetImage.getData())
                         : HttpResponse
                         .notFound());

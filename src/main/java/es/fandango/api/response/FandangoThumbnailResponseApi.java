@@ -22,6 +22,8 @@ public class FandangoThumbnailResponseApi extends CommonFandangoResponseApi {
                         .ok()
                         .status(200)
                         .header("Content-Type", targetThumbnail.getContentType())
+                        .header("Content-Disposition", "inline; filename=" + targetThumbnail.getName())
+                        .header("Content-Length", String.valueOf(targetThumbnail.getData().length))
                         .body(targetThumbnail.getData())
                         : HttpResponse
                         .notFound());
