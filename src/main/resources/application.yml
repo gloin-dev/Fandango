@@ -1,6 +1,13 @@
 micronaut:
 
-
+  openapi:
+    views:
+      spec:
+        swagger:
+          enabled: true
+        swagger-ui:
+          enabled: true
+          theme: flattop
 
   application:
     name: fandango
@@ -21,11 +28,8 @@ micronaut:
         paths: ["classpath:META-INF/swagger"]
         mapping: "/swagger/**"
       swagger-ui:
-        paths: ["classpath:META-INF/swagger-ui"]
+        paths: ["classpath:META-INF/swagger/views/swagger-ui"]
         mapping: "/swagger-ui/**"
-      redoc:
-        paths: ["classpath:META-INF/redoc"]
-        mapping: "/redoc/**"
 
 mongodb:
   uri: "mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}"

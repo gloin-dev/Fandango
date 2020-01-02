@@ -1,15 +1,12 @@
 plugins {
   id "java"
+  id "idea"
   id "application"
-  id "net.ltgt.apt-eclipse" version "0.21"
-  id "net.ltgt.apt-idea" version "0.21"
-  id "com.github.johnrengelman.shadow" version "5.1.0"
-  id "io.spring.dependency-management" version "1.0.6.RELEASE"
-  id 'org.hidetake.swagger.generator' version '2.18.1'
+  id "net.ltgt.apt-eclipse" version "$ltgtVersion"
+  id "net.ltgt.apt-idea" version "$ltgtVersion"
+  id "com.github.johnrengelman.shadow" version "$shadowVersion"
+  id "io.spring.dependency-management" version "$springManagementVersion"
 }
-
-apply plugin: 'java'
-apply plugin: 'idea'
 
 group 'es.fandango'
 version '1.0-SNAPSHOT'
@@ -30,8 +27,6 @@ dependencyManagement {
 
 dependencies {
 
-  swaggerUI 'org.webjars:swagger-ui:3.10.0'
-
   runtime "ch.qos.logback:logback-classic:$logbackClassicVersion"
 
   compile "io.micronaut:micronaut-inject-java:$micronautVersion"
@@ -48,13 +43,13 @@ dependencies {
   compile "commons-io:commons-io:$commonsioVersion"
   compile "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
   compile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-  compile "io.swagger.core.v3:swagger-annotations"
+  compile "io.swagger.core.v3:swagger-annotations:$swaggerVersion"
   compile "ch.qos.logback:logback-classic:$logbackClassicVersion"
 
   annotationProcessor "org.projectlombok:lombok:$lombokVersion"
   annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
   annotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
-  annotationProcessor "io.micronaut.configuration:micronaut-openapi"
+  annotationProcessor "io.micronaut.configuration:micronaut-openapi:$micronautOpenApiVersion"
 
   testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedmongoVersion"
   testCompile "org.projectlombok:lombok:$lombokVersion"
@@ -66,30 +61,10 @@ dependencies {
   testAnnotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
 }
 
-
-swaggerSources {
-  app {
-    inputFile = file("$buildDir/classes/java/main/META-INF/swagger/fandango-latest.yml")
-    ui {
-      outputDir = file("$buildDir/classes/java/main/META-INF/swagger-ui")
-    }
-    reDoc {
-      outputDir = file("$buildDir/classes/java/main/META-INF/redoc")
-      scriptSrc = "https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"
-    }
-    code {
-      language = 'html'  // html or html2
-    }
-  }
-}
-
-jar.finalizedBy(generateSwaggerUI)
-
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
-
 tasks.withType(JavaCompile) {
+  options.fork = true
   options.encoding = "UTF-8"
-  options.compilerArgs.add('-parameters')
+  options.forkOptions.jvmArgs << '-Dmicronaut.openapi.views.spec=swagger.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop'
 }
 
 shadowJar {
