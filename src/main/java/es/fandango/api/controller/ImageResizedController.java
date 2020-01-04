@@ -7,6 +7,8 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Maybe;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Controller("/api")
 public class ImageResizedController {
@@ -32,6 +34,13 @@ public class ImageResizedController {
      * @param imageId The image id
      * @return The image
      */
+    @Operation(
+            method = "GET",
+            description = "Get the given image resized by Id and new resolution",
+            tags = {"Images"}
+    )
+    @ApiResponse(responseCode = "404", description = "Image not found")
+    @ApiResponse(responseCode = "200", description = "The requested Image Resized")
     @Get("/images/{imageId}/{width}")
     public Maybe<HttpResponse<Object>> getResizedImage(
             String imageId,

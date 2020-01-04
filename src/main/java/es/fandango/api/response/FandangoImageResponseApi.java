@@ -1,5 +1,7 @@
 package es.fandango.api.response;
 
+import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
+
 import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.data.model.Image;
 import io.micronaut.http.HttpResponse;
@@ -20,8 +22,7 @@ public class FandangoImageResponseApi extends CommonFandangoResponseApi {
                 targetImage != null
                         ? HttpResponse
                         .ok()
-                        .status(200)
-                        .header("Content-Type", targetImage.getContentType())
+                        .header(CONTENT_TYPE, targetImage.getContentType())
                         .header("Content-Disposition", "inline; filename=" + targetImage.getName())
                         .header("Content-Length", String.valueOf(targetImage.getData().length))
                         .body(targetImage.getData())

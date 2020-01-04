@@ -1,9 +1,7 @@
 package es.fandango.core.service;
 
 import es.fandango.data.model.Image;
-import es.fandango.data.model.ImageResized;
 import es.fandango.data.model.Info;
-import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.reactivex.Maybe;
 import io.reactivex.Single;

@@ -1,11 +1,17 @@
 package es.fandango.api.response;
 
+import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
+
 import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.api.response.common.ElementId;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MediaType;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 
+/**
+ * This class build the Fandango New File response
+ */
 public class FandangoNewFileResponseApi extends CommonFandangoResponseApi {
 
     /**
@@ -17,11 +23,9 @@ public class FandangoNewFileResponseApi extends CommonFandangoResponseApi {
         this.responseApi = Maybe
                 .fromSingle(fileId)
                 .map(id ->
-
                         HttpResponse
                                 .ok()
-                                .status(200)
-                                .header("Content-Type", "application/json")
+                                .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 .body(ElementId.buildWithId(id))
                 );
     }

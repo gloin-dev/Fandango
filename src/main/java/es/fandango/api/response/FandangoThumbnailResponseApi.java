@@ -1,5 +1,7 @@
 package es.fandango.api.response;
 
+import static io.micronaut.http.HttpHeaders.*;
+
 import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.http.HttpResponse;
@@ -20,10 +22,9 @@ public class FandangoThumbnailResponseApi extends CommonFandangoResponseApi {
                 targetThumbnail != null
                         ? HttpResponse
                         .ok()
-                        .status(200)
-                        .header("Content-Type", targetThumbnail.getContentType())
-                        .header("Content-Disposition", "inline; filename=" + targetThumbnail.getName())
-                        .header("Content-Length", String.valueOf(targetThumbnail.getData().length))
+                        .header(CONTENT_TYPE, targetThumbnail.getContentType())
+                        .header(CONTENT_DISPOSITION, "inline; filename=" + targetThumbnail.getName())
+                        .header(CONTENT_LENGTH, String.valueOf(targetThumbnail.getData().length))
                         .body(targetThumbnail.getData())
                         : HttpResponse
                         .notFound());

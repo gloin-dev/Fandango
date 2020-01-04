@@ -38,6 +38,10 @@ mongodb:
   imageResizedCollection: ${MONGO_COLLECTION:resized}
   thumbnailCollection: ${MONGO_COLLECTION:thumbnails}
   fileCollection: ${MONGO_COLLECTION:files}
+  cluster:
+    maxWaitQueueSize: 5
+  connectionPool:
+    maxSize: 20
 
 image:
   thumbnailSize: 300

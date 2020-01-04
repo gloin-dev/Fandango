@@ -7,7 +7,8 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Maybe;
-import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Controller("/api")
 public class ThumbnailController {
@@ -32,6 +33,13 @@ public class ThumbnailController {
      * @param thumbnailId The thumbnail id
      * @return The thumbnail
      */
+    @Operation(
+            method = "GET",
+            description = "Get the given thumbnail by Id",
+            tags = {"Thumbnails"}
+    )
+    @ApiResponse(responseCode = "404", description = "Thumbnail not found")
+    @ApiResponse(responseCode = "200", description = "The requested Thumbnail")
     @Get("/thumbnails/{thumbnailId}")
     public Maybe<HttpResponse<Object>> getThumbnail(String thumbnailId) {
 
