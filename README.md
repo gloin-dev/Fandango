@@ -37,8 +37,8 @@ Ricardo
 rflores@gloin.es  
 
 **License:** [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-
-### /api/thumbnails/{thumbnailId}
+#
+## **/api/thumbnails/{thumbnailId}**
 
 #### GET
 ##### Description:
@@ -58,7 +58,8 @@ Get the given thumbnail by Id
 | 200 | The requested Thumbnail |
 | 404 | Thumbnail not found |
 
-### /api/images/{imageId}/{width}
+#
+## **/api/images/{imageId}/{width}**
 
 #### GET
 ##### Description:
@@ -79,17 +80,13 @@ Get the given image resized by Id and new resolution
 | 200 | The requested Image Resized |
 | 404 | Image not found |
 
-### /api/files
+#
+## **/api/files**
 
 #### GET
 ##### Description:
 
 Get the list of uploaded files
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
 
 ##### Responses
 
@@ -106,12 +103,14 @@ Upload a File
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| file | Body | The file | Yes | File |
+
 
 ##### Responses
 
 | Code | Description |
 | ---- | ----------- |
-| default |  |
+| 200 | Ok |
 
 ### /api/files/{fileId}
 
@@ -133,17 +132,13 @@ Get the given file by Id
 | 200 | The requested File |
 | 404 | File not found |
 
-### /api/images
+#
+## **/api/images**
 
 #### GET
 ##### Description:
 
 Get the list of saved images
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
 
 ##### Responses
 
@@ -160,14 +155,16 @@ Upload a Image
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| file | Body | The image | Yes | File |
 
 ##### Responses
 
 | Code | Description |
 | ---- | ----------- |
-| default |  |
+| 200 | Ok |
 
-### /api/images/{imageId}
+#
+## **/api/images/{imageId}**
 
 #### GET
 ##### Description:
