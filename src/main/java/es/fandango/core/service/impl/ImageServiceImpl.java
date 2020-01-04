@@ -9,7 +9,6 @@ import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ThumbnailRepository;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,21 +64,19 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Single<String> processImageUpload(CompletedFileUpload completedFileUpload) throws IOException {
-
-        // Build the Image from the StreamingFileUpload and return the image
+        // Build the image
         Image image = imageManager.buildImage(completedFileUpload);
-        // Build the thumbnail from the image
+        // Build the thumbnail
         Thumbnail thumbnail = imageManager.buildThumbnail(image);
         // Save the image
         Single<Image> savedImage = imageRepository.saveImage(image);
         // Save the thumbnail
         Single<Thumbnail> savedThumbnail = thumbnailRepository.saveThumbnail(thumbnail);
         // Combine both Operations
-        return Single.fromObservable(
-                Observable.zip(
-                        savedImage.toObservable(),
-                        savedThumbnail.toObservable(),
-                        (outputImage, outputThumbnail) -> image.getId().toString()
-                ));
+        return Single.zip(
+                savedImage,
+                savedThumbnail,
+                (outputImage, outputThumbnail) -> image.getId().toString()
+        );
     }
 }
