@@ -71,7 +71,7 @@ Get the given image resized by Id and new resolution
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | imageId | path | The image id | Yes | string |
-| width | path |  | Yes | integer |
+| width | path | The new width | Yes | integer |
 
 ##### Responses
 
@@ -103,7 +103,7 @@ Upload a File
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| file | Body | The file | Yes | File |
+| file | body | The file | Yes | File |
 
 
 ##### Responses
@@ -155,7 +155,7 @@ Upload a Image
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| file | Body | The image | Yes | File |
+| file | body | The image | Yes | File |
 
 ##### Responses
 
