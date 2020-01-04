@@ -26,18 +26,16 @@ Or you can use the provided docker image :
 $ docker pull vettonum/fandango
 $ docker run --net host vettonum/fandango
 ```
-## Api & Doc
-
-You can found the swagger ui on project itself in the path /swagger-ui
-
-## Version: 0.1-SNAPSHOT
-
-**Contact information:**  
+## **Contact information:**  
 Ricardo  
 rflores@gloin.es  
 
 **License:** [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-#
+
+## Api & Doc
+
+You can found the swagger ui on project itself in the path /swagger-ui
+
 ## **/api/thumbnails/{thumbnailId}**
 
 #### GET
