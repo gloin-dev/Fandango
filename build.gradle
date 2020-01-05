@@ -29,14 +29,14 @@ dependencies {
 
   runtime "ch.qos.logback:logback-classic:$logbackClassicVersion"
 
-  compile "io.micronaut:micronaut-inject-java:$micronautVersion"
   compile "io.micronaut:micronaut-inject:$micronautVersion"
+  compile "io.micronaut:micronaut-inject-java:$micronautVersion"
   compile "io.micronaut:micronaut-http-server-netty:$micronautVersion"
+  compile "io.micronaut:micronaut-http-client:$micronautVersion"
   compile "io.micronaut:micronaut-validation:$micronautVersion"
   compile "io.micronaut:micronaut-runtime:$micronautVersion"
   compile "io.micronaut:micronaut-management:$micronautVersion"
   compile "io.micronaut.configuration:micronaut-mongo-reactive:$micronautMongoVersion"
-  compile "io.micronaut.test:micronaut-test-junit5:$micronautTestVersion"
 
   compile "org.projectlombok:lombok:$lombokVersion"
   compile "javax.annotation:javax.annotation-api:$javaxVersion"
@@ -55,6 +55,7 @@ dependencies {
   testCompile "org.projectlombok:lombok:$lombokVersion"
   testCompile "io.micronaut:micronaut-inject-java:$micronautVersion"
   testCompile "io.micronaut:micronaut-inject:$micronautVersion"
+  testCompile "io.micronaut.test:micronaut-test-junit5:$micronautTestVersion"
 
   testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
   testAnnotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"

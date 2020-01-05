@@ -1,12 +1,13 @@
-package es.fandango.core.service;
+package es.fandango.core.manager;
 
+import es.fandango.data.model.Image;
+import es.fandango.data.model.ImageResized;
 import es.fandango.data.model.Thumbnail;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
 import io.micronaut.test.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
-import io.reactivex.Single;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,8 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -25,20 +28,20 @@ import java.nio.charset.Charset;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @MicronautTest
-public class ThumbnailServiceTest {
-
-    private String searchId;
+public class ImageManagerTest {
 
     @Inject
-    ThumbnailService thumbnailService;
-
-    @Inject
-    ImageService imageService;
+    ImageManager imageManager;
 
     /**
      * The file upload
      */
     private CompletedFileUpload fileUpload;
+
+    /**
+     * The generated image
+     */
+    private Image image;
 
     @BeforeAll
     void injectData() throws IOException, URISyntaxException {
@@ -55,31 +58,43 @@ public class ThumbnailServiceTest {
         );
 
         URL url = resourceResolver.getResource("classpath:files/tux.png").get();
-        diskFileUpload.setContent(new File(url.toURI()));
+        diskFileUpload.setContent(new java.io.File(url.toURI()));
         fileUpload = new NettyCompletedFileUpload(diskFileUpload);
     }
 
     @Test
     @Order(1)
-    void test_processImageUpload() throws IOException {
+    void test_buildImage() throws IOException {
 
-        Single<String> imageSingle = imageService.processImageUpload(fileUpload);
+        image = imageManager.buildImage(fileUpload);
 
-        searchId = imageSingle.blockingGet();
-
-        Assertions.assertNotNull(searchId);
+        Assertions.assertNotNull(image);
     }
 
     @Test
     @Order(2)
-    void test_getThumbnailById() {
+    void test_buildThumbnail() {
 
-        Thumbnail thumbnail = thumbnailService
-                .getThumbnailById(searchId)
-                .blockingGet();
+        Thumbnail thumbnail = imageManager.buildThumbnail(image);
 
-        Assertions.assertEquals("tux.png",thumbnail.getName());
-        Assertions.assertEquals("image/png",thumbnail.getContentType());
         Assertions.assertNotNull(thumbnail);
+    }
+
+    @Test
+    @Order(3)
+    void test_buildResizedImage() throws IOException {
+
+        ImageResized imageResized = imageManager.buildResizedImage(
+                image,
+                250,
+                300
+        );
+
+        BufferedImage buf = ImageIO.read(new ByteArrayInputStream(imageResized.getData()));
+        int height = buf.getHeight();
+        int width = buf.getWidth();
+
+        Assertions.assertEquals(300, height);
+        Assertions.assertNotNull(imageResized);
     }
 }

@@ -1,6 +1,6 @@
 package es.fandango.core.service;
 
-import es.fandango.data.model.Thumbnail;
+import es.fandango.data.model.ImageResized;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,12 +28,12 @@ import java.nio.charset.Charset;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @MicronautTest
-public class ThumbnailServiceTest {
+public class ImageResizedServiceTest {
 
     private String searchId;
 
     @Inject
-    ThumbnailService thumbnailService;
+    ImageResizedService imageResizedService;
 
     @Inject
     ImageService imageService;
@@ -72,14 +75,21 @@ public class ThumbnailServiceTest {
 
     @Test
     @Order(2)
-    void test_getThumbnailById() {
+    void test_getResizedImageById() throws IOException {
 
-        Thumbnail thumbnail = thumbnailService
-                .getThumbnailById(searchId)
+        ImageResized imageResized = imageResizedService
+                .getResizedImageById(
+                        searchId,
+                        250,
+                        300
+                )
                 .blockingGet();
 
-        Assertions.assertEquals("tux.png",thumbnail.getName());
-        Assertions.assertEquals("image/png",thumbnail.getContentType());
-        Assertions.assertNotNull(thumbnail);
+        BufferedImage buf = ImageIO.read(new ByteArrayInputStream(imageResized.getData()));
+        int height = buf.getHeight();
+        int width = buf.getWidth();
+
+        Assertions.assertEquals(300, height);
+        Assertions.assertNotNull(imageResized);
     }
 }
