@@ -20,164 +20,22 @@ You can clone the project and generate your own jar :
 ./gradlew shadowJar
 ```
 
-Or you can use the provided docker image :
+Or you can use the provided docker image with your mongodb database :
 
 ```console
 $ docker pull vettonum/fandango
 $ docker run --net host vettonum/fandango
 ```
+
+Or you can use the provided docker-compose with the mongodb image included :
+
+```console
+$ docker-compose build
+$ docker-compose up
+```
+
 ## **Contact information:**  
 Ricardo  
 rflores@gloin.es  
 
 **License:** [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-
-## Api & Doc
-
-You can found the swagger ui on project itself in the path /swagger-ui
-
-## **/api/thumbnails/{thumbnailId}**
-
-#### GET
-##### Description:
-
-Get the given thumbnail by Id
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| thumbnailId | path | The thumbnail id | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The requested Thumbnail |
-| 404 | Thumbnail not found |
-
-#
-## **/api/images/{imageId}/{width}**
-
-#### GET
-##### Description:
-
-Get the given image resized by Id and new resolution
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| imageId | path | The image id | Yes | string |
-| width | path | The new width | Yes | integer |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The requested Image Resized |
-| 404 | Image not found |
-
-#
-## **/api/files**
-
-#### GET
-##### Description:
-
-Get the list of uploaded files
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The list of saved files |
-
-#### POST
-##### Description:
-
-Upload a File
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| file | body | The file | Yes | File |
-
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Ok |
-
-### /api/files/{fileId}
-
-#### GET
-##### Description:
-
-Get the given file by Id
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| fileId | path | The file id | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The requested File |
-| 404 | File not found |
-
-#
-## **/api/images**
-
-#### GET
-##### Description:
-
-Get the list of saved images
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The list of saved images |
-
-#### POST
-##### Description:
-
-Upload a Image
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| file | body | The image | Yes | File |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Ok |
-
-#
-## **/api/images/{imageId}**
-
-#### GET
-##### Description:
-
-Get the given image by Id
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| imageId | path | The image id | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | The requested Image |
-| 404 | Image not found |
