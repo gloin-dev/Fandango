@@ -1,4 +1,4 @@
-package es.fandango.api.response;
+package es.fandango.api.response.file;
 
 import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 
@@ -27,6 +27,6 @@ public class FandangoNewFileResponseApi extends CommonFandangoResponseApi {
                                 .ok()
                                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 .body(ElementId.buildWithId(id))
-                );
+                ).toSingle();
     }
 }

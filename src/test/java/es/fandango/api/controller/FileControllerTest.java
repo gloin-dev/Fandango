@@ -87,7 +87,7 @@ public class FileControllerTest {
     @Order(2)
     @Test
     public void test_getFiles() {
-        var exchange = client.toBlocking().exchange("/files", List.class);
+        HttpResponse<List> exchange = client.toBlocking().exchange("/files", List.class);
         Assertions.assertEquals(200, exchange.code());
         Assertions.assertEquals(1, exchange.getBody().get().size());
     }

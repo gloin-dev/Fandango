@@ -1,12 +1,13 @@
 package es.fandango.api.controller;
 
-import es.fandango.api.response.FandangoImageResizedResponseApi;
+import es.fandango.api.response.imageresized.FandangoImageResizedResponseApi;
 import es.fandango.core.service.ImageResizedService;
 import es.fandango.data.model.ImageResized;
-import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
@@ -42,7 +43,7 @@ public class ImageResizedController {
     @ApiResponse(responseCode = "404", description = "Image not found")
     @ApiResponse(responseCode = "200", description = "The requested Image Resized")
     @Get("/images/{imageId}/{width}")
-    public Maybe<HttpResponse<Object>> getResizedImage(
+    public Single<MutableHttpResponse<Object>> getResizedImage(
             String imageId,
             Integer width
     ) {

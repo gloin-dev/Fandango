@@ -79,4 +79,5 @@ test {
 
 shadowJar {
   mergeServiceFiles()
+  archiveName = "fandango.jar"
 }

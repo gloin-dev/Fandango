@@ -87,7 +87,7 @@ public class ImageControllerTest {
     @Order(2)
     @Test
     public void test_getImages() {
-        var exchange = client.toBlocking().exchange("/images", List.class);
+        HttpResponse<List> exchange = client.toBlocking().exchange("/images", List.class);
         Assertions.assertEquals(200, exchange.code());
         Assertions.assertEquals(1, exchange.getBody().get().size());
     }

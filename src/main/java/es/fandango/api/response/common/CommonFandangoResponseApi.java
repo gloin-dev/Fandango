@@ -1,7 +1,7 @@
 package es.fandango.api.response.common;
 
-import io.micronaut.http.HttpResponse;
-import io.reactivex.Maybe;
+import io.micronaut.http.MutableHttpResponse;
+import io.reactivex.Single;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,5 +21,5 @@ public class CommonFandangoResponseApi {
      * The Response Api
      */
     @Schema(description = "Common response for data stream")
-    public Maybe<HttpResponse<Object>> responseApi;
+    public Single<MutableHttpResponse<Object>> responseApi;
 }

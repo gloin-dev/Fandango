@@ -6,12 +6,12 @@
 
     <contextName>fandango</contextName>
 
-    <conversionRule conversionWord="highlightext" converterClass="es.fandango.core.config.HighlightConverterText"/>
+    <conversionRule conversionWord="highlightext" converterClass="es.fandango.api.filter.HighlightConverterText"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <withJansi>true</withJansi>
         <encoder>
-            <pattern>%green(%d{yyyy-MM-dd}) | %yellow(%d{HH:mm:ss.SSS}) | %highlight(%5p) | %cyan(%-21.21logger{0}) | %highlightext(%msg%n)
+            <pattern>%green(%d{yyyy-MM-dd}) | %yellow(%d{HH:mm:ss.SSS}) | %highlight(%5p) | %cyan(%-12.12logger{0}) | %highlightext(%msg%n)
             </pattern>
             <charset>utf8</charset>
         </encoder>
@@ -21,7 +21,7 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="io.micronaut.http.server.netty.NettyHttpServer" level="DEBUG"/>
+    <logger name="io.micronaut.http.server.netty.NettyHttpServer" level="OFF"/>
     <logger name="io.micronaut.http.server.netty.RoutingInBoundHandler" level="OFF"/>
     <logger name="io.micronaut.context" level="INFO"/>
     <logger name="io.netty.handler.logging" level="ERROR"/>

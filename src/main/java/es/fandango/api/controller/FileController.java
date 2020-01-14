@@ -1,13 +1,13 @@
 package es.fandango.api.controller;
 
-import es.fandango.api.response.FandangoFileResponseApi;
-import es.fandango.api.response.FandangoNewFileResponseApi;
+import es.fandango.api.response.file.FandangoFileResponseApi;
+import es.fandango.api.response.file.FandangoNewFileResponseApi;
 import es.fandango.api.response.common.ElementId;
 import es.fandango.core.service.FileService;
 import es.fandango.data.model.File;
 import es.fandango.data.model.Info;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -77,7 +77,7 @@ public class FileController {
     @Get(value = "/files/{fileId}",
             produces = MediaType.APPLICATION_OCTET_STREAM
     )
-    public Maybe<HttpResponse<Object>> getFile(String fileId) {
+    public Single<MutableHttpResponse<Object>> getFile(String fileId) {
 
         // Request the file
         Maybe<File> file = fileService.getFileById(fileId);
@@ -114,7 +114,7 @@ public class FileController {
     @Post(uri = "/files",
             consumes = MediaType.MULTIPART_FORM_DATA,
             produces = MediaType.APPLICATION_JSON)
-    public Maybe<HttpResponse<Object>> uploadFile(
+    public Single<MutableHttpResponse<Object>> uploadFile(
             @Body("file") CompletedFileUpload file
     ) throws IOException {
 

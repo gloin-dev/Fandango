@@ -1,12 +1,13 @@
 package es.fandango.api.controller;
 
-import es.fandango.api.response.FandangoThumbnailResponseApi;
+import es.fandango.api.response.thumbnail.FandangoThumbnailResponseApi;
 import es.fandango.core.service.ThumbnailService;
 import es.fandango.data.model.Thumbnail;
-import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
@@ -41,7 +42,7 @@ public class ThumbnailController {
     @ApiResponse(responseCode = "404", description = "Thumbnail not found")
     @ApiResponse(responseCode = "200", description = "The requested Thumbnail")
     @Get("/thumbnails/{thumbnailId}")
-    public Maybe<HttpResponse<Object>> getThumbnail(String thumbnailId) {
+    public Single<MutableHttpResponse<Object>> getThumbnail(String thumbnailId) {
 
         // Request the image
         Maybe<Thumbnail> thumbnailById = thumbnailService.getThumbnailById(thumbnailId);

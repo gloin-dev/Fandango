@@ -1,13 +1,13 @@
 package es.fandango.api.controller;
 
-import es.fandango.api.response.FandangoImageResponseApi;
-import es.fandango.api.response.FandangoNewImageResponseApi;
+import es.fandango.api.response.image.FandangoImageResponseApi;
+import es.fandango.api.response.image.FandangoNewImageResponseApi;
 import es.fandango.api.response.common.ElementId;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.Info;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -73,7 +73,7 @@ public class ImageController {
     @ApiResponse(responseCode = "404", description = "Image not found")
     @ApiResponse(responseCode = "200", description = "The requested Image")
     @Get("/images/{imageId}")
-    public Maybe<HttpResponse<Object>> getImage(String imageId) {
+    public Single<MutableHttpResponse<Object>> getImage(String imageId) {
         // Request the image
         Maybe<Image> image = imageService.getImageById(imageId);
         // Build the response
@@ -110,7 +110,7 @@ public class ImageController {
             consumes = MediaType.MULTIPART_FORM_DATA,
             produces = MediaType.APPLICATION_JSON
     )
-    public Maybe<HttpResponse<Object>> uploadImage(
+    public Single<MutableHttpResponse<Object>> uploadImage(
             @Body("file") CompletedFileUpload file
     ) throws IOException {
 

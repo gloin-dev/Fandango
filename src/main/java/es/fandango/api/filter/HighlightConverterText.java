@@ -1,4 +1,4 @@
-package es.fandango.core.config;
+package es.fandango.api.filter;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -16,10 +16,11 @@ public class HighlightConverterText extends ForegroundCompositeConverterBase<ILo
             case Level.WARN_INT:
                 return ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
             case Level.DEBUG_INT:
+                return ANSIConstants.BOLD + ANSIConstants.GREEN_FG;
+            case Level.INFO_INT:
                 switch (event.getLoggerName()) {
-                    // Customize colors for INFO
-                    case "io.micronaut.http.server.netty.NettyHttpServer":
-                        return ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
+                    case "HttpRequest":
+                        return ANSIConstants.BOLD + ANSIConstants.BLUE_FG;
                     default:
                         return ANSIConstants.DEFAULT_FG;
                 }
