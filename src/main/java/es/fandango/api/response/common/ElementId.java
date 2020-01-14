@@ -1,11 +1,15 @@
 package es.fandango.api.response.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Element to wrap id of new elements when upload
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ElementId {
 
@@ -14,17 +18,6 @@ public class ElementId {
 
     @JsonProperty("status")
     private Boolean status;
-
-    /**
-     * Private constructor
-     *
-     * @param id     The id
-     * @param status The status
-     */
-    private ElementId(String id, Boolean status) {
-        this.id = id;
-        this.status = status;
-    }
 
     public static ElementId buildWithId(String id) {
         return new ElementId(id, true);
