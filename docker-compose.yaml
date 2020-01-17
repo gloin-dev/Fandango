@@ -13,6 +13,32 @@ services:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
 
+  prometheus:
+    image: prom/prometheus:v2.9.2
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    network_mode: 'host'
+    logging:
+      driver: none
+
+  grafana:
+    image: grafana/grafana:6.3.5
+    volumes:
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    ports:
+      - 3000:3000
+    network_mode: 'host'
+    logging:
+      driver: none
+
   fandango:
     build: .
     container_name: fandango
