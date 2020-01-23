@@ -5,12 +5,14 @@ import static io.micronaut.http.HttpHeaders.*;
 import es.fandango.api.response.common.CommonFandangoResponseApi;
 import es.fandango.api.response.common.ElementId;
 import es.fandango.data.model.Thumbnail;
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.HttpResponse;
 import io.reactivex.Maybe;
 
 /**
  * This class build the Fandango Image response
  */
+@Introspected
 public class FandangoThumbnailResponseApi extends CommonFandangoResponseApi {
 
     /**

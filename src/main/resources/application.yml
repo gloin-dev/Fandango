@@ -1,3 +1,4 @@
+#tag::micronaut[]
 micronaut:
 
   application:
@@ -38,11 +39,15 @@ micronaut:
       swagger-ui:
         paths: ["classpath:META-INF/swagger/views/swagger-ui"]
         mapping: "/swagger-ui/**"
+#end::micronaut[]
 
+#tag::endpoints[]
 endpoints:
   prometheus:
     sensitive: false
+#end::endpoints[]
 
+#tag::mongodb[]
 mongodb:
   uri: "mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}"
   database: ${MONGO_DATABASE:fandango}
@@ -54,17 +59,25 @@ mongodb:
     maxWaitQueueSize: 5
   connectionPool:
     maxSize: 20
+#end::mongodb[]
 
+#tag::image[]
 image:
+  # Default image thumbnail generator width size
   thumbnailSize: 300
+#end::image[]
 
+#tag::jackson[]
 jackson:
+
+  bean-introspection-module: true
 
   serialization:
     indentOutput: true
     writeDatesAsTimestamps: false
+    failOnEmptyBeans: false
 
-  serializationInclusion: always
   deserialization:
-
-failOnUnknownProperties: false
+    useBigIntegerForInts: true
+    failOnUnknownProperties: false
+#end::jackson[]

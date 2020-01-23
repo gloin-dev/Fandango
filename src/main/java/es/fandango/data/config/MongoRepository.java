@@ -7,10 +7,9 @@ import es.fandango.data.model.File;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.ImageResized;
 import es.fandango.data.model.Thumbnail;
+import io.micronaut.context.annotation.Context;
 
-import javax.inject.Singleton;
-
-@Singleton
+@Context
 public class MongoRepository {
 
 

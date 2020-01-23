@@ -1,0 +1,28 @@
+# Gradle with JDK 8 to compile JAR
+FROM gradle:6.0.1-jdk8 as gradleBuild
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY --chown=gradle:gradle . $APP_HOME
+RUN gradle build -Denv=prod -x test --no-daemon
+
+# oracle/graalvm-ce docker image
+FROM oracle/graalvm-ce:19.2.1 as graalvm
+ARG ARG_ARTIFACT_NAME=fandango.jar
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY --from=gradleBuild $APP_HOME/build/libs/$ARG_ARTIFACT_NAME .
+RUN gu install native-image
+RUN native-image --version
+RUN native-image \
+    --initialize-at-run-time="io.micronaut.configuration.mongo.reactive.test.AbstractMongoProcessFactory" \
+    --initialize-at-build-time=io.micrometer.core,io.micrometer.prometheus,io.micrometer.shaded.org.pcollections \
+    -cp ${ARG_ARTIFACT_NAME}
+
+# minimal linux image with glibc to run binary image
+FROM frolvlad/alpine-glibc
+ARG ARG_ARTIFACT_BIN_NAME=fandango
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY --from=graalvm $APP_HOME/$ARG_ARTIFACT_BIN_NAME .
+EXPOSE 8585
+ENTRYPOINT ["./fandango"]
