@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 @Slf4j(topic = "ImageManager")
 @Singleton
@@ -53,31 +52,18 @@ public class ImageManagerImpl implements ImageManager {
         );
     }
 
-    @SneakyThrows
     @Override
     public Thumbnail buildThumbnail(
             Image image
     ) {
 
-        // The ImageBytes
-        byte[] imageBytes;
-
         // Get the resizedImage
-        BufferedImage resizedImage = scaleImage(
-                ImageIO.read(new ByteArrayInputStream(image.getData())),
+        byte[] imageBytes = scaleImage(
+                image.getData(),
+                image.getContentType().split("/")[1],
                 thumbnailSize,
                 thumbnailSize
         );
-
-        if (resizedImage != null) {
-            imageBytes = toByteArrayAutoClosable(
-                    resizedImage,
-                    image.getContentType().split("/")[1]
-            );
-        } else {
-            // If there are some error, use original image ?
-            imageBytes = image.getData();
-        }
 
         // Build thumbnailSize pojo
         return new Thumbnail(
@@ -88,32 +74,20 @@ public class ImageManagerImpl implements ImageManager {
         );
     }
 
-    @SneakyThrows
     @Override
     public ImageResized buildResizedImage(
             Image image,
             Integer width,
             Integer height
     ) {
-        // The ImageBytes
-        byte[] imageBytes;
 
-        // Get the resizedImage
-        BufferedImage resizedImage = scaleImage(
-                ImageIO.read(new ByteArrayInputStream(image.getData())),
+        // The ImageBytes
+        byte[] imageBytes = scaleImage(
+                image.getData(),
+                image.getContentType().split("/")[1],
                 width,
                 height
         );
-
-        if (resizedImage != null) {
-            imageBytes = toByteArrayAutoClosable(
-                    resizedImage,
-                    image.getContentType().split("/")[1]
-            );
-        } else {
-            // If there are some error, use original image ?
-            imageBytes = image.getData();
-        }
 
         // Build thumbnailSize pojo
         return new ImageResized(
@@ -130,12 +104,22 @@ public class ImageManagerImpl implements ImageManager {
     /**
      * Generate the thumbnailSize from the original image
      *
-     * @param image The original file
+     * @param originalImage The original image
      * @return The resized image
      */
-    private BufferedImage scaleImage(BufferedImage image, Integer newWidth, Integer newHeight) {
+    private byte[] scaleImage(
+            byte[] originalImage,
+            String contentType,
+            Integer newWidth,
+            Integer newHeight
+    ) {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(originalImage);
 
         try {
+
+            BufferedImage image = ImageIO.read(byteArrayInputStream);
 
             // Make sure the aspect ratio is maintained, so the image is not distorted
             double thumbRatio = (double) newWidth / (double) newHeight;
@@ -170,31 +154,16 @@ public class ImageManagerImpl implements ImageManager {
                     null
             );
 
-            return newImage;
+            ImageIO.write(
+                    newImage,
+                    contentType,
+                    outputStream
+            );
+
+            return outputStream.toByteArray();
         } catch (Exception exception) {
             log.error("Error -> {}", exception);
-            return null;
-        }
-    }
-
-    /**
-     * Build byte image from BufferedImage
-     *
-     * @param image The image
-     * @param type  The type
-     * @return The byte result image
-     */
-    private byte[] toByteArrayAutoClosable(
-            BufferedImage image,
-            String type
-    ) {
-        try {
-            try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-                ImageIO.write(image, type, out);
-                return out.toByteArray();
-            }
-        } catch (IOException e) {
-            return new byte[0];
+            return originalImage;
         }
     }
 }
