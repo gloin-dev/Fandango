@@ -15,24 +15,25 @@ public class FileManagerImpl implements FileManager {
     /**
      * Convert the input stream to file
      *
-     * @param streamingFileUpload The uploaded file
+     * @param file The uploaded file
      * @return The File object
      * @throws IOException The Exception
      */
     @Override
-    public File buildFile(CompletedFileUpload streamingFileUpload) throws IOException {
+    public File buildFile(CompletedFileUpload file) throws IOException {
 
         // Get Content Type
-        MediaType contentType = streamingFileUpload
+        MediaType contentType = file
                 .getContentType()
                 .orElse(new MediaType("*/*")
                 );
 
         return new File(
                 new ObjectId(),
-                streamingFileUpload.getBytes(),
-                streamingFileUpload.getFilename(),
-                contentType.getName()
+                file.getBytes(),
+                file.getFilename(),
+                contentType.getName(),
+                file.getSize()
         );
     }
 }

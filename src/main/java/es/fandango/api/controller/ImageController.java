@@ -5,7 +5,7 @@ import es.fandango.api.response.image.FandangoNewImageResponseApi;
 import es.fandango.api.response.common.ElementId;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Body;

@@ -1,7 +1,7 @@
 package es.fandango.core.service;
 
 import es.fandango.data.model.File;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;

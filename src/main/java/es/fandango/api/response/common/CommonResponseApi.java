@@ -17,11 +17,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @Introspected
-public class CommonFandangoResponseApi {
+public class CommonResponseApi {
 
     /**
      * The Response Api
      */
     @Schema(description = "Common response for data stream")
     public Single<MutableHttpResponse<Object>> responseApi;
+
 }

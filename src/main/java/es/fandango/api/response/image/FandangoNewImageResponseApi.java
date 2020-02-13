@@ -2,7 +2,7 @@ package es.fandango.api.response.image;
 
 import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 
-import es.fandango.api.response.common.CommonFandangoResponseApi;
+import es.fandango.api.response.common.CommonResponseApi;
 import es.fandango.api.response.common.ElementId;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.HttpResponse;
@@ -14,7 +14,7 @@ import io.reactivex.Single;
  * This class build the Fandango New Image response
  */
 @Introspected
-public class FandangoNewImageResponseApi extends CommonFandangoResponseApi {
+public class FandangoNewImageResponseApi extends CommonResponseApi {
 
     /**
      * The constructor for Fandango New Image Response

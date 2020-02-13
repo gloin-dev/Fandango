@@ -1,37 +1,34 @@
 package es.fandango.data.model;
 
+import es.fandango.data.model.common.CommonDataModel;
 import io.micronaut.core.annotation.Introspected;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.bson.types.ObjectId;
 
 /**
  * Pojo for Image
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Introspected
-public class Image {
+public class Image extends CommonDataModel {
 
-    /**
-     * The image _id
-     */
-    private ObjectId id;
-
-    /**
-     * The data
-     */
-    private byte[] data;
-
-    /**
-     * The name
-     */
-    private String name;
-
-    /**
-     * The content Type
-     */
-    private String contentType;
+    @Builder
+    public Image(
+            ObjectId id,
+            byte[] data,
+            String name,
+            String contentType,
+            Long length
+    ) {
+        super(id, data, name, contentType, length);
+    }
 }

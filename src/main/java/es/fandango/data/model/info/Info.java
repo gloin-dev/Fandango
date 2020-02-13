@@ -1,4 +1,4 @@
-package es.fandango.data.model;
+package es.fandango.data.model.info;
 
 import io.micronaut.core.annotation.Introspected;
 import lombok.AllArgsConstructor;
@@ -28,4 +28,9 @@ public class Info {
      * The content Type
      */
     private String contentType;
+
+    /**
+     * The file length
+     */
+    private Long length;
 }

@@ -4,7 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.Image;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import es.fandango.data.repository.ImageRepository;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -46,8 +46,9 @@ public class ImageRepositoryImpl implements ImageRepository {
                 .map(image -> new Info(
                         image.getId().toString(),
                         image.getName(),
-                        image.getContentType())
-                )
+                        image.getContentType(),
+                        image.getLength()
+                ))
                 .toList();
     }
 

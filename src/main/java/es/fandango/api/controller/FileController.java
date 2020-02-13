@@ -5,7 +5,7 @@ import es.fandango.api.response.file.FandangoFileResponseApi;
 import es.fandango.api.response.file.FandangoNewFileResponseApi;
 import es.fandango.core.service.FileService;
 import es.fandango.data.model.File;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Body;

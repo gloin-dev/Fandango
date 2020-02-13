@@ -48,7 +48,8 @@ public class ImageManagerImpl implements ImageManager {
                 new ObjectId(),
                 file.getBytes(),
                 file.getFilename(),
-                contentType.getName()
+                contentType.getName(),
+                file.getSize()
         );
     }
 
@@ -70,7 +71,8 @@ public class ImageManagerImpl implements ImageManager {
                 image.getId(),
                 imageBytes,
                 image.getName(),
-                image.getContentType()
+                image.getContentType(),
+                (long) imageBytes.length
         );
     }
 
@@ -92,12 +94,13 @@ public class ImageManagerImpl implements ImageManager {
         // Build thumbnailSize pojo
         return new ImageResized(
                 new ObjectId(),
-                image.getId().toString().concat(String.valueOf(width)),
                 imageBytes,
                 image.getName(),
                 image.getContentType(),
+                image.getId().toString().concat(String.valueOf(width)),
                 width,
-                height
+                height,
+                (long) imageBytes.length
         );
     }
 

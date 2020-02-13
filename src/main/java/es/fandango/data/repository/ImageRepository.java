@@ -1,7 +1,7 @@
 package es.fandango.data.repository;
 
 import es.fandango.data.model.Image;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 

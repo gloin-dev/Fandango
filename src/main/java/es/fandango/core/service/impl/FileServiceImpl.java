@@ -3,7 +3,7 @@ package es.fandango.core.service.impl;
 import es.fandango.core.manager.FileManager;
 import es.fandango.core.service.FileService;
 import es.fandango.data.model.File;
-import es.fandango.data.model.Info;
+import es.fandango.data.model.info.Info;
 import es.fandango.data.repository.FileRepository;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.reactivex.Maybe;

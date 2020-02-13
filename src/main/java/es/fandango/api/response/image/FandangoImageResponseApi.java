@@ -1,19 +1,16 @@
 package es.fandango.api.response.image;
 
-import static io.micronaut.http.HttpHeaders.*;
-
-import es.fandango.api.response.common.CommonFandangoResponseApi;
-import es.fandango.api.response.common.ElementId;
+import es.fandango.api.response.common.CommonResponseApi;
+import es.fandango.api.response.common.CommonResponseApiBuilder;
 import es.fandango.data.model.Image;
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.http.HttpResponse;
 import io.reactivex.Maybe;
 
 /**
  * This class build the Fandango Image response
  */
 @Introspected
-public class FandangoImageResponseApi extends CommonFandangoResponseApi {
+public class FandangoImageResponseApi extends CommonResponseApi {
 
     /**
      * The constructor for Fandango Image Response
@@ -22,17 +19,19 @@ public class FandangoImageResponseApi extends CommonFandangoResponseApi {
      */
     public FandangoImageResponseApi(Maybe<Image> image) {
         this.responseApi = image
-                .map(targetImage ->
-                        HttpResponse
-                                .ok()
-                                .header(CONTENT_TYPE, targetImage.getContentType())
-                                .header(CONTENT_DISPOSITION, "inline; filename=" + targetImage.getName())
-                                .header(CONTENT_LENGTH, String.valueOf(targetImage.getData().length))
-                                .body(targetImage.getData())
-                ).toSingle(
-                        HttpResponse
-                                .notFound()
-                                .body(ElementId.notFound())
+                .map(targetFile ->
+                        CommonResponseApiBuilder
+                                .Builder()
+                                .contentType(targetFile.getContentType())
+                                .filename(targetFile.getName())
+                                .length(targetFile.getLength())
+                                .data(targetFile.getData())
+                                .buildResponse()
+                )
+                .toSingle(
+                        CommonResponseApiBuilder
+                                .Builder()
+                                .buildNotFoundResponse()
                 );
     }
 }
