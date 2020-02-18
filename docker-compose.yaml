@@ -40,8 +40,9 @@ services:
       driver: none
 
   fandango:
-    build: Dockerfile
-    container_name: fandango
+    #build: Dockerfile
+    #container_name: fandango
+    image: vettonum/fandango:latest
     network_mode: 'host'
     depends_on:
       - mongodb
