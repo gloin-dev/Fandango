@@ -18,14 +18,19 @@ import org.bson.types.ObjectId;
 @ToString(callSuper = true)
 @Introspected
 public class ImageResized extends CommonDataModel {
-
-    /** The search id */
+    /**
+     * The search id
+     */
     private String searchId;
 
-    /** The image width */
+    /**
+     * The image width
+     */
     private Integer width;
 
-    /** The image height */
+    /**
+     * The image height
+     */
     private Integer height;
 
     @Builder
@@ -44,5 +49,4 @@ public class ImageResized extends CommonDataModel {
         this.width = width;
         this.height = height;
     }
-
 }

@@ -19,21 +19,13 @@ public class FandangoFileResponseApi extends CommonResponseApi {
      */
     public FandangoFileResponseApi(Maybe<File> file) {
         this.responseApi = file
-                .map(targetFile ->
-                        CommonResponseApiBuilder
-                                .Builder()
-                                .contentType(targetFile.getContentType())
-                                .filename(targetFile.getName())
-                                .length(targetFile.getLength())
-                                .data(targetFile.getData())
-                                .buildResponse()
+                .map(targetFile -> CommonResponseApiBuilder.Builder()
+                        .contentType(targetFile.getContentType())
+                        .filename(targetFile.getName())
+                        .length(targetFile.getLength())
+                        .data(targetFile.getData())
+                        .buildResponse()
                 )
-                .toSingle(
-                        CommonResponseApiBuilder
-                                .Builder()
-                                .buildNotFoundResponse()
-                );
-
-
+                .toSingle(CommonResponseApiBuilder.Builder().buildNotFoundResponse());
     }
 }

@@ -15,5 +15,4 @@ public interface FileManager {
      * @throws IOException The exception
      */
     File buildFile(CompletedFileUpload streamingFileUpload) throws IOException;
-
 }

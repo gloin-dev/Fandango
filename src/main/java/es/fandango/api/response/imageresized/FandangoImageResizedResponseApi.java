@@ -19,19 +19,14 @@ public class FandangoImageResizedResponseApi extends CommonResponseApi {
      */
     public FandangoImageResizedResponseApi(Maybe<ImageResized> imageResized) {
         this.responseApi = imageResized
-                .map(targetFile ->
-                        CommonResponseApiBuilder
-                                .Builder()
+                .map(
+                        targetFile -> CommonResponseApiBuilder.Builder()
                                 .contentType(targetFile.getContentType())
                                 .filename(targetFile.getName())
                                 .length(targetFile.getLength())
                                 .data(targetFile.getData())
                                 .buildResponse()
                 )
-                .toSingle(
-                        CommonResponseApiBuilder
-                                .Builder()
-                                .buildNotFoundResponse()
-                );
+                .toSingle(CommonResponseApiBuilder.Builder().buildNotFoundResponse());
     }
 }

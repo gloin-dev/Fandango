@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 @AllArgsConstructor
 @Introspected
 public class CommonDataModel {
-
     /**
      * The file _id
      */

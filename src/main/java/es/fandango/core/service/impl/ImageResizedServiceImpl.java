@@ -8,6 +8,8 @@ import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ImageResizedRepository;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
@@ -54,35 +56,42 @@ public class ImageResizedServiceImpl implements ImageResizedService {
     ) {
 
         // Find the image
-        Single<ImageResized> imageResized = imageResizedRepository.getImageResized(
+        Maybe<ImageResized> imageResized = imageResizedRepository.getImageResized(
                 imageId,
                 width,
                 height
         );
 
-        return Maybe.fromSingle(imageResized
-                .doOnSuccess(imageResized1 -> log.info("Recovered resized image : {}", imageResized1.getName()))
-                .onErrorReturn(throwable -> buildNewResizedImage(
-                        imageId,
-                        width,
-                        height))
-        );
+        return imageResized
+                .switchIfEmpty(
+                        Maybe.fromSingle(
+                                buildNewResizedImage(
+                                        imageId,
+                                        width,
+                                        height
+                                )
+                        )
+                );
     }
 
-    private ImageResized buildNewResizedImage(
+    private Single<ImageResized> buildNewResizedImage(
             String imageId,
             Integer width,
             Integer height
     ) {
         Maybe<Image> imageMaybe = imageRepository.getImage(imageId);
-        Image image = imageMaybe.blockingGet();
-        ImageResized imageResized = imageManager.buildResizedImage(
-                image,
-                width,
-                height
-        );
-        imageResizedRepository.saveImageResized(imageResized);
-        return imageResized;
 
+        return imageMaybe
+                .switchIfEmpty(Maybe.never())
+                .flatMapSingle((Function<Image, SingleSource<ImageResized>>) image -> {
+
+                    ImageResized imageResized = imageManager.buildResizedImage(
+                            image,
+                            width,
+                            height
+                    );
+
+                    return imageResizedRepository.saveImageResized(imageResized);
+                });
     }
 }

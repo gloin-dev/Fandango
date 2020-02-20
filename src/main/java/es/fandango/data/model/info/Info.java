@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Introspected
 public class Info {
-
     /**
      * The target id
      */

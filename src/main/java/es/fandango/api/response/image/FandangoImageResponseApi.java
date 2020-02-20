@@ -18,20 +18,15 @@ public class FandangoImageResponseApi extends CommonResponseApi {
      * @param image The image
      */
     public FandangoImageResponseApi(Maybe<Image> image) {
-        this.responseApi = image
-                .map(targetFile ->
-                        CommonResponseApiBuilder
-                                .Builder()
+        this.responseApi =
+                image.map(
+                        targetFile -> CommonResponseApiBuilder.Builder()
                                 .contentType(targetFile.getContentType())
                                 .filename(targetFile.getName())
                                 .length(targetFile.getLength())
                                 .data(targetFile.getData())
                                 .buildResponse()
                 )
-                .toSingle(
-                        CommonResponseApiBuilder
-                                .Builder()
-                                .buildNotFoundResponse()
-                );
+                        .toSingle(CommonResponseApiBuilder.Builder().buildNotFoundResponse());
     }
 }

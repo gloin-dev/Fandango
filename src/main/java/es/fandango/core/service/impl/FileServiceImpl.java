@@ -51,7 +51,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Single<String> processFileUpload(CompletedFileUpload fileUpload) throws IOException {
-
         // Build the file from stream
         File file = fileManager.buildFile(fileUpload);
         // Save and return the file id

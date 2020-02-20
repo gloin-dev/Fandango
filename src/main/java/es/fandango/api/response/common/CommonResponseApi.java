@@ -18,11 +18,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Introspected
 public class CommonResponseApi {
-
     /**
      * The Response Api
      */
     @Schema(description = "Common response for data stream")
     public Single<MutableHttpResponse<Object>> responseApi;
-
 }

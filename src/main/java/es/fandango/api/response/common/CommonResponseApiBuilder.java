@@ -21,7 +21,6 @@ public class CommonResponseApiBuilder {
 
     private byte[] data;
 
-
     /**
      * The builder class entry point
      *
@@ -81,8 +80,7 @@ public class CommonResponseApiBuilder {
      * @return The Http Entity
      */
     public MutableHttpResponse<Object> buildResponse() {
-        return HttpResponse
-                .ok()
+        return HttpResponse.ok()
                 .header(CONTENT_TYPE, contentType)
                 .header(CONTENT_DISPOSITION, "inline; filename=" + filename)
                 .header(CONTENT_LENGTH, String.valueOf(length))
@@ -95,8 +93,6 @@ public class CommonResponseApiBuilder {
      * @return The Http Entity
      */
     public MutableHttpResponse<Object> buildNotFoundResponse() {
-        return HttpResponse
-                .notFound()
-                .body(ElementId.notFound());
+        return HttpResponse.notFound().body(ElementId.notFound());
     }
 }

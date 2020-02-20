@@ -45,9 +45,9 @@ public class ThumbnailController {
     public Single<MutableHttpResponse<Object>> getThumbnail(String thumbnailId) {
 
         // Request the image
-        Maybe<Thumbnail> thumbnailById = thumbnailService.getThumbnailById(thumbnailId);
+        final Maybe<Thumbnail> thumbnailById = thumbnailService.getThumbnailById(thumbnailId);
         // Build the response
-        FandangoThumbnailResponseApi responseApi = new FandangoThumbnailResponseApi(thumbnailById);
+        final FandangoThumbnailResponseApi responseApi = new FandangoThumbnailResponseApi(thumbnailById);
         // Return the response
         return responseApi.getResponseApi();
     }

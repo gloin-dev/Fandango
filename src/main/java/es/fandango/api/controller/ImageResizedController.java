@@ -48,13 +48,13 @@ public class ImageResizedController {
             Integer width
     ) {
         // Request the resized image
-        Maybe<ImageResized> imageResized = imageResizedService.getResizedImageById(
+        final Maybe<ImageResized> imageResized = imageResizedService.getResizedImageById(
                 imageId,
                 width,
                 width
         );
         // Build the response
-        FandangoImageResizedResponseApi responseApi = new FandangoImageResizedResponseApi(imageResized);
+        final FandangoImageResizedResponseApi responseApi = new FandangoImageResizedResponseApi(imageResized);
         // Return the response
         return responseApi.getResponseApi();
     }

@@ -1,6 +1,7 @@
 package es.fandango.data.repository;
 
 import es.fandango.data.model.ImageResized;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 public interface ImageResizedRepository {
@@ -13,7 +14,7 @@ public interface ImageResizedRepository {
      * @param height  The height
      * @return The result
      */
-    Single<ImageResized> getImageResized(
+    Maybe<ImageResized> getImageResized(
             String imageId,
             Integer width,
             Integer height

@@ -25,23 +25,19 @@ import java.io.ByteArrayOutputStream;
 @Singleton
 @ConfigurationProperties("image")
 public class ImageManagerImpl implements ImageManager {
-
     /**
      * Thumbnail size
      */
     @NotBlank
-    public
-    Integer thumbnailSize;
+    public Integer thumbnailSize;
 
     @SneakyThrows
     @Override
     public Image buildImage(CompletedFileUpload file) {
-
         // Get Content Type
         MediaType contentType = file
                 .getContentType()
-                .orElse(new MediaType("*/*")
-                );
+                .orElse(new MediaType("*/*"));
 
         // Build the image
         return new Image(
@@ -54,10 +50,7 @@ public class ImageManagerImpl implements ImageManager {
     }
 
     @Override
-    public Thumbnail buildThumbnail(
-            Image image
-    ) {
-
+    public Thumbnail buildThumbnail(Image image) {
         // Get the resizedImage
         byte[] imageBytes = scaleImage(
                 image.getData(),
@@ -82,7 +75,6 @@ public class ImageManagerImpl implements ImageManager {
             Integer width,
             Integer height
     ) {
-
         // The ImageBytes
         byte[] imageBytes = scaleImage(
                 image.getData(),
@@ -116,9 +108,9 @@ public class ImageManagerImpl implements ImageManager {
             Integer newWidth,
             Integer newHeight
     ) {
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(originalImage);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+                originalImage
+        );
 
         try {
 
@@ -140,13 +132,15 @@ public class ImageManagerImpl implements ImageManager {
             BufferedImage newImage = new BufferedImage(
                     newWidth,
                     newHeight,
-                    TYPE_INT_RGB);
+                    TYPE_INT_RGB
+            );
 
             Graphics2D graphics2D = newImage.createGraphics();
 
             graphics2D.setRenderingHint(
                     RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR
+            );
 
             graphics2D.drawImage(
                     image,
@@ -157,6 +151,8 @@ public class ImageManagerImpl implements ImageManager {
                     null
             );
 
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
             ImageIO.write(
                     newImage,
                     contentType,
@@ -165,7 +161,7 @@ public class ImageManagerImpl implements ImageManager {
 
             return outputStream.toByteArray();
         } catch (Exception exception) {
-            log.error("Error -> {}", exception);
+            log.error("Error -> {}", exception.getLocalizedMessage());
             return originalImage;
         }
     }

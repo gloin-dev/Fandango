@@ -14,34 +14,29 @@ public class MongoConfigurationProperties {
      * Database connection url
      */
     @NotBlank
-    public
-    String database;
+    public String database;
 
     /**
      * image collection
      */
     @NotBlank
-    public
-    String imageCollection;
+    public String imageCollection;
 
     /**
      * image collection
      */
     @NotBlank
-    public
-    String imageResizedCollection;
+    public String imageResizedCollection;
 
     /**
      * thumbnail collection
      */
     @NotBlank
-    public
-    String thumbnailCollection;
+    public String thumbnailCollection;
 
     /**
      * file collection
      */
     @NotBlank
-    public
-    String fileCollection;
+    public String fileCollection;
 }

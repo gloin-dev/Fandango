@@ -75,9 +75,9 @@ public class ImageController {
     @Get("/images/{imageId}")
     public Single<MutableHttpResponse<Object>> getImage(String imageId) {
         // Request the image
-        Maybe<Image> image = imageService.getImageById(imageId);
+        final Maybe<Image> image = imageService.getImageById(imageId);
         // Build the response
-        FandangoImageResponseApi responseApi = new FandangoImageResponseApi(image);
+        final FandangoImageResponseApi responseApi = new FandangoImageResponseApi(image);
         // Return the response
         return responseApi.getResponseApi();
     }
@@ -115,9 +115,9 @@ public class ImageController {
     ) throws IOException {
 
         // Request the new image
-        Single<String> image = imageService.processImageUpload(file);
+        final Single<String> image = imageService.processImageUpload(file);
         // Build the response
-        FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(image);
+        final FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(image);
         // Return the response
         return responseApi.getResponseApi();
     }

@@ -6,6 +6,7 @@ import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.ImageResized;
 import es.fandango.data.repository.ImageResizedRepository;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
@@ -31,7 +32,7 @@ public class ImageResizedRepositoryImpl implements ImageResizedRepository {
     }
 
     @Override
-    public Single<ImageResized> getImageResized(
+    public Maybe<ImageResized> getImageResized(
             String imageId,
             Integer width,
             Integer height
@@ -47,8 +48,7 @@ public class ImageResizedRepositoryImpl implements ImageResizedRepository {
                                 .imageResizedCollection()
                                 .find(idFilter, ImageResized.class)
                                 .limit(1))
-                .firstElement()
-                .toSingle();
+                .firstElement();
     }
 
     @Override

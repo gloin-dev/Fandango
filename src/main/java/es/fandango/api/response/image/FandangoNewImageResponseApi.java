@@ -24,12 +24,11 @@ public class FandangoNewImageResponseApi extends CommonResponseApi {
     public FandangoNewImageResponseApi(Single<String> imageId) {
         this.responseApi = Maybe
                 .fromSingle(imageId)
-                .map(id ->
-                        HttpResponse
-                                .ok()
+                .map(
+                        id -> HttpResponse.ok()
                                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON)
                                 .body(ElementId.buildWithId(id))
-                ).toSingle();
+                )
+                .toSingle();
     }
-
 }

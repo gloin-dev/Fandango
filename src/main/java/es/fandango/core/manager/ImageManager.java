@@ -34,9 +34,5 @@ public interface ImageManager {
      * @param height The target height
      * @return The Image Resized
      */
-    ImageResized buildResizedImage(
-            Image image,
-            Integer width,
-            Integer height
-    );
+    ImageResized buildResizedImage(Image image, Integer width, Integer height);
 }

@@ -21,12 +21,10 @@ public class FileManagerImpl implements FileManager {
      */
     @Override
     public File buildFile(CompletedFileUpload file) throws IOException {
-
         // Get Content Type
         MediaType contentType = file
                 .getContentType()
-                .orElse(new MediaType("*/*")
-                );
+                .orElse(new MediaType("*/*"));
 
         return new File(
                 new ObjectId(),

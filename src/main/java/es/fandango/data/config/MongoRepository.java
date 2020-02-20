@@ -12,7 +12,6 @@ import io.micronaut.context.annotation.Context;
 @Context
 public class MongoRepository {
 
-
     /**
      * The MongoDB client
      */
@@ -53,10 +52,7 @@ public class MongoRepository {
      */
     public MongoCollection<Image> imageCollection() {
         return mongoDatabase()
-                .getCollection(
-                        mongoProperties.imageCollection,
-                        Image.class
-                );
+                .getCollection(mongoProperties.imageCollection, Image.class);
     }
 
     /**
@@ -79,10 +75,7 @@ public class MongoRepository {
      */
     public MongoCollection<Thumbnail> thumbnailCollection() {
         return mongoDatabase()
-                .getCollection(
-                        mongoProperties.thumbnailCollection,
-                        Thumbnail.class
-                );
+                .getCollection(mongoProperties.thumbnailCollection, Thumbnail.class);
     }
 
     /**
@@ -92,9 +85,6 @@ public class MongoRepository {
      */
     public MongoCollection<File> fileCollection() {
         return mongoDatabase()
-                .getCollection(
-                        mongoProperties.fileCollection,
-                        File.class
-                );
+                .getCollection(mongoProperties.fileCollection, File.class);
     }
 }

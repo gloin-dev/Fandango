@@ -80,9 +80,9 @@ public class FileController {
     public Single<MutableHttpResponse<Object>> getFile(String fileId) {
 
         // Request the file
-        Maybe<File> file = fileService.getFileById(fileId);
+        final Maybe<File> file = fileService.getFileById(fileId);
         // Build the response
-        FandangoFileResponseApi responseApi = new FandangoFileResponseApi(file);
+        final FandangoFileResponseApi responseApi = new FandangoFileResponseApi(file);
         // Return the response
         return responseApi.getResponseApi();
     }
@@ -119,9 +119,9 @@ public class FileController {
     ) throws IOException {
 
         // Request the new file
-        Single<String> fileId = fileService.processFileUpload(file);
+        final Single<String> fileId = fileService.processFileUpload(file);
         // Build the response
-        FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(fileId);
+        final FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(fileId);
         // Return the response
         return responseApi.getResponseApi();
     }
