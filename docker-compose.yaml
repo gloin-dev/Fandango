@@ -3,7 +3,6 @@ version: '3.1'
 services:
 
   mongodb:
-    container_name: mongodb
     image: mongo:3.6
     restart: always
     environment:
@@ -26,13 +25,14 @@ services:
       driver: none
 
   grafana:
-    image: grafana/grafana:6.3.5
+    image: grafana/grafana:6.7.2
     volumes:
       - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - DS_PROMETHEUS=Prometheus
     ports:
       - 3000:3000
     network_mode: 'host'
@@ -40,9 +40,9 @@ services:
       driver: none
 
   fandango:
-    #build: Dockerfile
-    #container_name: fandango
-    image: vettonum/fandango:latest
+    build: Dockerfile
+    container_name: fandango
+    #image: vettonum/fandango:latest
     network_mode: 'host'
     depends_on:
       - mongodb

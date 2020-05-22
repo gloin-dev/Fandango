@@ -1,6 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
-./gradlew clean shadowJar
 docker build -t vettonum/fandango:latest .
 echo
 echo "To run the docker container execute:"

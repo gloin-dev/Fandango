@@ -1,9 +1,9 @@
 # Gradle with JDK 8 to compile JAR
-FROM gradle:6.0.1-jdk8 as TEMP_BUILD_IMAGE
+FROM gradle:6.3-jdk8 as TEMP_BUILD_IMAGE
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --chown=gradle:gradle . $APP_HOME
-RUN gradle build -Denv=prod -x test --no-daemon
+RUN gradle build
 
 # x86_64 Alpine Linux With OpenJDK 8 to run JAR
 FROM adoptopenjdk/openjdk8:alpine-slim

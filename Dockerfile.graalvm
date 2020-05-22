@@ -1,12 +1,12 @@
 # Gradle with JDK 8 to compile JAR
-FROM gradle:6.0.1-jdk8 as gradleBuild
+FROM gradle:6.3-jdk8 as gradleBuild
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --chown=gradle:gradle . $APP_HOME
 RUN gradle build -Denv=prod -x test --no-daemon
 
 # oracle/graalvm-ce docker image
-FROM oracle/graalvm-ce:19.2.1 as graalvm
+FROM oracle/graalvm-ce:20.1.0-java8 as graalvm
 ARG ARG_ARTIFACT_NAME=fandango.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
@@ -19,10 +19,23 @@ RUN native-image \
     -cp ${ARG_ARTIFACT_NAME}
 
 # minimal linux image with glibc to run binary image
-FROM frolvlad/alpine-glibc
+#FROM frolvlad/alpine-glibc
+#ARG ARG_ARTIFACT_BIN_NAME=fandango
+#ENV APP_HOME=/usr/app/
+#WORKDIR $APP_HOME
+#COPY --from=graalvm $APP_HOME/$ARG_ARTIFACT_BIN_NAME .
+#EXPOSE 8585
+#ENTRYPOINT ["./fandango"]
+
+FROM ubuntu:20.04
+RUN apt-get -qq update \
+ && apt-get -y -qq install libxi6 libxtst6 libfreetype6 libpng16-16 libfontconfig1 libjpeg8 fonts-dejavu-extra graphviz \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 ARG ARG_ARTIFACT_BIN_NAME=fandango
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=graalvm $APP_HOME/$ARG_ARTIFACT_BIN_NAME .
 EXPOSE 8585
-ENTRYPOINT ["./fandango"]
+ENTRYPOINT ["./fandango", "-headless"]
