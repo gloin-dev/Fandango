@@ -7,6 +7,7 @@ import es.fandango.api.response.common.ElementId;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ import javax.inject.Singleton;
 @Produces
 @Singleton
 @Requires(classes = {Exception.class, ExceptionHandler.class})
-public class HttpErrorHandler implements ExceptionHandler<Exception, HttpResponse<Object>> {
+public class HttpErrorHandler<T> implements ExceptionHandler<Exception, HttpResponse<T>> {
 
     /**
      * Log message
@@ -28,7 +29,7 @@ public class HttpErrorHandler implements ExceptionHandler<Exception, HttpRespons
     private static final String API_EXCEPTION = "API exception : {}";
 
     @Override
-    public HttpResponse<Object> handle(HttpRequest request, Exception e) {
+    public HttpResponse<T> handle(HttpRequest request, Exception e) {
         StackTraceElement errorLocation = e.getStackTrace()[0];
         String className = errorLocation.getClassName();
         int lineNumber = errorLocation.getLineNumber();
@@ -40,9 +41,10 @@ public class HttpErrorHandler implements ExceptionHandler<Exception, HttpRespons
 
         log.error(API_EXCEPTION, message);
 
-        return HttpResponse
-                .notFound()
-                .body(ElementId.notFound())
-                .header(CONTENT_TYPE, APPLICATION_JSON);
+        MutableHttpResponse<T> response = HttpResponse.notFound();
+        response.header(CONTENT_TYPE, APPLICATION_JSON);
+        response.body(ElementId.notFound());
+        return response;
+
     }
 }
