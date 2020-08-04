@@ -22,7 +22,7 @@ public class FandangoNewFileResponseApi extends CommonResponseApi {
      * @param fileId The file Id
      */
     public FandangoNewFileResponseApi(Single<String> fileId) {
-        this.responseApi = Maybe
+        this.httpResponse = Maybe
                 .fromSingle(fileId)
                 .map(
                         id -> HttpResponse.ok()

@@ -22,7 +22,7 @@ public class FandangoNewImageResponseApi extends CommonResponseApi {
      * @param imageId The image Id
      */
     public FandangoNewImageResponseApi(Single<String> imageId) {
-        this.responseApi = Maybe
+        this.httpResponse = Maybe
                 .fromSingle(imageId)
                 .map(
                         id -> HttpResponse.ok()

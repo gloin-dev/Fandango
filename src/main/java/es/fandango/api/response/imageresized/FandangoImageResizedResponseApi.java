@@ -18,7 +18,7 @@ public class FandangoImageResizedResponseApi extends CommonResponseApi {
      * @param imageResized The image
      */
     public FandangoImageResizedResponseApi(Maybe<ImageResized> imageResized) {
-        this.responseApi = imageResized
+        this.httpResponse = imageResized
                 .map(
                         targetFile -> CommonResponseApiBuilder.Builder()
                                 .contentType(targetFile.getContentType())

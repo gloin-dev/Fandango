@@ -9,10 +9,11 @@ Fandango is a [Micronaut](http://micronaut.io/)-based microservice providing a R
 1. Uncouple the image or documents storage management from the rest of any application.  
 2. Improve efficiency and simplicity when dealing with images or documents.  
 3. Micro Service Architecture oriented using Micronaut framework
+4. Transform images on-demand for multiple resolutions/devices.
 
 ## Build & Deploy 
 
-Fandango require a MongoDB installed instance in the host machine to store the image and files.
+Fandango need a MongoDB installed instance in the host machine to store the image and files.
 
 You can clone the project and generate your own jar :
 
@@ -33,6 +34,14 @@ Or you can use the provided docker-compose with the mongodb image included :
 $ docker-compose build
 $ docker-compose up
 ```
+## Running
+
+| Services      | Location              |
+| ------------- |-----------------------|
+| Web           | `ip:port/`            |
+| API endpoint  | `ip:port/api`         |
+| Swagger-UI    | `ip:port/swagger-ui`  |
+
 
 ## **Contact information:**  
 Ricardo  

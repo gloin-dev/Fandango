@@ -18,7 +18,7 @@ public class FandangoFileResponseApi extends CommonResponseApi {
      * @param file The file
      */
     public FandangoFileResponseApi(Maybe<File> file) {
-        this.responseApi = file
+        this.httpResponse = file
                 .map(targetFile -> CommonResponseApiBuilder.Builder()
                         .contentType(targetFile.getContentType())
                         .filename(targetFile.getName())

@@ -56,13 +56,12 @@ public class ImageResizedServiceImpl implements ImageResizedService {
     ) {
 
         // Find the image
-        Maybe<ImageResized> imageResized = imageResizedRepository.getImageResized(
-                imageId,
-                width,
-                height
-        );
-
-        return imageResized
+        return imageResizedRepository
+                .getImageResized(
+                        imageId,
+                        width,
+                        height
+                )
                 .switchIfEmpty(
                         Maybe.fromSingle(
                                 buildNewResizedImage(

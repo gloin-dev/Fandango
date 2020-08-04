@@ -22,5 +22,5 @@ public class CommonResponseApi<T> {
      * The Response Api
      */
     @Schema(description = "Common response for data stream")
-    public Single<MutableHttpResponse<T>> responseApi;
+    public Single<MutableHttpResponse<T>> httpResponse;
 }

@@ -18,7 +18,7 @@ public class FandangoImageResponseApi extends CommonResponseApi {
      * @param image The image
      */
     public FandangoImageResponseApi(Maybe<Image> image) {
-        this.responseApi =
+        this.httpResponse =
                 image.map(
                         targetFile -> CommonResponseApiBuilder.Builder()
                                 .contentType(targetFile.getContentType())

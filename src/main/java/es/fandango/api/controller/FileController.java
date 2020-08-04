@@ -84,7 +84,7 @@ public class FileController {
         // Build the response
         final FandangoFileResponseApi responseApi = new FandangoFileResponseApi(file);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 
     /**
@@ -123,6 +123,6 @@ public class FileController {
         // Build the response
         final FandangoNewFileResponseApi responseApi = new FandangoNewFileResponseApi(fileId);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 }

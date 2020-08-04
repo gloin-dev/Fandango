@@ -1,4 +1,4 @@
-package es.fandango.api.error;
+package es.fandango.core.handler;
 
 import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 import static io.micronaut.http.MediaType.APPLICATION_JSON;

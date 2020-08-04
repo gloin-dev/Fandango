@@ -56,6 +56,6 @@ public class ImageResizedController {
         // Build the response
         final FandangoImageResizedResponseApi responseApi = new FandangoImageResizedResponseApi(imageResized);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 }

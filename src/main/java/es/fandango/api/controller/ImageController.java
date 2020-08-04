@@ -79,7 +79,7 @@ public class ImageController {
         // Build the response
         final FandangoImageResponseApi responseApi = new FandangoImageResponseApi(image);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 
     /**
@@ -119,6 +119,6 @@ public class ImageController {
         // Build the response
         final FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(image);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 }

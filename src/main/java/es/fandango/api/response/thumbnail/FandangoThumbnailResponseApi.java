@@ -18,7 +18,7 @@ public class FandangoThumbnailResponseApi extends CommonResponseApi {
      * @param thumbnail The thumbnail
      */
     public FandangoThumbnailResponseApi(Maybe<Thumbnail> thumbnail) {
-        this.responseApi = thumbnail
+        this.httpResponse = thumbnail
                 .map(
                         targetFile -> CommonResponseApiBuilder.Builder()
                                 .contentType(targetFile.getContentType())

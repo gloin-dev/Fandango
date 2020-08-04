@@ -1,4 +1,4 @@
-package es.fandango.api.filter;
+package es.fandango.core.filter;
 
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MutableHttpResponse;

@@ -49,6 +49,6 @@ public class ThumbnailController {
         // Build the response
         final FandangoThumbnailResponseApi responseApi = new FandangoThumbnailResponseApi(thumbnailById);
         // Return the response
-        return responseApi.getResponseApi();
+        return responseApi.getHttpResponse();
     }
 }
