@@ -3,8 +3,8 @@ package es.fandango.core.service.impl;
 import es.fandango.core.manager.ImageManager;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
-import es.fandango.data.model.info.Info;
 import es.fandango.data.model.Thumbnail;
+import es.fandango.data.model.info.Info;
 import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ThumbnailRepository;
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -60,6 +60,20 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Single<List<Info>> getAllImagesInfo() {
         return imageRepository.getAllImageIds();
+    }
+
+    @Override
+    public Single<String> deleteImageById(String imageId) {
+        // Delete the image
+        Single<String> deletedImage = imageRepository.deleteImage(imageId);
+        // Delete the thumbnail
+        Single<String> deletedThumbnail = thumbnailRepository.deleteThumbnail(imageId);
+        // Combine both Operations
+        return Single.zip(
+                deletedImage,
+                deletedThumbnail,
+                (outputImageId, outputThumbnailId) -> outputImageId
+        );
     }
 
     @Override

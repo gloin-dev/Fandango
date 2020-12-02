@@ -1,5 +1,6 @@
 package es.fandango.data.repository;
 
+import com.mongodb.client.result.DeleteResult;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.info.Info;
 import io.reactivex.Maybe;
@@ -31,4 +32,13 @@ public interface ImageRepository {
      * @return The image
      */
     Single<Image> saveImage(Image image);
+
+    /**
+     * Delete the image in MongoDB and return the result
+     *
+     * @param imageId The image id
+     * @return The result
+     */
+    Single<String> deleteImage(String imageId);
+
 }

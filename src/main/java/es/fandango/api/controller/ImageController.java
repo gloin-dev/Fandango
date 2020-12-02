@@ -10,6 +10,7 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.CompletedFileUpload;
@@ -78,6 +79,29 @@ public class ImageController {
         final Maybe<Image> image = imageService.getImageById(imageId);
         // Build the response
         final FandangoImageResponseApi responseApi = new FandangoImageResponseApi(image);
+        // Return the response
+        return responseApi.getHttpResponse();
+    }
+
+    /**
+     * Delete the image
+     *
+     * @param imageId The image id
+     * @return The image
+     */
+    @Operation(
+            method = "DELETE",
+            description = "Delete the given image & thumbnail by Id",
+            tags = {"Images"}
+    )
+    @ApiResponse(responseCode = "404", description = "Image not found")
+    @ApiResponse(responseCode = "200", description = "The requested Image id deleted")
+    @Delete("/images/{imageId}")
+    public Single<MutableHttpResponse<Object>> deleteImage(String imageId) {
+        // Request the image
+        final Single<String> image = imageService.deleteImageById(imageId);
+        // Build the response
+        final FandangoNewImageResponseApi responseApi = new FandangoNewImageResponseApi(image);
         // Return the response
         return responseApi.getHttpResponse();
     }

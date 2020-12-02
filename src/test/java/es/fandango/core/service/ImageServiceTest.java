@@ -90,4 +90,38 @@ public class ImageServiceTest {
 
         Assertions.assertEquals(1, imageIds.size());
     }
+
+    @Test
+    @Order(4)
+    void test_uploadAndDeleteImage() throws IOException {
+
+        Image image;
+
+        // Upload image
+        Single<String> imageSingle = imageService
+                .processImageUpload(fileUpload);
+
+        searchId = imageSingle.blockingGet();
+
+        // Get image
+        image = imageService
+                .getImageById(searchId)
+                .blockingGet();
+
+        Assertions.assertNotNull(image);
+
+        // Delete image
+        searchId = imageService
+                .deleteImageById(searchId)
+                .blockingGet();
+
+        // Search image again
+        image = imageService
+                .getImageById(searchId)
+                .blockingGet();
+
+        Assertions.assertNull(image);
+
+
+    }
 }

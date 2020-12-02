@@ -79,4 +79,21 @@ public class ImageRepositoryImpl implements ImageRepository {
                 )
                 .map(success -> image);
     }
+
+    @Override
+    public Single<String> deleteImage(String imageId) {
+
+        // Build the search filter
+        Bson filter = eq(new ObjectId(imageId));
+
+        // Return the image
+        return Single
+                .fromPublisher(
+                        mongoRepository
+                                .imageCollection()
+                                .findOneAndDelete(filter)
+
+                )
+                .map(success -> imageId);
+    }
 }

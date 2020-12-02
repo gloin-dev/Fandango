@@ -57,4 +57,21 @@ public class ThumbnailRepositoryImpl implements ThumbnailRepository {
                         .insertOne(thumbnail)
         ).map(success -> thumbnail);
     }
+
+    @Override
+    public Single<String> deleteThumbnail(String thumbnailId) {
+
+        // Build the search filter
+        Bson filter = eq(new ObjectId(thumbnailId));
+
+        // Return the thumbnailId
+        return Single
+                .fromPublisher(
+                        mongoRepository
+                                .thumbnailCollection()
+                                .findOneAndDelete(filter)
+
+                )
+                .map(success -> thumbnailId);
+    }
 }

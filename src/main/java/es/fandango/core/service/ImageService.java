@@ -27,6 +27,14 @@ public interface ImageService {
     Single<List<Info>> getAllImagesInfo();
 
     /**
+     * Delete an image by a given id
+     *
+     * @param imageId The image id
+     * @return The deleted image id
+     */
+    Single<String> deleteImageById(String imageId);
+
+    /**
      * Process and save an image upload
      *
      * @param file The Image

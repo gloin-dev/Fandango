@@ -21,4 +21,12 @@ public interface ThumbnailRepository {
      * @return The Thumbnail
      */
     Single<Thumbnail> saveThumbnail(Thumbnail thumbnail);
+
+    /**
+     * Delete the thumbnail in MongoDB and return the result
+     *
+     * @param thumbnail The thumbnail id
+     * @return The result
+     */
+    Single<String> deleteThumbnail(String thumbnail);
 }
