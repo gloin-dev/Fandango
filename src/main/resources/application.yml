@@ -101,29 +101,35 @@ micronaut:
 #tag::consul[]
 consul:
   client:
+    config:
+      enabled: ${CONSUL_ENABLED:false}
     registration:
-      enabled: true
+      enabled: ${CONSUL_ENABLED:false}
       check:
         enabled: false
       fail-fast: false
     defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
     health-check: false
+
 #tag::consul[]
 
 #tag::endpoints[]
 endpoints:
   prometheus:
     sensitive: false
+  health:
+    discovery-client:
+      enabled: ${CONSUL_ENABLED:false}
 #end::endpoints[]
 
 #tag::mongodb[]
 mongodb:
   uri: "mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}"
   database: ${MONGO_DATABASE:fandango}
-  imageCollection: ${MONGO_COLLECTION:images}
-  imageResizedCollection: ${MONGO_COLLECTION:resized}
-  thumbnailCollection: ${MONGO_COLLECTION:thumbnails}
-  fileCollection: ${MONGO_COLLECTION:files}
+  imageCollection: images
+  imageResizedCollection: resized
+  thumbnailCollection: thumbnails
+  fileCollection: files
   cluster:
     maxWaitQueueSize: 5
   connectionPool:

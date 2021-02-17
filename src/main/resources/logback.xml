@@ -24,9 +24,6 @@
     <logger name="io.micronaut.context" level="INFO"/>
     <logger name="io.netty.handler.logging" level="ERROR"/>
     <logger name="io.micronaut.jackson.parser" level="ERROR"/>
-    <logger name="java.net.SocketException" level="OFF"/>
-    <logger name="java.net.ConnectException" level="OFF"/>
-    <logger name="io.micronaut.http.client.exceptions.HttpClientException" level="OFF"/>
     <logger name="org.mongodb" level="OFF"/>
 
 </configuration>
