@@ -32,14 +32,83 @@ micronaut:
 
       default:
         mapping: "/**"
-        paths: ["classpath:static"]
+        paths: [ "classpath:static" ]
       swagger:
-        paths: ["classpath:META-INF/swagger"]
+        paths: [ "classpath:META-INF/swagger" ]
         mapping: "/swagger/**"
       swagger-ui:
-        paths: ["classpath:META-INF/swagger/views/swagger-ui"]
+        paths: [ "classpath:META-INF/swagger/views/swagger-ui" ]
         mapping: "/swagger-ui/**"
+
+  security:
+    basic-auth:
+      enabled: true
+
+    intercept-url-map:
+
+      - pattern: /
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /css/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /js/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /images/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /swagger/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /swagger-ui/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /api/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+
+      - pattern: /api/**
+        httpMethod: POST
+        access:
+          - isAuthenticated()
+
+      - pattern: /api/**
+        httpMethod: DELETE
+        access:
+          - isAuthenticated()
+
+    enabled: true
+    token:
+      propagation:
+        header:
+          enabled: true
 #end::micronaut[]
+
+#tag::consul[]
+consul:
+  client:
+    registration:
+      enabled: true
+      check:
+        enabled: false
+      fail-fast: false
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
+    health-check: false
+#tag::consul[]
 
 #tag::endpoints[]
 endpoints:
@@ -66,6 +135,12 @@ image:
   # Default image thumbnail generator width size
   thumbnailSize: 300
 #end::image[]
+
+#tag::authentication[]
+authentication:
+  user: ${BASIC_AUTH_USER:user}
+  password: ${BASIC_AUTH_PASS:password}
+#end::authentication[]
 
 #tag::jackson[]
 jackson:

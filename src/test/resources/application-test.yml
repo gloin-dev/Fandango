@@ -3,6 +3,10 @@ micronaut:
   application:
     name: fandango
 
+  security:
+    basic-auth:
+      enabled: false
+
   server:
     port: 8686
     max-request-size: '20MB'
@@ -25,3 +29,8 @@ jackson:
   deserialization:
 
 failOnUnknownProperties: false
+
+consul:
+  client:
+    registration:
+      enabled: false

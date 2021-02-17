@@ -6,12 +6,29 @@ plugins {
   id "net.ltgt.apt-idea" version "$ltgtVersion"
   id "com.github.johnrengelman.shadow" version "$shadowVersion"
   id "io.spring.dependency-management" version "$springManagementVersion"
+  id "com.google.cloud.tools.jib" version "$jibVersion"
 }
 
 group "es.fandango"
+description = 'fandango'
 version "$fandangoVersion"
 
 mainClassName = "es.fandango.MicronautApp"
+
+jib {
+  from {
+    image = 'gcr.io/distroless/java-debian10:11'
+  }
+  to {
+    image = "vettonum/$description"
+    tags = [version]
+    container {
+      mainClass = 'es.fandango.MicronautApp'
+      args = []
+      ports = ['8585/tcp']
+    }
+  }
+}
 
 repositories {
   mavenCentral()
@@ -20,7 +37,7 @@ repositories {
 
 dependencyManagement {
   imports {
-    mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
+    mavenBom "io.micronaut:micronaut-bom:$micronautBomVersion"
   }
 }
 
@@ -38,12 +55,13 @@ dependencies {
   implementation "io.micronaut:micronaut-http-client:$micronautVersion"
   implementation "io.micronaut:micronaut-inject-java:$micronautVersion"
   implementation "io.micronaut:micronaut-http-server-netty:$micronautVersion"
+  implementation "io.micronaut.security:micronaut-security:$micronautSecurityVersion"
 
   // Micronaut Config
-  implementation "io.micronaut.cache:micronaut-cache-core:$micronautCacheVersion"
   implementation "io.micronaut.configuration:micronaut-mongo-reactive:$micronautMongoVersion"
-  implementation "io.micronaut.configuration:micronaut-micrometer-core:$micronautMicrometerVersion"
-  implementation "io.micronaut.configuration:micronaut-micrometer-registry-prometheus:$micronautMicrometerVersion"
+  implementation "io.micronaut.micrometer:micronaut-micrometer-core:$micronautMicrometerVersion"
+  implementation "io.micronaut.micrometer:micronaut-micrometer-registry-prometheus:$micronautMicrometerVersion"
+  implementation "io.micronaut.discovery:micronaut-discovery-client:$micronautDiscoveryVersion"
 
   // Common
   implementation "org.projectlombok:lombok:$lombokVersion"
@@ -57,7 +75,8 @@ dependencies {
   annotationProcessor "io.micronaut:micronaut-graal:$micronautVersion"
   annotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
   annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
-  annotationProcessor "io.micronaut.configuration:micronaut-openapi:$micronautOpenApiVersion"
+  annotationProcessor "io.micronaut.openapi:micronaut-openapi:$micronautOpenApiVersion"
+  annotationProcessor "io.micronaut.security:micronaut-security-annotations:$micronautSecurityVersion"
 
   // Test dependencies
   testCompile "org.projectlombok:lombok:$lombokVersion"

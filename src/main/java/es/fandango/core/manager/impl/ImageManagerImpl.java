@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 @Singleton
 @ConfigurationProperties("image")
 public class ImageManagerImpl implements ImageManager {
+
     /**
      * Thumbnail size
      */
