@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.info.License;
 @OpenAPIDefinition(
         info = @Info(
                 title = "fandango",
-                version = "1.0.1",
                 description = "Fandango Image & Files API",
                 license = @License(name = "GPL-2.0", url = "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"),
                 contact = @Contact(name = "Ricardo", email = "rflores@gloin.es")
