@@ -4,7 +4,7 @@ import es.fandango.data.model.Thumbnail;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
-import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.reactivex.Single;
 import org.junit.jupiter.api.Assertions;
@@ -27,14 +27,11 @@ import java.nio.charset.Charset;
 @MicronautTest
 public class ThumbnailServiceTest {
 
-    private String searchId;
-
     @Inject
     ThumbnailService thumbnailService;
-
     @Inject
     ImageService imageService;
-
+    private String searchId;
     /**
      * The file upload
      */
@@ -78,8 +75,8 @@ public class ThumbnailServiceTest {
                 .getThumbnailById(searchId)
                 .blockingGet();
 
-        Assertions.assertEquals("tux.png",thumbnail.getName());
-        Assertions.assertEquals("image/png",thumbnail.getContentType());
+        Assertions.assertEquals("tux.png", thumbnail.getName());
+        Assertions.assertEquals("image/png", thumbnail.getContentType());
         Assertions.assertNotNull(thumbnail);
     }
 }

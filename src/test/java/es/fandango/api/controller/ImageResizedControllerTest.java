@@ -11,8 +11,7 @@ import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.multipart.MultipartBody;
-import io.micronaut.test.annotation.MicronautTest;
-import io.netty.handler.codec.http.multipart.DiskFileUpload;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -29,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -45,19 +43,8 @@ public class ImageResizedControllerTest {
     private String id;
 
     @BeforeAll
-    void injectData() throws IOException, URISyntaxException {
-
+    void injectData() throws URISyntaxException {
         ResourceResolver resourceResolver = new ResourceResolver();
-
-        DiskFileUpload diskFileUpload = new DiskFileUpload(
-                "tux",
-                "tux.png",
-                "image/png",
-                "binary",
-                Charset.defaultCharset(),
-                100
-        );
-
         URL url = resourceResolver.getResource("classpath:files/tux.png").get();
         file = new File(url.toURI());
     }
@@ -75,6 +62,7 @@ public class ImageResizedControllerTest {
         MutableHttpRequest<MultipartBody> post = HttpRequestFactory
                 .INSTANCE
                 .post("/images", file)
+                .basicAuth("user", "password")
                 .header(CONTENT_TYPE, MULTIPART_FORM_DATA);
 
         HttpResponse<ElementId> exchange = client.toBlocking().exchange(post, ElementId.class);

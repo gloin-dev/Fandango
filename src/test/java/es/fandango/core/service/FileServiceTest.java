@@ -5,7 +5,7 @@ import es.fandango.data.model.info.Info;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
-import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
@@ -29,11 +29,10 @@ import java.util.List;
 @MicronautTest
 public class FileServiceTest {
 
-    private String searchId;
-
     @Inject
     FileService fileService;
 
+    private String searchId;
     /**
      * The file upload
      */
@@ -88,6 +87,6 @@ public class FileServiceTest {
 
         List<Info> infos = allFilesInfo.blockingGet();
 
-        Assertions.assertEquals(1,infos.size());
+        Assertions.assertEquals(1, infos.size());
     }
 }

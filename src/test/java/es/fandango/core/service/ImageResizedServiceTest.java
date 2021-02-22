@@ -4,7 +4,7 @@ import es.fandango.data.model.ImageResized;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
-import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.reactivex.Single;
 import org.junit.jupiter.api.Assertions;
@@ -30,14 +30,11 @@ import java.nio.charset.Charset;
 @MicronautTest
 public class ImageResizedServiceTest {
 
-    private String searchId;
-
     @Inject
     ImageResizedService imageResizedService;
-
     @Inject
     ImageService imageService;
-
+    private String searchId;
     /**
      * The file upload
      */

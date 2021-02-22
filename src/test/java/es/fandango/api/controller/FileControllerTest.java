@@ -10,9 +10,9 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.http.client.multipart.MultipartBody;
-import io.micronaut.test.annotation.MicronautTest;
-import io.netty.handler.codec.http.multipart.DiskFileUpload;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -23,10 +23,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -43,19 +41,9 @@ public class FileControllerTest {
     private String id;
 
     @BeforeAll
-    void injectData() throws IOException, URISyntaxException {
+    void injectData() throws URISyntaxException {
 
         ResourceResolver resourceResolver = new ResourceResolver();
-
-        DiskFileUpload diskFileUpload = new DiskFileUpload(
-                "tux",
-                "tux.png",
-                "image/png",
-                "binary",
-                Charset.defaultCharset(),
-                100
-        );
-
         URL url = resourceResolver.getResource("classpath:files/tux.png").get();
         file = new File(url.toURI());
     }
@@ -73,6 +61,7 @@ public class FileControllerTest {
         MutableHttpRequest<MultipartBody> post = HttpRequestFactory
                 .INSTANCE
                 .post("/files", file)
+                .basicAuth("user", "password")
                 .header(CONTENT_TYPE, MULTIPART_FORM_DATA);
 
         HttpResponse<ElementId> exchange = client.toBlocking().exchange(post, ElementId.class);
@@ -97,5 +86,27 @@ public class FileControllerTest {
     public void test_getFile() {
         HttpResponse<Object> exchange = client.toBlocking().exchange("/files/" + id, Object.class);
         Assertions.assertEquals(200, exchange.code());
+    }
+
+    @Order(4)
+    @Test
+    public void test_uploadFileUnauthorized() {
+
+        MultipartBody file = MultipartBody
+                .builder()
+                .addPart("file", this.file)
+                .build();
+
+        MutableHttpRequest<MultipartBody> post = HttpRequestFactory
+                .INSTANCE
+                .post("/files", file)
+                .header(CONTENT_TYPE, MULTIPART_FORM_DATA);
+
+        Assertions.assertThrows(HttpClientResponseException.class, () -> client
+                .toBlocking()
+                .exchange(
+                        post,
+                        ElementId.class
+                ));
     }
 }

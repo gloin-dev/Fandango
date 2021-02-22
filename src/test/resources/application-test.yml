@@ -5,7 +5,7 @@ micronaut:
 
   security:
     basic-auth:
-      enabled: false
+      enabled: true
 
   server:
     port: 8686

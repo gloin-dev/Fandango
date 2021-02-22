@@ -1,12 +1,10 @@
 package es.fandango.core.manager;
 
-import es.fandango.core.service.FileService;
 import es.fandango.data.model.File;
-import es.fandango.data.model.Image;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
-import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
