@@ -11,7 +11,7 @@ micronaut:
       max-file-size: '20MB'
 
   metrics:
-    enabled: true
+    enabled: ${METRICS_ENABLED:false}
     export:
       prometheus:
         enabled: true
@@ -22,9 +22,9 @@ micronaut:
     views:
       spec:
         swagger:
-          enabled: true
+          enabled: ${SWAGGER_ENABLED:true}
         swagger-ui:
-          enabled: true
+          enabled: ${SWAGGER_ENABLED:true}
           theme: flattop
 
   router:
@@ -33,16 +33,19 @@ micronaut:
       default:
         mapping: "/**"
         paths: [ "classpath:static" ]
+        enabled: ${UI_ENABLED:true}
       swagger:
-        paths: [ "classpath:META-INF/swagger" ]
         mapping: "/swagger/**"
+        paths: [ "classpath:META-INF/swagger" ]
+        enabled: ${SWAGGER_ENABLED:true}
       swagger-ui:
-        paths: [ "classpath:META-INF/swagger/views/swagger-ui" ]
         mapping: "/swagger-ui/**"
+        paths: [ "classpath:META-INF/swagger/views/swagger-ui" ]
+        enabled: ${SWAGGER_ENABLED:true}
 
   security:
     basic-auth:
-      enabled: true
+      enabled: ${BASIC_AUTH_ENABLED:true}
 
     intercept-url-map:
 
