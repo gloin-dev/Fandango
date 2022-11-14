@@ -6,10 +6,10 @@ import es.fandango.data.model.File;
 import es.fandango.data.model.info.Info;
 import es.fandango.data.repository.FileRepository;
 import io.micronaut.http.multipart.CompletedFileUpload;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+import jakarta.inject.Singleton;
 
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 

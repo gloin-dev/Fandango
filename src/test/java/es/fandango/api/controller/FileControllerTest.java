@@ -8,10 +8,10 @@ import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.HttpRequestFactory;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
-import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.http.client.multipart.MultipartBody;
+import io.micronaut.rxjava3.http.client.Rx3HttpClient;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -34,7 +34,7 @@ public class FileControllerTest {
 
     @Inject
     @Client("/api")
-    RxHttpClient client;
+    Rx3HttpClient client;
 
     private File file;
 

@@ -1,20 +1,20 @@
 package es.fandango.data.repository.impl;
 
-import static com.mongodb.client.model.Filters.eq;
-
 import es.fandango.data.config.MongoRepository;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.info.Info;
 import es.fandango.data.repository.ImageRepository;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import javax.inject.Singleton;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
 
 @Slf4j
 @Singleton

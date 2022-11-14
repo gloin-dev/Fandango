@@ -1,8 +1,9 @@
 package es.fandango.data.repository;
 
 import es.fandango.data.model.Thumbnail;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+
 
 public interface ThumbnailRepository {
 

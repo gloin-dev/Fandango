@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import javax.imageio.ImageIO;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

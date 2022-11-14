@@ -7,7 +7,7 @@ import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.server.netty.multipart.NettyCompletedFileUpload;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.netty.handler.codec.http.multipart.DiskFileUpload;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;

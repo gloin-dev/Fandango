@@ -4,7 +4,7 @@ import es.fandango.api.response.common.CommonResponseApi;
 import es.fandango.api.response.common.CommonResponseApiBuilder;
 import es.fandango.data.model.File;
 import io.micronaut.core.annotation.Introspected;
-import io.reactivex.Maybe;
+import io.reactivex.rxjava3.core.Maybe;
 
 /**
  * This class build the Fandango File response
@@ -26,6 +26,6 @@ public class FandangoFileResponseApi extends CommonResponseApi {
                         .data(targetFile.getData())
                         .buildResponse()
                 )
-                .toSingle(CommonResponseApiBuilder.Builder().buildNotFoundResponse());
+                .toSingle();
     }
 }

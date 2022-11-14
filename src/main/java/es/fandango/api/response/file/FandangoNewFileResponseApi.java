@@ -1,14 +1,14 @@
 package es.fandango.api.response.file;
 
-import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
-
 import es.fandango.api.response.common.CommonResponseApi;
 import es.fandango.api.response.common.ElementId;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+
+import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 
 /**
  * This class build the Fandango New File response
