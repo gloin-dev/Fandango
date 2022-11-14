@@ -1,12 +1,12 @@
 # Gradle with JDK 8 to compile JAR
-FROM gradle:6.3-jdk8 as gradleBuild
+FROM gradle:7.5.1-jdk11 as gradleBuild
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --chown=gradle:gradle . $APP_HOME
 RUN gradle build -Denv=prod -x test --no-daemon
 
-# oracle/graalvm-ce docker image
-FROM oracle/graalvm-ce:20.1.0-java8 as graalvm
+# springci/graalvm-ce docker image
+FROM springci/graalvm-ce:master-java11 as graalvm
 ARG ARG_ARTIFACT_NAME=fandango.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME

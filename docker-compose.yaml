@@ -10,6 +10,8 @@ services:
       - MONGO_LOG_DIR=/dev/null
     ports:
       - 27017:27017
+    networks:
+      - main-network
     command: mongod --smallfiles --logpath=/dev/null # --quiet
 
   prometheus:
@@ -20,7 +22,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
-    network_mode: 'host'
+    networks:
+      - main-network
     logging:
       driver: none
 
@@ -35,14 +38,23 @@ services:
       - DS_PROMETHEUS=Prometheus
     ports:
       - 3000:3000
-    network_mode: 'host'
+    networks:
+      - main-network
     logging:
       driver: none
 
   fandango:
     build: Dockerfile
     container_name: fandango
-    #image: vettonum/fandango:latest
-    network_mode: 'host'
+    image: vettonum/fandango:1.2.1
+    environment:
+      - MONGO_HOST=mongodb
+    ports:
+      - 8585:8585
     depends_on:
       - mongodb
+    networks:
+      - main-network
+networks:
+  main-network:
+    name: network-fandango
