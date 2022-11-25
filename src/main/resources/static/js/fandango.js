@@ -1,4 +1,13 @@
 /**
+ * TO_REMOVE: Basic auth hardcoded to test UI
+ */
+$.ajaxSetup({
+    headers: {
+        'Authorization': "Basic " + btoa("user:password")
+    }
+});
+
+/**
  * This Ajax process the form send without reload the web
  */
 $('#uploadImageForm').submit(function () {

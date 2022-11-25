@@ -4,9 +4,9 @@ import es.fandango.core.manager.FileManager;
 import es.fandango.data.model.File;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import jakarta.inject.Singleton;
 import org.bson.types.ObjectId;
 
-import javax.inject.Singleton;
 import java.io.IOException;
 
 @Singleton

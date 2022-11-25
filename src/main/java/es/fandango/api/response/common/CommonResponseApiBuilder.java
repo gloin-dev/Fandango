@@ -1,11 +1,13 @@
 package es.fandango.api.response.common;
 
-import static io.micronaut.http.HttpHeaders.*;
-
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import static io.micronaut.http.HttpHeaders.CONTENT_DISPOSITION;
+import static io.micronaut.http.HttpHeaders.CONTENT_LENGTH;
+import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 
 /**
  * Common response builder for HTTP responses

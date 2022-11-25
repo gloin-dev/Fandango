@@ -6,13 +6,11 @@ import es.fandango.data.model.Image;
 import es.fandango.data.model.ImageResized;
 import es.fandango.data.repository.ImageRepository;
 import es.fandango.data.repository.ImageResizedRepository;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.SingleSource;
+import io.reactivex.rxjava3.functions.Function;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.inject.Singleton;
 
 @Slf4j(topic = "ImageResized")
 @Singleton
@@ -63,17 +61,15 @@ public class ImageResizedServiceImpl implements ImageResizedService {
                         height
                 )
                 .switchIfEmpty(
-                        Maybe.fromSingle(
-                                buildNewResizedImage(
-                                        imageId,
-                                        width,
-                                        height
-                                )
+                        buildNewResizedImage(
+                                imageId,
+                                width,
+                                height
                         )
                 );
     }
 
-    private Single<ImageResized> buildNewResizedImage(
+    private Maybe<ImageResized> buildNewResizedImage(
             String imageId,
             Integer width,
             Integer height

@@ -2,18 +2,15 @@ package es.fandango.core.handler;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.http.HttpRequest;
-import io.micronaut.security.authentication.AuthenticationException;
-import io.micronaut.security.authentication.AuthenticationFailed;
 import io.micronaut.security.authentication.AuthenticationProvider;
 import io.micronaut.security.authentication.AuthenticationRequest;
 import io.micronaut.security.authentication.AuthenticationResponse;
-import io.micronaut.security.authentication.UserDetails;
-import io.reactivex.Maybe;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
 
-import javax.inject.Singleton;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
+
 
 @Singleton
 @ConfigurationProperties("authentication")
@@ -30,19 +27,13 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
             HttpRequest<?> httpRequest,
             AuthenticationRequest<?, ?> authenticationRequest
     ) {
-        return Maybe.<AuthenticationResponse>create(emitter -> {
-            if (authenticationRequest
-                    .getIdentity()
-                    .equals(user)
-                    &&
-                    authenticationRequest
-                            .getSecret()
-                            .equals(password)
-            ) {
-                emitter.onSuccess(new UserDetails(user, new ArrayList<>()));
+        return Mono.create(emitter -> {
+            if (authenticationRequest.getIdentity().equals(user)
+                    && authenticationRequest.getSecret().equals(password)) {
+                emitter.success(AuthenticationResponse.success(user));
             } else {
-                emitter.onError(new AuthenticationException(new AuthenticationFailed()));
+                emitter.error(AuthenticationResponse.exception());
             }
-        }).toFlowable();
+        });
     }
 }

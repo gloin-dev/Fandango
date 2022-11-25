@@ -1,8 +1,8 @@
 package es.fandango.api.controller;
 
+import es.fandango.api.response.common.ElementId;
 import es.fandango.api.response.image.FandangoImageResponseApi;
 import es.fandango.api.response.image.FandangoNewImageResponseApi;
-import es.fandango.api.response.common.ElementId;
 import es.fandango.core.service.ImageService;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.info.Info;
@@ -15,8 +15,8 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.http.multipart.FileUpload;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

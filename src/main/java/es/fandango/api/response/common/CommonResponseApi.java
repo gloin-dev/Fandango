@@ -2,7 +2,8 @@ package es.fandango.api.response.common;
 
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.MutableHttpResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Single;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +23,5 @@ public class CommonResponseApi<T> {
      * The Response Api
      */
     @Schema(description = "Common response for data stream")
-    public Single<MutableHttpResponse<T>> httpResponse;
+    public @NonNull Single<MutableHttpResponse<Object>> httpResponse;
 }

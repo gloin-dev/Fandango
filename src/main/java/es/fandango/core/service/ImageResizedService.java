@@ -1,7 +1,7 @@
 package es.fandango.core.service;
 
 import es.fandango.data.model.ImageResized;
-import io.reactivex.Maybe;
+import io.reactivex.rxjava3.core.Maybe;
 
 public interface ImageResizedService {
 

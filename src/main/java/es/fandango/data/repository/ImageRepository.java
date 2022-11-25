@@ -1,10 +1,9 @@
 package es.fandango.data.repository;
 
-import com.mongodb.client.result.DeleteResult;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.info.Info;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 import java.util.List;
 

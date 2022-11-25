@@ -1,7 +1,5 @@
 package es.fandango.core.manager.impl;
 
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
-
 import es.fandango.core.manager.ImageManager;
 import es.fandango.data.model.Image;
 import es.fandango.data.model.ImageResized;
@@ -9,17 +7,19 @@ import es.fandango.data.model.Thumbnail;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import jakarta.inject.Singleton;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 import javax.imageio.ImageIO;
-import javax.inject.Singleton;
 import javax.validation.constraints.NotBlank;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 @Slf4j(topic = "ImageManager")
 @Singleton

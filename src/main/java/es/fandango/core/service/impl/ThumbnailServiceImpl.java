@@ -3,9 +3,8 @@ package es.fandango.core.service.impl;
 import es.fandango.core.service.ThumbnailService;
 import es.fandango.data.model.Thumbnail;
 import es.fandango.data.repository.ThumbnailRepository;
-import io.reactivex.Maybe;
-
-import javax.inject.Singleton;
+import io.reactivex.rxjava3.core.Maybe;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class ThumbnailServiceImpl implements ThumbnailService {

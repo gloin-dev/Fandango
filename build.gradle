@@ -2,18 +2,23 @@ plugins {
   id "java"
   id "idea"
   id "application"
-  id "net.ltgt.apt-eclipse" version "$ltgtVersion"
-  id "net.ltgt.apt-idea" version "$ltgtVersion"
   id "com.github.johnrengelman.shadow" version "$shadowVersion"
-  id "io.spring.dependency-management" version "$springManagementVersion"
   id "com.google.cloud.tools.jib" version "$jibVersion"
+  id "io.micronaut.application" version "$micronautPlugin"
 }
 
 group "es.fandango"
 description = 'fandango'
 version "$fandangoVersion"
 
-mainClassName = "es.fandango.MicronautApp"
+
+application {
+  mainClass.set("es.fandango.MicronautApp")
+}
+java {
+  sourceCompatibility = JavaVersion.toVersion("11")
+  targetCompatibility = JavaVersion.toVersion("11")
+}
 
 jib {
   from {
@@ -35,12 +40,6 @@ repositories {
   maven { url "https://jcenter.bintray.com" }
 }
 
-dependencyManagement {
-  imports {
-    mavenBom "io.micronaut:micronaut-bom:$micronautBomVersion"
-  }
-}
-
 dependencies {
 
   compileOnly "com.oracle.substratevm:svm:$substratevmVersion"
@@ -48,50 +47,53 @@ dependencies {
   runtimeOnly "ch.qos.logback:logback-classic:$logbackClassicVersion"
 
   // Micronaut
-  implementation "io.micronaut:micronaut-inject:$micronautVersion"
-  implementation "io.micronaut:micronaut-runtime:$micronautVersion"
-  implementation "io.micronaut:micronaut-validation:$micronautVersion"
-  implementation "io.micronaut:micronaut-management:$micronautVersion"
-  implementation "io.micronaut:micronaut-http-client:$micronautVersion"
-  implementation "io.micronaut:micronaut-inject-java:$micronautVersion"
-  implementation "io.micronaut:micronaut-http-server-netty:$micronautVersion"
-  implementation "io.micronaut.security:micronaut-security:$micronautSecurityVersion"
+  implementation "io.micronaut:micronaut-inject"
+  implementation "io.micronaut:micronaut-runtime"
+  implementation "io.micronaut:micronaut-validation"
+  implementation "io.micronaut:micronaut-management"
+  implementation "io.micronaut:micronaut-http-client"
+  implementation "io.micronaut:micronaut-inject-java"
+  implementation "io.micronaut:micronaut-http-server-netty"
+  implementation "io.micronaut.mongodb:micronaut-mongo-reactive"
+  implementation "io.micronaut.security:micronaut-security"
+  implementation "io.micronaut.rxjava3:micronaut-rxjava3"
+
 
   // Micronaut Config
-  implementation "io.micronaut.configuration:micronaut-mongo-reactive:$micronautMongoVersion"
-  implementation "io.micronaut.micrometer:micronaut-micrometer-core:$micronautMicrometerVersion"
-  implementation "io.micronaut.micrometer:micronaut-micrometer-registry-prometheus:$micronautMicrometerVersion"
-  implementation "io.micronaut.discovery:micronaut-discovery-client:$micronautDiscoveryVersion"
+  implementation "io.micronaut.micrometer:micronaut-micrometer-core"
+  implementation "io.micronaut.micrometer:micronaut-micrometer-registry-prometheus"
+  implementation "io.micronaut.discovery:micronaut-discovery-client"
 
   // Common
-  implementation "org.projectlombok:lombok:$lombokVersion"
-  implementation "commons-io:commons-io:$commonsioVersion"
-  implementation "javax.annotation:javax.annotation-api:$javaxVersion"
+  implementation "io.projectreactor:reactor-core"
+  implementation "org.projectlombok:lombok"
+  implementation "javax.annotation:javax.annotation-api"
   implementation "ch.qos.logback:logback-classic:$logbackClassicVersion"
   implementation "io.swagger.core.v3:swagger-annotations:$swaggerVersion"
 
   // Annotations processors
-  annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-  annotationProcessor "io.micronaut:micronaut-graal:$micronautVersion"
-  annotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
-  annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
-  annotationProcessor "io.micronaut.openapi:micronaut-openapi:$micronautOpenApiVersion"
-  annotationProcessor "io.micronaut.security:micronaut-security-annotations:$micronautSecurityVersion"
+  annotationProcessor "org.projectlombok:lombok"
+  annotationProcessor "io.micronaut:micronaut-graal"
+  annotationProcessor "io.micronaut:micronaut-validation"
+  annotationProcessor "io.micronaut:micronaut-inject-java"
+  annotationProcessor "io.micronaut.openapi:micronaut-openapi"
+  annotationProcessor "io.micronaut.security:micronaut-security-annotations"
 
   // Test dependencies
-  testCompile "org.projectlombok:lombok:$lombokVersion"
-  testCompile "io.micronaut:micronaut-inject:$micronautVersion"
-  testCompile "io.micronaut:micronaut-inject-java:$micronautVersion"
-  testCompile "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-  testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-  testCompile "io.micronaut.test:micronaut-test-core:$micronautTestVersion"
-  testCompile "io.micronaut.test:micronaut-test-junit5:$micronautTestVersion"
-  testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedmongoVersion"
+  testImplementation "org.projectlombok:lombok"
+  testImplementation "io.micronaut.rxjava3:micronaut-rxjava3-http-client"
+  testImplementation "io.micronaut:micronaut-inject"
+  testImplementation "io.micronaut:micronaut-inject-java"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine"
+  testImplementation "org.junit.jupiter:junit-jupiter-api"
+  testImplementation "io.micronaut.test:micronaut-test-core"
+  testImplementation "io.micronaut.test:micronaut-test-junit5"
+  testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedmongoVersion"
 
   // Tests annotations processors
-  testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-  testAnnotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
-  testAnnotationProcessor "io.micronaut:micronaut-validation:$micronautVersion"
+  testAnnotationProcessor "org.projectlombok:lombok"
+  testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+  testAnnotationProcessor "io.micronaut:micronaut-validation"
 }
 
 /**
@@ -113,3 +115,5 @@ shadowJar {
   mergeServiceFiles()
   archiveFileName = "fandango.jar"
 }
+
+graalvmNative.toolchainDetection = false
